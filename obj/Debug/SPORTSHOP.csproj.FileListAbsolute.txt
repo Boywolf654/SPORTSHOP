@@ -1,0 +1,12 @@
+F:\Học tập\SPORTSHOP\bin\Debug\SPORTSHOP.exe.config
+F:\Học tập\SPORTSHOP\bin\Debug\SPORTSHOP.exe
+F:\Học tập\SPORTSHOP\bin\Debug\SPORTSHOP.pdb
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.csproj.AssemblyReference.cache
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.FormDangKy.resources
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.Properties.Resources.resources
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.csproj.GenerateResource.cache
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.csproj.CoreCompileInputs.cache
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.exe
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.pdb
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.exe.config
+F:\Học tập\SPORTSHOP\obj\Debug\SPORTSHOP.FormKhachHang.resources
