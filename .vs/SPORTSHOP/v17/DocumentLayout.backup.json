@@ -3,36 +3,36 @@
   "WorkspaceRootPath": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\ketnoidulieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:ketnoidulieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formdangnhap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangnhap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formdangky.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangky.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\formkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\ketnoidulieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:ketnoidulieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\formkhachhang.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formkhachhang.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formkhachhang.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|f:\\h\u1ECDc t\u1EADp\\sportshop\\formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\formdangnhap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2CC7D316-AC43-4FFB-942C-47C5FBEEC870}|SPORTSHOP.csproj|solutionrelative:formdangnhap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,29 +54,40 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "KetNoiDuLieu.cs",
-              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\KetNoiDuLieu.cs",
-              "RelativeDocumentMoniker": "KetNoiDuLieu.cs",
-              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\KetNoiDuLieu.cs",
-              "RelativeToolTip": "KetNoiDuLieu.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-07T03:34:00.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "FormDangKy.Designer.cs",
               "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.Designer.cs",
               "RelativeDocumentMoniker": "FormDangKy.Designer.cs",
               "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.Designer.cs",
               "RelativeToolTip": "FormDangKy.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYBAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAuwAYBAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-07T01:29:49.079Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormDangKy.cs [Design]",
+              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.cs",
+              "RelativeDocumentMoniker": "FormDangKy.cs",
+              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.cs [Design]",
+              "RelativeToolTip": "FormDangKy.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T01:30:04.199Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Formdangnhap.cs [Design]",
+              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Formdangnhap.cs",
+              "RelativeDocumentMoniker": "Formdangnhap.cs",
+              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Formdangnhap.cs [Design]",
+              "RelativeToolTip": "Formdangnhap.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T01:41:44.737Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -93,32 +104,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "FormKhachHang.Designer.cs",
-              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormKhachHang.Designer.cs",
-              "RelativeDocumentMoniker": "FormKhachHang.Designer.cs",
-              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormKhachHang.Designer.cs",
-              "RelativeToolTip": "FormKhachHang.Designer.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwAAAAAATAAAAAAAAAA==",
+              "Title": "KetNoiDuLieu.cs",
+              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\KetNoiDuLieu.cs",
+              "RelativeDocumentMoniker": "KetNoiDuLieu.cs",
+              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\KetNoiDuLieu.cs",
+              "RelativeToolTip": "KetNoiDuLieu.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-07T03:18:42.291Z",
+              "WhenOpened": "2026-08-07T03:34:00.177Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-07T03:18:33.311Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "FormDangKy.cs",
               "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.cs",
               "RelativeDocumentMoniker": "FormDangKy.cs",
@@ -131,26 +129,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Formdangnhap.cs [Design]",
-              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Formdangnhap.cs",
-              "RelativeDocumentMoniker": "Formdangnhap.cs",
-              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Formdangnhap.cs [Design]",
-              "RelativeToolTip": "Formdangnhap.cs [Design]",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-07T01:41:44.737Z"
+              "WhenOpened": "2026-08-07T03:18:33.311Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "FormDangKy.cs [Design]",
-              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.cs",
-              "RelativeDocumentMoniker": "FormDangKy.cs",
-              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormDangKy.cs [Design]",
-              "RelativeToolTip": "FormDangKy.cs [Design]",
+              "Title": "FormKhachHang.Designer.cs",
+              "DocumentMoniker": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormKhachHang.Designer.cs",
+              "RelativeDocumentMoniker": "FormKhachHang.Designer.cs",
+              "ToolTip": "F:\\H\u1ECDc t\u1EADp\\SPORTSHOP\\FormKhachHang.Designer.cs",
+              "RelativeToolTip": "FormKhachHang.Designer.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwAAAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-07T01:30:04.199Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-08-07T03:18:42.291Z",
+              "EditorCaption": ""
             }
           ]
         }

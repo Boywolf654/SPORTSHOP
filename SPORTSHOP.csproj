@@ -70,12 +70,6 @@
     <Compile Include="FormKhachHang.Designer.cs">
       <DependentUpon>FormKhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormNhanVien.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormNhanVien.Designer.cs">
-      <DependentUpon>FormNhanVien.cs</DependentUpon>
-    </Compile>
     <Compile Include="KetNoiDuLieu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

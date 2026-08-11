@@ -1,0 +1,213 @@
+IF DB_ID('SPORTSHOP') IS NOT NULL
+BEGIN
+    ALTER DATABASE SPORTSHOP SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE SPORTSHOP;
+END
+GO
+
+CREATE DATABASE SPORTSHOP;
+GO
+
+USE SPORTSHOP;
+GO
+
+-- 1. Quản lý phân quyền & tài khoản
+CREATE TABLE VaiTro (
+    MaVaiTro INT IDENTITY(1,1) PRIMARY KEY,
+    TenVaiTro NVARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE TaiKhoan (
+    MaTK INT IDENTITY(1,1) PRIMARY KEY,
+    TenDangNhap VARCHAR(50) NOT NULL UNIQUE,
+    MatKhau VARCHAR(255) NOT NULL,
+    MaVaiTro INT NOT NULL,
+    TrangThai BIT NOT NULL DEFAULT 1,
+    FOREIGN KEY (MaVaiTro) REFERENCES VaiTro(MaVaiTro)
+);
+
+CREATE TABLE NhanVien (
+    MaNV INT IDENTITY(1,1) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    GioiTinh BIT,
+    NgaySinh DATE,
+    SDT VARCHAR(10) UNIQUE,
+    Email VARCHAR(100) UNIQUE,
+    DiaChi NVARCHAR(255),
+    Luong DECIMAL(18,2) CHECK(Luong >= 0),
+    MaTK INT UNIQUE,
+    FOREIGN KEY (MaTK) REFERENCES TaiKhoan(MaTK)
+);
+
+CREATE TABLE KhachHang (
+    MaKH INT IDENTITY(1,1) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    SDT VARCHAR(10) UNIQUE,
+    Email VARCHAR(100),
+    DiemTichLuy INT DEFAULT 0 CHECK(DiemTichLuy >= 0),
+    HangThanhVien NVARCHAR(30) DEFAULT N'Thường'
+);
+
+-- 2. Quản lý danh mục & sản phẩm
+CREATE TABLE DanhMuc (
+    MaDM INT IDENTITY(1,1) PRIMARY KEY,
+    TenDanhMuc NVARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE ThuongHieu (
+    MaTH INT IDENTITY(1,1) PRIMARY KEY,
+    TenThuongHieu NVARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE MauSac (
+    MaMau INT IDENTITY(1,1) PRIMARY KEY,
+    TenMau NVARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE Size (
+    MaSize INT IDENTITY(1,1) PRIMARY KEY,
+    TenSize NVARCHAR(20) UNIQUE NOT NULL
+);
+
+CREATE TABLE SanPham (
+    MaSP INT IDENTITY(1,1) PRIMARY KEY,
+    TenSP NVARCHAR(200) NOT NULL,
+    MaDM INT NOT NULL,
+    MaTH INT NOT NULL,
+    MoTa NTEXT, -- Tương thích tốt hơn NVARCHAR(MAX) trên SQL cũ
+    FOREIGN KEY (MaDM) REFERENCES DanhMuc(MaDM),
+    FOREIGN KEY (MaTH) REFERENCES ThuongHieu(MaTH)
+);
+
+CREATE TABLE BienTheSanPham (
+    MaBienThe INT IDENTITY(1,1) PRIMARY KEY,
+    MaSP INT NOT NULL,
+    MaSize INT NOT NULL,
+    MaMau INT NOT NULL,
+    SKU VARCHAR(50) UNIQUE,
+    GiaNhap DECIMAL(18,2) CHECK(GiaNhap >= 0),
+    GiaBan DECIMAL(18,2) CHECK(GiaBan >= 0),
+    SoLuong INT DEFAULT 0 CHECK(SoLuong >= 0),
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP),
+    FOREIGN KEY (MaSize) REFERENCES Size(MaSize),
+    FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau)
+);
+
+CREATE TABLE HinhAnhSanPham (
+    MaAnh INT IDENTITY(1,1) PRIMARY KEY,
+    MaSP INT NOT NULL,
+    UrlAnh NVARCHAR(255) NOT NULL,
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);
+
+-- 3. Quản lý nhập kho & nhà cung cấp
+CREATE TABLE NhaCungCap (
+    MaNCC INT IDENTITY(1,1) PRIMARY KEY,
+    TenNCC NVARCHAR(150) NOT NULL,
+    SDT VARCHAR(10),
+    DiaChi NVARCHAR(255)
+);
+
+CREATE TABLE PhieuNhap (
+    MaPN INT IDENTITY(1,1) PRIMARY KEY,
+    NgayNhap DATETIME DEFAULT GETDATE(),
+    MaNV INT NOT NULL,
+    MaNCC INT NOT NULL,
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV),
+    FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC)
+);
+
+CREATE TABLE ChiTietPhieuNhap (
+    MaPN INT,
+    MaBienThe INT,
+    SoLuong INT CHECK(SoLuong > 0),
+    DonGia DECIMAL(18,2),
+    PRIMARY KEY (MaPN, MaBienThe),
+    FOREIGN KEY (MaPN) REFERENCES PhieuNhap(MaPN),
+    FOREIGN KEY (MaBienThe) REFERENCES BienTheSanPham(MaBienThe)
+);
+
+-- 4. Quản lý khuyến mãi & bán hàng
+CREATE TABLE KhuyenMai (
+    MaKM INT IDENTITY(1,1) PRIMARY KEY,
+    TenKM NVARCHAR(100),
+    PhanTramGiam INT CHECK(PhanTramGiam BETWEEN 0 AND 100)
+);
+
+CREATE TABLE Voucher (
+    MaVoucher INT IDENTITY(1,1) PRIMARY KEY,
+    MaCode VARCHAR(30) UNIQUE,
+    GiaTri DECIMAL(18,2),
+    NgayHetHan DATE
+);
+
+CREATE TABLE HoaDon (
+    MaHD INT IDENTITY(1,1) PRIMARY KEY,
+    NgayLap DATETIME DEFAULT GETDATE(),
+    MaKH INT,
+    MaNV INT NOT NULL,
+    MaVoucher INT NULL,
+    TongTien DECIMAL(18,2) DEFAULT 0,
+    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV),
+    FOREIGN KEY (MaVoucher) REFERENCES Voucher(MaVoucher)
+);
+
+CREATE TABLE ChiTietHoaDon (
+    MaHD INT,
+    MaBienThe INT,
+    SoLuong INT CHECK(SoLuong > 0),
+    DonGia DECIMAL(18,2),
+    PRIMARY KEY (MaHD, MaBienThe),
+    FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD),
+    FOREIGN KEY (MaBienThe) REFERENCES BienTheSanPham(MaBienThe)
+);
+
+CREATE TABLE ThanhToan (
+    MaTT INT IDENTITY(1,1) PRIMARY KEY,
+    MaHD INT UNIQUE,
+    PhuongThuc NVARCHAR(50),
+    TrangThai NVARCHAR(30),
+    FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD)
+);
+
+-- 5. Nhật ký, Đánh giá & Hệ thống
+CREATE TABLE LichSuTonKho (
+    MaLS INT IDENTITY(1,1) PRIMARY KEY,
+    MaBienThe INT,
+    ThayDoi INT,
+    ThoiGian DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (MaBienThe) REFERENCES BienTheSanPham(MaBienThe)
+);
+
+CREATE TABLE DanhGia (
+    MaDG INT IDENTITY(1,1) PRIMARY KEY,
+    MaKH INT,
+    MaSP INT,
+    SoSao INT CHECK(SoSao BETWEEN 1 AND 5),
+    NoiDung NVARCHAR(500),
+    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);
+
+CREATE TABLE AuditLog (
+    MaLog INT IDENTITY(1,1) PRIMARY KEY,
+    Bang NVARCHAR(100),
+    HanhDong NVARCHAR(30),
+    NguoiThucHien NVARCHAR(100),
+    ThoiGian DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE ThongBaoAI (
+    MaTB INT IDENTITY(1,1) PRIMARY KEY,
+    TieuDe NVARCHAR(200),
+    NoiDung NTEXT,
+    NgayTao DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- Chèn dữ liệu mẫu (sử dụng cú pháp truyền thống tương thích bản cũ)
+INSERT INTO VaiTro (TenVaiTro) VALUES (N'Admin');
+INSERT INTO VaiTro (TenVaiTro) VALUES (N'Quản lý');
+INSERT INTO VaiTro (TenVaiTro) VALUES (N'Nhân viên');
+GO
