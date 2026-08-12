@@ -29,27 +29,29 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.txt_username = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.btn_dangnhap = new System.Windows.Forms.Button();
             this.txt_pass = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_username = new System.Windows.Forms.TextBox();
+            this.lb_dangky = new System.Windows.Forms.Label();
+            this.lb_quenpass = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btn_dangnhap);
             this.panel1.Controls.Add(this.txt_pass);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.txt_username);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lb_dangky);
+            this.panel1.Controls.Add(this.lb_quenpass);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label1);
@@ -59,35 +61,23 @@
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // txt_username
+            // btn_dangnhap
             // 
-            this.txt_username.BackColor = System.Drawing.Color.FloralWhite;
-            this.txt_username.Location = new System.Drawing.Point(43, 153);
-            this.txt_username.Name = "txt_username";
-            this.txt_username.Size = new System.Drawing.Size(213, 22);
-            this.txt_username.TabIndex = 1;
+            this.btn_dangnhap.BackColor = System.Drawing.Color.Gold;
+            this.btn_dangnhap.Location = new System.Drawing.Point(19, 298);
+            this.btn_dangnhap.Name = "btn_dangnhap";
+            this.btn_dangnhap.Size = new System.Drawing.Size(264, 76);
+            this.btn_dangnhap.TabIndex = 2;
+            this.btn_dangnhap.Text = "ĐĂNG NHẬP  ";
+            this.btn_dangnhap.UseVisualStyleBackColor = false;
+            this.btn_dangnhap.Click += new System.EventHandler(this.btn_dangnhap_Click);
             // 
-            // label2
+            // txt_pass
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FloralWhite;
-            this.label2.Location = new System.Drawing.Point(15, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 22);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "USER NAME:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Marlett", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.Color.Gold;
-            this.label1.Location = new System.Drawing.Point(28, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(244, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "THÔNG TIN ĐĂNG NHẬP";
+            this.txt_pass.Location = new System.Drawing.Point(43, 248);
+            this.txt_pass.Name = "txt_pass";
+            this.txt_pass.Size = new System.Drawing.Size(213, 22);
+            this.txt_pass.TabIndex = 1;
             // 
             // label3
             // 
@@ -100,44 +90,46 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "PASSWORD:";
             // 
-            // txt_pass
+            // txt_username
             // 
-            this.txt_pass.Location = new System.Drawing.Point(43, 248);
-            this.txt_pass.Name = "txt_pass";
-            this.txt_pass.Size = new System.Drawing.Size(213, 22);
-            this.txt_pass.TabIndex = 1;
+            this.txt_username.BackColor = System.Drawing.Color.FloralWhite;
+            this.txt_username.Location = new System.Drawing.Point(43, 153);
+            this.txt_username.Name = "txt_username";
+            this.txt_username.Size = new System.Drawing.Size(213, 22);
+            this.txt_username.TabIndex = 1;
             // 
-            // button1
+            // lb_dangky
             // 
-            this.button1.BackColor = System.Drawing.Color.Gold;
-            this.button1.Location = new System.Drawing.Point(19, 298);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(264, 76);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "ĐĂNG NHẬP  ";
-            this.button1.UseVisualStyleBackColor = false;
+            this.lb_dangky.AutoSize = true;
+            this.lb_dangky.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_dangky.ForeColor = System.Drawing.Color.FloralWhite;
+            this.lb_dangky.Location = new System.Drawing.Point(179, 387);
+            this.lb_dangky.Name = "lb_dangky";
+            this.lb_dangky.Size = new System.Drawing.Size(93, 22);
+            this.lb_dangky.TabIndex = 0;
+            this.lb_dangky.Text = "ĐĂNG KÝ !";
             // 
-            // label4
+            // lb_quenpass
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FloralWhite;
-            this.label4.Location = new System.Drawing.Point(15, 387);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(148, 22);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "QUÊN MẬT KHẨU";
+            this.lb_quenpass.AutoSize = true;
+            this.lb_quenpass.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_quenpass.ForeColor = System.Drawing.Color.FloralWhite;
+            this.lb_quenpass.Location = new System.Drawing.Point(15, 387);
+            this.lb_quenpass.Name = "lb_quenpass";
+            this.lb_quenpass.Size = new System.Drawing.Size(148, 22);
+            this.lb_quenpass.TabIndex = 0;
+            this.lb_quenpass.Text = "QUÊN MẬT KHẨU";
             // 
-            // label5
+            // label2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FloralWhite;
-            this.label5.Location = new System.Drawing.Point(179, 387);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 22);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "ĐĂNG KÝ !";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FloralWhite;
+            this.label2.Location = new System.Drawing.Point(15, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 22);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "USER NAME:";
             // 
             // label6
             // 
@@ -150,6 +142,17 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "SPORTSHOP";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Marlett", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.Gold;
+            this.label1.Location = new System.Drawing.Point(28, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(244, 24);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "THÔNG TIN ĐĂNG NHẬP";
+            // 
             // Formdangnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -158,6 +161,9 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(929, 559);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Formdangnhap";
             this.Text = "Formdangnhap";
             this.Load += new System.EventHandler(this.Formdangnhap_Load);
@@ -175,9 +181,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_pass;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btn_dangnhap;
+        private System.Windows.Forms.Label lb_quenpass;
+        private System.Windows.Forms.Label lb_dangky;
         private System.Windows.Forms.Label label6;
     }
 }

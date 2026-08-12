@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassTaiKhoan.cs" />
+    <Compile Include="ClassKetNoi.cs" />
     <Compile Include="FormAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
