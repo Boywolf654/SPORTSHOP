@@ -66,6 +66,12 @@
     <Compile Include="Formdangnhap.Designer.cs">
       <DependentUpon>Formdangnhap.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDangNhapKH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDangNhapKH.Designer.cs">
+      <DependentUpon>FormDangNhapKH.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
