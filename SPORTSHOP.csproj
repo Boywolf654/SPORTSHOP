@@ -86,6 +86,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDangKy.resx">
+      <DependentUpon>FormDangKy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formdangnhap.resx">
       <DependentUpon>Formdangnhap.cs</DependentUpon>
     </EmbeddedResource>
