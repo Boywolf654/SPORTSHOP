@@ -83,6 +83,17 @@ namespace SPORTSHOP.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1786599796596_5106789130539593089_g1007696020308100259_a5ec864e2b9d11bd4307a0b95aa518a7 {
+            get {
+                object obj = ResourceManager.GetObject("1786599796596_5106789130539593089_g1007696020308100259_a5ec864e2b9d11bd4307a0b95a" +
+                        "a518a7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LOGINSPORTSHOP {
             get {
                 object obj = ResourceManager.GetObject("LOGINSPORTSHOP", resourceCulture);

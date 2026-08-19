@@ -127,8 +127,8 @@ namespace SPORTSHOP
                 MessageBox.Show("Đăng nhập thành công!\nQuyền: Admin");
 
                 // TODO: mở Form Admin
-                 //FormAdmin frm = new FormAdmin(tk);
-                // frm.Show();
+                FormAdmin frm = new FormAdmin(tk);
+                frm.Show();
             }
             else if (tk.MaVaiTro == 2)
             {
@@ -153,6 +153,12 @@ namespace SPORTSHOP
 
                 return;
             }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            formquenmatkhau frm = new formquenmatkhau();
+            frm.ShowDialog();
         }
     }
  }

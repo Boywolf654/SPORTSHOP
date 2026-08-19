@@ -12,9 +12,27 @@ namespace SPORTSHOP
 {
     public partial class FormAdmin : Form
     {
-        public FormAdmin()
+        public TaiKhoan tk;
+
+        public FormAdmin(TaiKhoan tk)
         {
             InitializeComponent();
+            this.tk = tk;
+        }
+
+        private void guna2Button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormAdmin_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelSidebar_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

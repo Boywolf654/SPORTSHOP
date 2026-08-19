@@ -33,8 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Guna.UI2, Version=2.0.4.8, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.UI2.WinForms.2.0.4.8\lib\net48\Guna.UI2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,13 +90,27 @@
     <Compile Include="FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="formquenmatkhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formquenmatkhau.Designer.cs">
+      <DependentUpon>formquenmatkhau.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormDangKy.resx">
-      <DependentUpon>FormDangKy.cs</DependentUpon>
+<EmbeddedResource Include="FormDangKy.resx">
+  <DependentUpon>FormDangKy.cs</DependentUpon>
+</EmbeddedResource>
+
+<EmbeddedResource Include="FormAdmin.resx">
+  <DependentUpon>FormAdmin.cs</DependentUpon>
+</EmbeddedResource>
     </EmbeddedResource>
     <EmbeddedResource Include="Formdangnhap.resx">
       <DependentUpon>Formdangnhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formquenmatkhau.resx">
+      <DependentUpon>formquenmatkhau.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -102,6 +122,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LOGINSPORTSHOP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1786599796596_5106789130539593089_g1007696020308100259_a5ec864e2b9d11bd4307a0b95aa518a7.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

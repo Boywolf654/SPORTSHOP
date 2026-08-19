@@ -33,11 +33,11 @@
             this.txt_pass = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txt_username = new System.Windows.Forms.TextBox();
-            this.lb_dangky = new System.Windows.Forms.Label();
-            this.lb_quenpass = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,12 +46,12 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.linkLabel2);
+            this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.btn_dangnhap);
             this.panel1.Controls.Add(this.txt_pass);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.txt_username);
-            this.panel1.Controls.Add(this.lb_dangky);
-            this.panel1.Controls.Add(this.lb_quenpass);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label1);
@@ -64,11 +64,12 @@
             // btn_dangnhap
             // 
             this.btn_dangnhap.BackColor = System.Drawing.Color.Gold;
-            this.btn_dangnhap.Location = new System.Drawing.Point(19, 298);
+            this.btn_dangnhap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btn_dangnhap.Location = new System.Drawing.Point(32, 296);
             this.btn_dangnhap.Name = "btn_dangnhap";
-            this.btn_dangnhap.Size = new System.Drawing.Size(264, 76);
+            this.btn_dangnhap.Size = new System.Drawing.Size(237, 62);
             this.btn_dangnhap.TabIndex = 2;
-            this.btn_dangnhap.Text = "ĐĂNG NHẬP  ";
+            this.btn_dangnhap.Text = "ĐĂNG NHẬP 🏀";
             this.btn_dangnhap.UseVisualStyleBackColor = false;
             this.btn_dangnhap.Click += new System.EventHandler(this.btn_dangnhap_Click);
             // 
@@ -97,28 +98,6 @@
             this.txt_username.Name = "txt_username";
             this.txt_username.Size = new System.Drawing.Size(213, 22);
             this.txt_username.TabIndex = 1;
-            // 
-            // lb_dangky
-            // 
-            this.lb_dangky.AutoSize = true;
-            this.lb_dangky.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_dangky.ForeColor = System.Drawing.Color.FloralWhite;
-            this.lb_dangky.Location = new System.Drawing.Point(179, 387);
-            this.lb_dangky.Name = "lb_dangky";
-            this.lb_dangky.Size = new System.Drawing.Size(93, 22);
-            this.lb_dangky.TabIndex = 0;
-            this.lb_dangky.Text = "ĐĂNG KÝ !";
-            // 
-            // lb_quenpass
-            // 
-            this.lb_quenpass.AutoSize = true;
-            this.lb_quenpass.Font = new System.Drawing.Font("Microsoft JhengHei Light", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_quenpass.ForeColor = System.Drawing.Color.FloralWhite;
-            this.lb_quenpass.Location = new System.Drawing.Point(15, 387);
-            this.lb_quenpass.Name = "lb_quenpass";
-            this.lb_quenpass.Size = new System.Drawing.Size(148, 22);
-            this.lb_quenpass.TabIndex = 0;
-            this.lb_quenpass.Text = "QUÊN MẬT KHẨU";
             // 
             // label2
             // 
@@ -153,6 +132,31 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "THÔNG TIN ĐĂNG NHẬP";
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.linkLabel1.LinkColor = System.Drawing.Color.White;
+            this.linkLabel1.Location = new System.Drawing.Point(15, 378);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(149, 20);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "QUÊN MẬT KHẨU";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.linkLabel2.LinkColor = System.Drawing.Color.White;
+            this.linkLabel2.Location = new System.Drawing.Point(190, 378);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(93, 20);
+            this.linkLabel2.TabIndex = 3;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "ĐĂNG KÝ !";
+            // 
             // Formdangnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -182,9 +186,9 @@
         private System.Windows.Forms.TextBox txt_pass;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btn_dangnhap;
-        private System.Windows.Forms.Label lb_quenpass;
-        private System.Windows.Forms.Label lb_dangky;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel2;
     }
 }
 
