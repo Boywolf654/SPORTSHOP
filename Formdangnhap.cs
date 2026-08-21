@@ -160,6 +160,12 @@ namespace SPORTSHOP
             formquenmatkhau frm = new formquenmatkhau();
             frm.ShowDialog();
         }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FormDangKy frm = new FormDangKy();
+            frm.ShowDialog();
+        }
     }
  }
 

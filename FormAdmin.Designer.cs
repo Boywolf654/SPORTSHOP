@@ -30,6 +30,8 @@
         {
             this.panelSidebar = new Guna.UI2.WinForms.Guna2Panel();
             this.btn_dangxuat = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_nhaphang = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_nhacungcap = new Guna.UI2.WinForms.Guna2Button();
             this.btn_baocao = new Guna.UI2.WinForms.Guna2Button();
             this.btn_donhang = new Guna.UI2.WinForms.Guna2Button();
             this.btn_khachhang = new Guna.UI2.WinForms.Guna2Button();
@@ -38,8 +40,6 @@
             this.btn_taikhoan = new Guna.UI2.WinForms.Guna2Button();
             this.btn_tongquan = new Guna.UI2.WinForms.Guna2Button();
             this.panelContent = new Guna.UI2.WinForms.Guna2Panel();
-            this.btn_nhacungcap = new Guna.UI2.WinForms.Guna2Button();
-            this.btn_nhaphang = new Guna.UI2.WinForms.Guna2Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panelSidebar.SuspendLayout();
             this.panelContent.SuspendLayout();
@@ -82,6 +82,42 @@
             this.btn_dangxuat.TabIndex = 0;
             this.btn_dangxuat.Text = " 🚪 Đăng Xuất";
             this.btn_dangxuat.Click += new System.EventHandler(this.guna2Button7_Click);
+            // 
+            // btn_nhaphang
+            // 
+            this.btn_nhaphang.BorderColor = System.Drawing.Color.White;
+            this.btn_nhaphang.BorderThickness = 1;
+            this.btn_nhaphang.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btn_nhaphang.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btn_nhaphang.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btn_nhaphang.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_nhaphang.FillColor = System.Drawing.Color.Black;
+            this.btn_nhaphang.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_nhaphang.ForeColor = System.Drawing.Color.White;
+            this.btn_nhaphang.Location = new System.Drawing.Point(-3, 404);
+            this.btn_nhaphang.Name = "btn_nhaphang";
+            this.btn_nhaphang.Size = new System.Drawing.Size(220, 45);
+            this.btn_nhaphang.TabIndex = 0;
+            this.btn_nhaphang.Text = " 🚚 Nhập Hàng";
+            this.btn_nhaphang.Click += new System.EventHandler(this.guna2Button7_Click);
+            // 
+            // btn_nhacungcap
+            // 
+            this.btn_nhacungcap.BorderColor = System.Drawing.Color.White;
+            this.btn_nhacungcap.BorderThickness = 1;
+            this.btn_nhacungcap.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btn_nhacungcap.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btn_nhacungcap.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btn_nhacungcap.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_nhacungcap.FillColor = System.Drawing.Color.Black;
+            this.btn_nhacungcap.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_nhacungcap.ForeColor = System.Drawing.Color.White;
+            this.btn_nhacungcap.Location = new System.Drawing.Point(0, 461);
+            this.btn_nhacungcap.Name = "btn_nhacungcap";
+            this.btn_nhacungcap.Size = new System.Drawing.Size(220, 45);
+            this.btn_nhacungcap.TabIndex = 0;
+            this.btn_nhacungcap.Text = " 🏭 Nhà Cung Cấp";
+            this.btn_nhacungcap.Click += new System.EventHandler(this.guna2Button7_Click);
             // 
             // btn_baocao
             // 
@@ -210,42 +246,6 @@
             this.panelContent.Name = "panelContent";
             this.panelContent.Size = new System.Drawing.Size(574, 579);
             this.panelContent.TabIndex = 0;
-            // 
-            // btn_nhacungcap
-            // 
-            this.btn_nhacungcap.BorderColor = System.Drawing.Color.White;
-            this.btn_nhacungcap.BorderThickness = 1;
-            this.btn_nhacungcap.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btn_nhacungcap.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btn_nhacungcap.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btn_nhacungcap.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_nhacungcap.FillColor = System.Drawing.Color.Black;
-            this.btn_nhacungcap.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btn_nhacungcap.ForeColor = System.Drawing.Color.White;
-            this.btn_nhacungcap.Location = new System.Drawing.Point(0, 461);
-            this.btn_nhacungcap.Name = "btn_nhacungcap";
-            this.btn_nhacungcap.Size = new System.Drawing.Size(220, 45);
-            this.btn_nhacungcap.TabIndex = 0;
-            this.btn_nhacungcap.Text = " 🏭 Nhà Cung Cấp";
-            this.btn_nhacungcap.Click += new System.EventHandler(this.guna2Button7_Click);
-            // 
-            // btn_nhaphang
-            // 
-            this.btn_nhaphang.BorderColor = System.Drawing.Color.White;
-            this.btn_nhaphang.BorderThickness = 1;
-            this.btn_nhaphang.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btn_nhaphang.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btn_nhaphang.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btn_nhaphang.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_nhaphang.FillColor = System.Drawing.Color.Black;
-            this.btn_nhaphang.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btn_nhaphang.ForeColor = System.Drawing.Color.White;
-            this.btn_nhaphang.Location = new System.Drawing.Point(-3, 404);
-            this.btn_nhaphang.Name = "btn_nhaphang";
-            this.btn_nhaphang.Size = new System.Drawing.Size(220, 45);
-            this.btn_nhaphang.TabIndex = 0;
-            this.btn_nhaphang.Text = " 🚚 Nhập Hàng";
-            this.btn_nhaphang.Click += new System.EventHandler(this.guna2Button7_Click);
             // 
             // label1
             // 
