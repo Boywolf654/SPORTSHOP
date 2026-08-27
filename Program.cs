@@ -20,7 +20,7 @@ namespace SPORTSHOP
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmPhieuKho());
+            Application.Run(new Formdangnhap());
         }
         // Khai báo hàm API của Windows
         [System.Runtime.InteropServices.DllImport("user32.dll")]
