@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,10 +18,12 @@ namespace SPORTSHOP
             {
                 SetProcessDPIAware();
             }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Formdangnhap());
+            Application.Run(new FrmPhieuKho());
         }
+
         // Khai báo hàm API của Windows
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool SetProcessDPIAware();
