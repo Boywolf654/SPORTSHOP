@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +21,8 @@ namespace SPORTSHOP
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
- 
+
             Application.Run(new FromKho());
-
-            Application.Run(new FormNhapHang());
-
         }
 
         // Khai báo hàm API của Windows
@@ -34,4 +30,3 @@ namespace SPORTSHOP
         private static extern bool SetProcessDPIAware();
     }
 }
-

@@ -384,7 +384,6 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Name = "Quản_lí_sản_phẩm_FormSanPham";
-            this.Text = "Quản_lí_sản_phẩm_FormSanPham";
             this.Load += new System.EventHandler(this.Quản_lí_sản_phẩm_FormSanPham_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
