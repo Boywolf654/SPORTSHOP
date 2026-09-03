@@ -120,4 +120,34 @@
   <metadata name="guna2ElipseFrom.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="txt_timkiem.IconLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAALAAAACwARRqq2kAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwa
+        AAAA/ElEQVRIS+2TQU5CMRRFDyMDYRkKI8ZMIFGnIkshIK6CoJvQVagjdchGZANMyUlKQl5Mf/3AxHCS
+        Js27v339t7dw5kBawBh4AGZpbu1gGsAcWANvwFMazq3ZzG9q4cJX4BO4jCJwBXwBL3WbeHI3v4jCHmrf
+        wDQKVeivFvx28kgnfduMQo775HMpH8BdLOZ4BBaxmGGZElaM/ruoFJNlooo5uUW7SzaKVXTrXLL4y+Y8
+        F9M2sAImUSjBx+MjMudGMeLJ3XwD3ESxFJv4iLTgHXhOQ8+tefIh8APcxsV/QX9HyTaH833PB8doUsX/
+        aXKd7qcfhWPi5r1YPJNlCzfoLVGuUyNxAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="MaKho.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TenKho.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="DiaChi.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="MoTa.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TongHangNhap.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TrangThai.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>
