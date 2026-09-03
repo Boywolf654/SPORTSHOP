@@ -69,17 +69,17 @@
             this.label11 = new System.Windows.Forms.Label();
             this.pnlToolbar = new Guna.UI2.WinForms.Guna2Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnlSeparator = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
-            this.pnlSeparator = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button7 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Button8 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button9 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
             this.grpThongTinPhieu.SuspendLayout();
             this.grpChiTietHangHoa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHangHoa)).BeginInit();
@@ -652,6 +652,30 @@
             this.flowLayoutPanel1.WrapContents = false;
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
+            // pnlSeparator
+            // 
+            this.pnlSeparator.BackColor = System.Drawing.Color.LightGray;
+            this.pnlSeparator.BorderColor = System.Drawing.Color.Transparent;
+            this.pnlSeparator.Controls.Add(this.guna2Button5);
+            this.pnlSeparator.FillColor = System.Drawing.Color.Transparent;
+            this.pnlSeparator.Location = new System.Drawing.Point(144, 6);
+            this.pnlSeparator.Margin = new System.Windows.Forms.Padding(6);
+            this.pnlSeparator.Name = "pnlSeparator";
+            this.pnlSeparator.Size = new System.Drawing.Size(1, 24);
+            this.pnlSeparator.TabIndex = 2;
+            // 
+            // guna2Panel1
+            // 
+            this.guna2Panel1.BackColor = System.Drawing.Color.LightGray;
+            this.guna2Panel1.BorderColor = System.Drawing.Color.Transparent;
+            this.guna2Panel1.Controls.Add(this.guna2Button8);
+            this.guna2Panel1.FillColor = System.Drawing.Color.Transparent;
+            this.guna2Panel1.Location = new System.Drawing.Point(249, 6);
+            this.guna2Panel1.Margin = new System.Windows.Forms.Padding(6);
+            this.guna2Panel1.Name = "guna2Panel1";
+            this.guna2Panel1.Size = new System.Drawing.Size(1, 24);
+            this.guna2Panel1.TabIndex = 2;
+            // 
             // guna2Button1
             // 
             this.guna2Button1.Animated = true;
@@ -712,18 +736,6 @@
             this.guna2Button3.Size = new System.Drawing.Size(40, 32);
             this.guna2Button3.TabIndex = 1;
             // 
-            // pnlSeparator
-            // 
-            this.pnlSeparator.BackColor = System.Drawing.Color.LightGray;
-            this.pnlSeparator.BorderColor = System.Drawing.Color.Transparent;
-            this.pnlSeparator.Controls.Add(this.guna2Button5);
-            this.pnlSeparator.FillColor = System.Drawing.Color.Transparent;
-            this.pnlSeparator.Location = new System.Drawing.Point(144, 6);
-            this.pnlSeparator.Margin = new System.Windows.Forms.Padding(6);
-            this.pnlSeparator.Name = "pnlSeparator";
-            this.pnlSeparator.Size = new System.Drawing.Size(1, 24);
-            this.pnlSeparator.TabIndex = 2;
-            // 
             // guna2Button5
             // 
             this.guna2Button5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(165)))), ((int)(((byte)(250)))));
@@ -781,18 +793,6 @@
             this.guna2Button7.Name = "guna2Button7";
             this.guna2Button7.Size = new System.Drawing.Size(40, 32);
             this.guna2Button7.TabIndex = 1;
-            // 
-            // guna2Panel1
-            // 
-            this.guna2Panel1.BackColor = System.Drawing.Color.LightGray;
-            this.guna2Panel1.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel1.Controls.Add(this.guna2Button8);
-            this.guna2Panel1.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Panel1.Location = new System.Drawing.Point(249, 6);
-            this.guna2Panel1.Margin = new System.Windows.Forms.Padding(6);
-            this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1, 24);
-            this.guna2Panel1.TabIndex = 2;
             // 
             // guna2Button8
             // 
