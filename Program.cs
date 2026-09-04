@@ -21,7 +21,12 @@ namespace SPORTSHOP
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+<<<<<<< HEAD
             Application.Run(new FrmPhieuNhap());
+=======
+
+            Application.Run(new FromKho());
+>>>>>>> 52bae1963c4b7b547a838475c4d843e81fe149b0
         }
 
         // Khai báo hàm API của Windows
