@@ -89,14 +89,12 @@
     <Compile Include="FormMauSac.Designer.cs">
       <DependentUpon>FormMauSac.cs</DependentUpon>
     </Compile>
-
     <Compile Include="FormNhaCungCap.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormNhaCungCap.Designer.cs">
       <DependentUpon>FormNhaCungCap.cs</DependentUpon>
     </Compile>
-
     <Compile Include="FormNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,14 +119,18 @@
     <Compile Include="formquenmatkhau.Designer.cs">
       <DependentUpon>formquenmatkhau.cs</DependentUpon>
     </Compile>
-
     <Compile Include="FormThemNhaCungCap.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormThemNhaCungCap.Designer.cs">
       <DependentUpon>FormThemNhaCungCap.cs</DependentUpon>
     </Compile>
-
+    <Compile Include="frmGiaoDienBanHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGiaoDienBanHang.Designer.cs">
+      <DependentUpon>frmGiaoDienBanHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmPhieuKho.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,14 +155,12 @@
     <Compile Include="FrmPhieuNhap.Designer.cs">
       <DependentUpon>FrmPhieuNhap.cs</DependentUpon>
     </Compile>
-
     <Compile Include="FromKho.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FromKho.Designer.cs">
       <DependentUpon>FromKho.cs</DependentUpon>
     </Compile>
-
     <Compile Include="Program.cs" />
     <Compile Include="Quản lí sản phẩm-FormSanPham.cs">
       <SubType>Form</SubType>
@@ -193,11 +193,9 @@
     <EmbeddedResource Include="Formdangnhap.resx">
       <DependentUpon>Formdangnhap.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="FormNhaCungCap.resx">
       <DependentUpon>FormNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="FormNhapHang.resx">
       <DependentUpon>FormNhapHang.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,11 +208,12 @@
     <EmbeddedResource Include="formquenmatkhau.resx">
       <DependentUpon>formquenmatkhau.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="FormThemNhaCungCap.resx">
       <DependentUpon>FormThemNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
-
+    <EmbeddedResource Include="frmGiaoDienBanHang.resx">
+      <DependentUpon>frmGiaoDienBanHang.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmPhieuKho.resx">
       <DependentUpon>FrmPhieuKho.cs</DependentUpon>
     </EmbeddedResource>
@@ -227,11 +226,9 @@
     <EmbeddedResource Include="FrmPhieuNhap.resx">
       <DependentUpon>FrmPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="FromKho.resx">
       <DependentUpon>FromKho.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="Quản lí sản phẩm-FormSanPham.resx">
       <DependentUpon>Quản lí sản phẩm-FormSanPham.cs</DependentUpon>
     </EmbeddedResource>

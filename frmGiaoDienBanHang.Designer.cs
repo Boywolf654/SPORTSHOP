@@ -1,6 +1,6 @@
 ﻿namespace SPORTSHOP
 {
-    partial class formgiaodienbanhang
+    partial class frmGiaoDienBanHang
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formgiaodienbanhang));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGiaoDienBanHang));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.quầnÁoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

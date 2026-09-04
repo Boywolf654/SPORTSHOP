@@ -21,8 +21,7 @@ namespace SPORTSHOP
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Application.Run(new formgiaodienbanhang());
+            Application.Run(new frmGiaoDienBanHang());
         }
 
         // Khai báo hàm API của Windows

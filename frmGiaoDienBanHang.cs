@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace SPORTSHOP
 {
-    public partial class formgiaodienbanhang : Form
+    public partial class frmGiaoDienBanHang : Form
     {
-        public formgiaodienbanhang()
+        public frmGiaoDienBanHang()
         {
             InitializeComponent();
         }
