@@ -1,0 +1,21 @@
+﻿namespace SPORTSHOP
+{
+    public static class Session
+    {
+        public static int MaTK { get; set; }
+
+        public static string TenDangNhap { get; set; }
+
+        public static int MaVaiTro { get; set; }
+
+        public static string TenVaiTro { get; set; }
+
+        public static void DangXuat()
+        {
+            MaTK = 0;
+            TenDangNhap = null;
+            MaVaiTro = 0;
+            TenVaiTro = null;
+        }
+    }
+}

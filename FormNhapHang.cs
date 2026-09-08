@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace SPORTSHOP
 {
@@ -13,9 +14,16 @@ namespace SPORTSHOP
         public FormNhapHang()
         {
             InitializeComponent();
-            guna2Button1.Click += guna2Button1_Click;
-            guna2Button2.Click += guna2Button2_Click;
-            GNb_ThemDong.Click += GNb_ThemDong_Click;
+
+            btnLuu.Click += guna2Button1_Click;
+            btnHuy.Click += guna2Button2_Click;
+            btnThemDong.Click += GNb_ThemDong_Click;
+
+            guna2ComboBox6.SelectedIndexChanged += guna2ComboBox6_SelectedIndexChanged;
+            guna2ComboBox10.SelectedIndexChanged += guna2ComboBox10_SelectedIndexChanged;
+
+            txtDonGia1.TextChanged += txtDonGia1_TextChanged;
+            txtDonGia2.TextChanged += txtDonGia2_TextChanged;
         }
 
         private void FormNhapHang_Load(object sender, EventArgs e)
@@ -27,19 +35,30 @@ namespace SPORTSHOP
                 LoadNhanVien();
                 LoadSize();
                 LoadMauSac();
-                LoadSanPhamAutoComplete();
+                LoadSanPham();
 
                 dtp_NgayNhap.Value = DateTime.Now;
 
-                // Trạng thái mặc định
                 GNc_ChoDuyet.Text = "Chờ duyệt";
 
-                // Đơn giá và số lượng
                 LoadSoLuong(guna2ComboBox6);
                 LoadSoLuong(guna2ComboBox10);
 
-                LoadDonGia(guna2ComboBox7);
-                LoadDonGia(guna2ComboBox11);
+
+                // Làm chữ ComboBox dễ nhìn hơn
+                cmb_NhaCungCap.ForeColor = Color.Black;
+                cmb_Kho.ForeColor = Color.Black;
+                cmb_NhanVien.ForeColor = Color.Black;
+
+                guna2ComboBox4.ForeColor = Color.Black;
+                guna2ComboBox5.ForeColor = Color.Black;
+                guna2ComboBox6.ForeColor = Color.Black;
+                txtDonGia1.ForeColor = Color.Black;
+
+                guna2ComboBox8.ForeColor = Color.Black;
+                guna2ComboBox9.ForeColor = Color.Black;
+                guna2ComboBox10.ForeColor = Color.Black;
+                txtDonGia2.ForeColor = Color.Black;
             }
             catch (Exception ex)
             {
@@ -52,19 +71,36 @@ namespace SPORTSHOP
             }
         }
 
+        private decimal GetDonGia(Guna.UI2.WinForms.Guna2TextBox txt)
+        {
+            if (!decimal.TryParse(txt.Text.Trim(), out decimal donGia) || donGia <= 0)
+            {
+                MessageBox.Show(
+                    "Đơn giá phải là số lớn hơn 0.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txt.Focus();
+                return 0;
+            }
+
+            return donGia;
+        }
         // =========================================================
         // NHÀ CUNG CẤP
         // =========================================================
         private void LoadNhaCungCap()
         {
             string sql = @"
-                SELECT MaNCC, TenNCC
-                FROM NhaCungCap
-                WHERE TrangThai = 1
-                ORDER BY TenNCC";
+        SELECT MaNCC, TenNCC
+        FROM NhaCungCap
+        WHERE TrangThai = 1
+        ORDER BY TenNCC";
 
             DataTable dt = kt.GetData(sql);
 
+            cmb_NhaCungCap.DataSource = null;
             cmb_NhaCungCap.DataSource = dt;
             cmb_NhaCungCap.DisplayMember = "TenNCC";
             cmb_NhaCungCap.ValueMember = "MaNCC";
@@ -77,13 +113,14 @@ namespace SPORTSHOP
         private void LoadKho()
         {
             string sql = @"
-                SELECT MaKho, TenKho
-                FROM Kho
-                WHERE TrangThai = 1
-                ORDER BY TenKho";
+        SELECT MaKho, TenKho
+        FROM Kho
+        WHERE TrangThai = 1
+        ORDER BY TenKho";
 
             DataTable dt = kt.GetData(sql);
 
+            cmb_Kho.DataSource = null;
             cmb_Kho.DataSource = dt;
             cmb_Kho.DisplayMember = "TenKho";
             cmb_Kho.ValueMember = "MaKho";
@@ -96,13 +133,14 @@ namespace SPORTSHOP
         private void LoadNhanVien()
         {
             string sql = @"
-                SELECT MaNV, HoTen
-                FROM NhanVien
-                WHERE TrangThai = 1
-                ORDER BY HoTen";
+        SELECT MaNV, HoTen
+        FROM NhanVien
+        WHERE TrangThai = 1
+        ORDER BY HoTen";
 
             DataTable dt = kt.GetData(sql);
 
+            cmb_NhanVien.DataSource = null;
             cmb_NhanVien.DataSource = dt;
             cmb_NhanVien.DisplayMember = "HoTen";
             cmb_NhanVien.ValueMember = "MaNV";
@@ -115,9 +153,9 @@ namespace SPORTSHOP
         private void LoadSize()
         {
             string sql = @"
-                SELECT MaSize, TenSize
-                FROM Size
-                ORDER BY TenSize";
+        SELECT MaSize, TenSize
+        FROM Size
+        ORDER BY TenSize";
 
             DataTable dt = kt.GetData(sql);
 
@@ -129,10 +167,12 @@ namespace SPORTSHOP
             Guna.UI2.WinForms.Guna2ComboBox combo,
             DataTable dt)
         {
+            combo.DataSource = null;
             combo.DataSource = dt.Copy();
             combo.DisplayMember = "TenSize";
             combo.ValueMember = "MaSize";
             combo.SelectedIndex = -1;
+            combo.ForeColor = Color.Black;
         }
 
         // =========================================================
@@ -141,9 +181,9 @@ namespace SPORTSHOP
         private void LoadMauSac()
         {
             string sql = @"
-                SELECT MaMau, TenMau
-                FROM MauSac
-                ORDER BY TenMau";
+        SELECT MaMau, TenMau
+        FROM MauSac
+        ORDER BY TenMau";
 
             DataTable dt = kt.GetData(sql);
 
@@ -155,51 +195,66 @@ namespace SPORTSHOP
             Guna.UI2.WinForms.Guna2ComboBox combo,
             DataTable dt)
         {
+            combo.DataSource = null;
             combo.DataSource = dt.Copy();
             combo.DisplayMember = "TenMau";
             combo.ValueMember = "MaMau";
             combo.SelectedIndex = -1;
+            combo.ForeColor = Color.Black;
         }
 
         // =========================================================
         // SẢN PHẨM - AUTOCOMPLETE
         // =========================================================
-        private void LoadSanPhamAutoComplete()
+        private void LoadSanPham()
         {
             string sql = @"
-                SELECT DISTINCT TenSP
-                FROM SanPham
-                WHERE TrangThai = 1
-                ORDER BY TenSP";
+        SELECT MaSP, TenSP
+        FROM SanPham
+        WHERE TrangThai = 1
+        ORDER BY TenSP";
 
             DataTable dt = kt.GetData(sql);
 
-            AutoCompleteStringCollection source =
-                new AutoCompleteStringCollection();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                source.Add(row["TenSP"].ToString());
-            }
-
-            guna2TextBox1.AutoCompleteMode =
-                AutoCompleteMode.SuggestAppend;
-
-            guna2TextBox1.AutoCompleteSource =
-                AutoCompleteSource.CustomSource;
-
-            guna2TextBox1.AutoCompleteCustomSource = source;
-
-
-            guna2TextBox2.AutoCompleteMode =
-                AutoCompleteMode.SuggestAppend;
-
-            guna2TextBox2.AutoCompleteSource =
-                AutoCompleteSource.CustomSource;
-
-            guna2TextBox2.AutoCompleteCustomSource = source;
+            LoadSanPhamCombo(cmb_SanPham1, dt);
+            LoadSanPhamCombo(cmb_SanPham2, dt);
         }
 
+        private void LoadSanPhamCombo(
+            Guna.UI2.WinForms.Guna2ComboBox combo,
+            DataTable dt)
+        {
+            combo.DataSource = null;
+            combo.DataSource = dt.Copy();
+            combo.DisplayMember = "TenSP";
+            combo.ValueMember = "MaSP";
+            combo.SelectedIndex = -1;
+            combo.ForeColor = Color.Black;
+        }
+
+        private void ClearForm()
+        {
+            cmb_NhaCungCap.SelectedIndex = -1;
+            cmb_Kho.SelectedIndex = -1;
+            cmb_NhanVien.SelectedIndex = -1;
+
+            dtp_NgayNhap.Value = DateTime.Now;
+
+            cmb_SanPham1.SelectedIndex = -1;
+            cmb_SanPham2.SelectedIndex = -1;
+
+            guna2ComboBox4.SelectedIndex = -1;
+            guna2ComboBox5.SelectedIndex = -1;
+            guna2ComboBox6.SelectedIndex = -1;
+            txtDonGia1.Text = "";
+
+            guna2ComboBox8.SelectedIndex = -1;
+            guna2ComboBox9.SelectedIndex = -1;
+            guna2ComboBox10.SelectedIndex = -1;
+            txtDonGia2.Text = "";
+
+            GNc_ChoDuyet.Text = "Chờ duyệt";
+        }
         // =========================================================
         // SỐ LƯỢNG
         // =========================================================
@@ -220,21 +275,7 @@ namespace SPORTSHOP
         // ĐƠN GIÁ
         // Cho nhập giá bằng cách gõ trực tiếp vào ComboBox
         // =========================================================
-        private void LoadDonGia(
-            Guna.UI2.WinForms.Guna2ComboBox combo)
-        {
-            combo.DropDownStyle =
-                ComboBoxStyle.DropDown;
-
-            combo.Items.Clear();
-
-            combo.Items.Add("100000");
-            combo.Items.Add("150000");
-            combo.Items.Add("200000");
-            combo.Items.Add("250000");
-            combo.Items.Add("300000");
-            combo.Items.Add("500000");
-        }
+       
 
         // =========================================================
         // LẤY MÃ BIẾN THỂ
@@ -333,11 +374,19 @@ namespace SPORTSHOP
             soLuong = 0;
             donGia = 0;
 
-            string tenSP =
-                guna2TextBox1.Text.Trim();
+            if (cmb_SanPham1.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn sản phẩm dòng 1.",
+                    "Thiếu dữ liệu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-            if (string.IsNullOrWhiteSpace(tenSP))
+                cmb_SanPham1.Focus();
                 return false;
+            }
+
+            string tenSP = cmb_SanPham1.Text.Trim();
 
             if (guna2ComboBox4.SelectedIndex == -1)
             {
@@ -373,7 +422,7 @@ namespace SPORTSHOP
             }
 
             if (!decimal.TryParse(
-                guna2ComboBox7.Text.Trim(),
+                txtDonGia1.Text.Trim(),
                 out donGia) ||
                 donGia <= 0)
             {
@@ -435,12 +484,11 @@ namespace SPORTSHOP
             soLuong = 0;
             donGia = 0;
 
-            string tenSP =
-                guna2TextBox2.Text.Trim();
-
             // Dòng 2 để trống thì bỏ qua
-            if (string.IsNullOrWhiteSpace(tenSP))
+            if (cmb_SanPham2.SelectedIndex == -1)
                 return true;
+
+            string tenSP = cmb_SanPham2.Text.Trim();
 
             if (guna2ComboBox8.SelectedIndex == -1)
             {
@@ -476,7 +524,7 @@ namespace SPORTSHOP
             }
 
             if (!decimal.TryParse(
-                guna2ComboBox11.Text.Trim(),
+                txtDonGia2.Text.Trim(),
                 out donGia) ||
                 donGia <= 0)
             {
@@ -788,32 +836,6 @@ namespace SPORTSHOP
             }
         }
 
-        // =========================================================
-        // XÓA FORM
-        // =========================================================
-        private void ClearForm()
-        {
-            cmb_NhaCungCap.SelectedIndex = -1;
-            cmb_Kho.SelectedIndex = -1;
-            cmb_NhanVien.SelectedIndex = -1;
-
-            dtp_NgayNhap.Value = DateTime.Now;
-
-            guna2TextBox1.Clear();
-            guna2TextBox2.Clear();
-
-            guna2ComboBox4.SelectedIndex = -1;
-            guna2ComboBox5.SelectedIndex = -1;
-            guna2ComboBox6.SelectedIndex = -1;
-            guna2ComboBox7.Text = "";
-
-            guna2ComboBox8.SelectedIndex = -1;
-            guna2ComboBox9.SelectedIndex = -1;
-            guna2ComboBox10.SelectedIndex = -1;
-            guna2ComboBox11.Text = "";
-
-            GNc_ChoDuyet.Text = "Chờ duyệt";
-        }
 
         // =========================================================
         // NÚT THÊM DÒNG
@@ -867,5 +889,86 @@ namespace SPORTSHOP
             EventArgs e)
         {
         }
+        private void TinhThanhTien1()
+        {
+            if (guna2ComboBox6.SelectedIndex == -1 ||
+                !decimal.TryParse(txtDonGia1.Text.Trim(), out decimal donGia))
+            {
+                lblThanhTien1.Text = "Thành tiền: 0 VNĐ";
+                return;
+            }
+
+            int soLuong = Convert.ToInt32(guna2ComboBox6.SelectedItem);
+            decimal thanhTien = soLuong * donGia;
+
+            lblThanhTien1.Text =
+                "Thành tiền: " + thanhTien.ToString("N0") + " VNĐ";
+        }
+
+        private void TinhThanhTien2()
+        {
+            if (guna2ComboBox10.SelectedIndex == -1 ||
+                !decimal.TryParse(txtDonGia2.Text.Trim(), out decimal donGia))
+            {
+                lblThanhTien2.Text = "Thành tiền: 0 VNĐ";
+                return;
+            }
+
+            int soLuong = Convert.ToInt32(guna2ComboBox10.SelectedItem);
+            decimal thanhTien = soLuong * donGia;
+
+            lblThanhTien2.Text =
+                "Thành tiền: " + thanhTien.ToString("N0") + " VNĐ";
+        }
+
+        private void guna2ComboBox6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien1();
+            CapNhatTongTien();
+        }
+
+        private void txtDonGia1_TextChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien1();
+            CapNhatTongTien();
+        }
+
+        private void guna2ComboBox10_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien2();
+            CapNhatTongTien();
+        }
+
+        private void txtDonGia2_TextChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien2();
+            CapNhatTongTien();
+        }
+
+        private void CapNhatTongTien()
+        {
+            decimal tongTien = 0;
+
+            // Dòng 1
+            if (guna2ComboBox6.SelectedIndex != -1 &&
+                decimal.TryParse(txtDonGia1.Text.Trim(), out decimal donGia1))
+            {
+                int soLuong1 = Convert.ToInt32(guna2ComboBox6.SelectedItem);
+                tongTien += soLuong1 * donGia1;
+            }
+
+            // Dòng 2
+            if (guna2ComboBox10.SelectedIndex != -1 &&
+                decimal.TryParse(txtDonGia2.Text.Trim(), out decimal donGia2))
+            {
+                int soLuong2 = Convert.ToInt32(guna2ComboBox10.SelectedItem);
+                tongTien += soLuong2 * donGia2;
+            }
+
+            lblThanhTien2.Text =
+                "Tổng tiền: " + tongTien.ToString("N0") + " VNĐ";
+        }
+
+
     }
 }

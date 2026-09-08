@@ -28,14 +28,23 @@ namespace SPORTSHOP
         // ================= LOAD DỮ LIỆU =================
         private void LoadMauSac()
         {
-            string sql = "SELECT MaMau, TenMau FROM MauSac ORDER BY MaMau";
+            string sql = @"
+        SELECT MaMau, TenMau, TrangThai
+        FROM MauSac
+        WHERE TrangThai = 1
+        ORDER BY TenMau";
+
             DataTable dt = kt.GetData(sql);
             dgvMauSac.DataSource = dt;
 
             if (dgvMauSac.Columns.Contains("MaMau"))
                 dgvMauSac.Columns["MaMau"].HeaderText = "Mã";
+
             if (dgvMauSac.Columns.Contains("TenMau"))
                 dgvMauSac.Columns["TenMau"].HeaderText = "Tên màu";
+
+            if (dgvMauSac.Columns.Contains("TrangThai"))
+                dgvMauSac.Columns["TrangThai"].HeaderText = "Trạng thái";
 
             ClearForm();
         }
@@ -44,8 +53,15 @@ namespace SPORTSHOP
         {
             if (dgvMauSac.CurrentRow == null) return;
 
-            _selectedMaMau = Convert.ToInt32(dgvMauSac.CurrentRow.Cells["MaMau"].Value);
-            txt_TenMau.Text = dgvMauSac.CurrentRow.Cells["TenMau"].Value.ToString();
+            _selectedMaMau = Convert.ToInt32(
+                dgvMauSac.CurrentRow.Cells["MaMau"].Value);
+
+            txt_TenMau.Text =
+                dgvMauSac.CurrentRow.Cells["TenMau"].Value.ToString();
+
+            chk_TrangThai.Checked =
+                Convert.ToBoolean(
+                    dgvMauSac.CurrentRow.Cells["TrangThai"].Value);
         }
 
         private void btn_them_Click(object sender, EventArgs e)
@@ -54,12 +70,15 @@ namespace SPORTSHOP
 
             try
             {
-                string sql = "INSERT INTO MauSac (TenMau) VALUES (@TenMau)";
+                string sql = @"
+                INSERT INTO MauSac (TenMau, TrangThai)
+                VALUES (@TenMau, @TrangThai)";
 
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@TenMau", txt_TenMau.Text.Trim())
-                };
+                SqlParameter[] parameters =
+{
+                new SqlParameter("@TenMau", txt_TenMau.Text.Trim()),
+                new SqlParameter("@TrangThai", chk_TrangThai.Checked)
+            };
 
                 kt.Execute(sql, parameters);
 
@@ -87,11 +106,16 @@ namespace SPORTSHOP
 
             try
             {
-                string sql = "UPDATE MauSac SET TenMau = @TenMau WHERE MaMau = @MaMau";
+                string sql = @"
+                UPDATE MauSac
+                SET TenMau = @TenMau,
+                    TrangThai = @TrangThai
+                WHERE MaMau = @MaMau";
 
-                SqlParameter[] parameters = new SqlParameter[]
-                {
+                SqlParameter[] parameters =
+                 {
                     new SqlParameter("@TenMau", txt_TenMau.Text.Trim()),
+                    new SqlParameter("@TrangThai", chk_TrangThai.Checked),
                     new SqlParameter("@MaMau", _selectedMaMau)
                 };
 
@@ -124,7 +148,10 @@ namespace SPORTSHOP
 
             try
             {
-                string sql = "DELETE FROM MauSac WHERE MaMau = @MaMau";
+                string sql = @"
+                UPDATE MauSac
+                SET TrangThai = 0
+                WHERE MaMau = @MaMau";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@MaMau", _selectedMaMau)
@@ -140,9 +167,10 @@ namespace SPORTSHOP
             catch (SqlException ex)
             {
                 MessageBox.Show(
-                    "Không thể xóa. Có thể màu này đang được biến thể sản phẩm nào đó sử dụng.\n\n" +
-                    "Chi tiết lỗi: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                "Đã ngừng hoạt động màu này!",
+                "Thông báo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
             }
         }
 
@@ -154,6 +182,7 @@ namespace SPORTSHOP
         {
             _selectedMaMau = 0;
             txt_TenMau.Clear();
+            chk_TrangThai.Checked = true;
         }
 
         private bool ValidateInput()

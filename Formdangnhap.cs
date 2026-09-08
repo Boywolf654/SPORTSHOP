@@ -18,10 +18,44 @@ namespace SPORTSHOP
         KetNoiDuLieu kt = new KetNoiDuLieu();
         public Formdangnhap()
         {
+
             InitializeComponent();
+
+            // Ẩn mật khẩu mặc định
             txt_pass.PasswordChar = '*';
+
+            // Thứ tự Tab
+            txt_username.TabIndex = 0;
+            txt_pass.TabIndex = 1;
+            pass_check.TabIndex = 2;
+
+            // Tự động focus vào ô tên đăng nhập
+            this.Shown += Formdangnhap_Shown;
+
+            // Checkbox hiện mật khẩu
+            pass_check.CheckedChanged += pass_check_CheckedChanged;
         }
-        
+        private void Formdangnhap_Shown(object sender, EventArgs e)
+        {
+            txt_username.Focus();
+            txt_username.SelectAll();
+        }
+
+        private void pass_check_CheckedChanged(
+    object sender,
+    EventArgs e)
+        {
+            if (pass_check.Checked)
+            {
+                // Hiện mật khẩu
+                txt_pass.PasswordChar = '\0';
+            }
+            else
+            {
+                // Ẩn mật khẩu
+                txt_pass.PasswordChar = '*';
+            }
+        }
         private void Formdangnhap_Load(object sender, EventArgs e)
         {
 
@@ -74,16 +108,19 @@ namespace SPORTSHOP
 
             // Kiểm tra tài khoản + mật khẩu + trạng thái
             string sql = @"
-                SELECT 
-                    MaTK,
-                    TenDangNhap,
-                    MatKhau,
-                    MaVaiTro,
-                    TrangThai
-                FROM TaiKhoan
-                WHERE TenDangNhap = @username
-                  AND MatKhau = @password
-                  AND TrangThai = 1";
+                        SELECT 
+                            tk.MaTK,
+                            tk.TenDangNhap,
+                            tk.MatKhau,
+                            tk.MaVaiTro,
+                            tk.TrangThai,
+                            vt.TenVaiTro
+                        FROM TaiKhoan tk
+                        INNER JOIN VaiTro vt
+                            ON tk.MaVaiTro = vt.MaVaiTro
+                        WHERE tk.TenDangNhap = @username
+                          AND tk.MatKhau = @password
+                          AND tk.TrangThai = 1";
 
             SqlParameter[] parameters =
             {
@@ -103,6 +140,9 @@ namespace SPORTSHOP
                     MessageBoxIcon.Error
                 );
 
+                txt_pass.Clear();
+                txt_pass.Focus();
+
                 return;
             }
 
@@ -119,40 +159,37 @@ namespace SPORTSHOP
             tk.TrangThai = Convert.ToBoolean(dt.Rows[0]["TrangThai"]);
 
             // ==========================
-            // PHÂN QUYỀN
+            // LƯU THÔNG TIN ĐĂNG NHẬP
             // ==========================
 
-            if (tk.MaVaiTro == 1)
-            {
-                MessageBox.Show("Đăng nhập thành công!\nQuyền: Admin");
+            Session.MaTK = tk.MaTK;
+            Session.TenDangNhap = tk.TenDangNhap;
+            Session.MaVaiTro = tk.MaVaiTro;
+            Session.TenVaiTro = dt.Rows[0]["TenVaiTro"].ToString();
 
-                // TODO: mở Form Admin
-                FormAdmin frm = new FormAdmin(tk);
-                frm.Show();
-            }
-            else if (tk.MaVaiTro == 2)
-            {
-                MessageBox.Show("Đăng nhập thành công!\nQuyền: Quản lý");
+            
 
-                // TODO: mở Form Quản lý
-            }
-            else if (tk.MaVaiTro == 3)
-            {
-                MessageBox.Show("Đăng nhập thành công!\nQuyền: Nhân viên");
+            // ==========================
+            // THÔNG BÁO
+            // ==========================
 
-                // TODO: mở Form Nhân viên
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Tài khoản chưa được cấp quyền!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+            MessageBox.Show(
+                "Đăng nhập thành công!\n\n" +
+                "Tài khoản: " + Session.TenDangNhap + "\n" +
+                "Vai trò: " + Session.TenVaiTro,
+                "Đăng nhập",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
 
-                return;
-            }
+            // ==========================
+            // MỞ FORM CHÍNH
+            // ==========================
+
+            FormNhapHang frm = new FormNhapHang();
+            frm.Show();
+
+            this.Hide();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
