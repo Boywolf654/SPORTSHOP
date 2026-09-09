@@ -38,6 +38,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pass_check = new Guna.UI2.WinForms.Guna2CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.pass_check);
             this.panel1.Controls.Add(this.linkLabel2);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.btn_dangnhap);
@@ -91,7 +93,7 @@
             // 
             this.btn_dangnhap.BackColor = System.Drawing.Color.Gold;
             this.btn_dangnhap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btn_dangnhap.Location = new System.Drawing.Point(32, 296);
+            this.btn_dangnhap.Location = new System.Drawing.Point(32, 313);
             this.btn_dangnhap.Name = "btn_dangnhap";
             this.btn_dangnhap.Size = new System.Drawing.Size(237, 62);
             this.btn_dangnhap.TabIndex = 2;
@@ -158,6 +160,27 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "THÔNG TIN ĐĂNG NHẬP";
             // 
+            // pass_check
+            // 
+            this.pass_check.AutoSize = true;
+            this.pass_check.BackColor = System.Drawing.Color.Transparent;
+            this.pass_check.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.pass_check.CheckedState.BorderRadius = 0;
+            this.pass_check.CheckedState.BorderThickness = 0;
+            this.pass_check.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.pass_check.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.pass_check.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.pass_check.Location = new System.Drawing.Point(184, 283);
+            this.pass_check.Name = "pass_check";
+            this.pass_check.Size = new System.Drawing.Size(109, 24);
+            this.pass_check.TabIndex = 4;
+            this.pass_check.Text = "Hiện Pass";
+            this.pass_check.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.pass_check.UncheckedState.BorderRadius = 0;
+            this.pass_check.UncheckedState.BorderThickness = 0;
+            this.pass_check.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.pass_check.UseVisualStyleBackColor = false;
+            // 
             // Formdangnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -190,6 +213,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
+        private Guna.UI2.WinForms.Guna2CheckBox pass_check;
     }
 }
 

@@ -28,7 +28,13 @@ namespace SPORTSHOP
         // ================= LOAD DỮ LIỆU =================
         private void LoadSize()
         {
-            string sql = "SELECT MaSize, TenSize FROM Size ORDER BY MaSize";
+            if (dgvSize.Columns.Contains("TrangThai"))
+                dgvSize.Columns["TrangThai"].HeaderText = "Trạng thái";
+            string sql = @"
+            SELECT MaSize, TenSize, TrangThai
+            FROM Size
+            WHERE TrangThai = 1
+            ORDER BY TenSize";
             DataTable dt = kt.GetData(sql);
             dgvSize.DataSource = dt;
 
@@ -44,8 +50,15 @@ namespace SPORTSHOP
         {
             if (dgvSize.CurrentRow == null) return;
 
-            _selectedMaSize = Convert.ToInt32(dgvSize.CurrentRow.Cells["MaSize"].Value);
-            txt_TenSize.Text = dgvSize.CurrentRow.Cells["TenSize"].Value.ToString();
+            _selectedMaSize = Convert.ToInt32(
+                dgvSize.CurrentRow.Cells["MaSize"].Value);
+
+            txt_TenSize.Text =
+                dgvSize.CurrentRow.Cells["TenSize"].Value.ToString();
+
+            chk_TrangThai.Checked =
+                Convert.ToBoolean(
+                    dgvSize.CurrentRow.Cells["TrangThai"].Value);
         }
 
         private void btn_them_Click(object sender, EventArgs e)
@@ -54,12 +67,18 @@ namespace SPORTSHOP
 
             try
             {
-                string sql = "INSERT INTO Size (TenSize) VALUES (@TenSize)";
+                string sql = @"
+                INSERT INTO Size (TenSize, TrangThai)
+                VALUES (@TenSize, @TrangThai)";
+
+                
+                
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@TenSize", txt_TenSize.Text.Trim())
-                };
+                    new SqlParameter("@TenSize", txt_TenSize.Text.Trim()),
+                    new SqlParameter("@TrangThai", chk_TrangThai.Checked)
+            };
 
                 kt.Execute(sql, parameters);
 
@@ -87,11 +106,16 @@ namespace SPORTSHOP
 
             try
             {
-                string sql = "UPDATE Size SET TenSize = @TenSize WHERE MaSize = @MaSize";
+                string sql = @"
+                UPDATE Size
+                SET TenSize = @TenSize,
+                    TrangThai = @TrangThai
+                WHERE MaSize = @MaSize";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@TenSize", txt_TenSize.Text.Trim()),
+                    new SqlParameter("@TrangThai", chk_TrangThai.Checked),
                     new SqlParameter("@MaSize", _selectedMaSize)
                 };
 
@@ -113,36 +137,53 @@ namespace SPORTSHOP
         {
             if (_selectedMaSize == 0)
             {
-                MessageBox.Show("Vui lòng chọn 1 size trong bảng để xóa.", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Vui lòng chọn size cần ngừng hoạt động!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
-            var confirm = MessageBox.Show("Bạn có chắc muốn xóa size này?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc muốn ngừng hoạt động size này không?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            string sql = @"
+        UPDATE Size
+        SET TrangThai = 0
+        WHERE MaSize = @MaSize";
+
+            SqlParameter[] parameters =
+            {
+        new SqlParameter("@MaSize", _selectedMaSize)
+    };
 
             try
             {
-                string sql = "DELETE FROM Size WHERE MaSize = @MaSize";
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@MaSize", _selectedMaSize)
-                };
-
                 kt.Execute(sql, parameters);
 
-                MessageBox.Show("Xóa thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Đã ngừng hoạt động size này!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
                 LoadSize();
+                ClearForm();
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Không thể xóa. Có thể size này đang được biến thể sản phẩm nào đó sử dụng.\n\n" +
-                    "Chi tiết lỗi: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Không thể ngừng hoạt động size!\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -156,6 +197,7 @@ namespace SPORTSHOP
         {
             _selectedMaSize = 0;
             txt_TenSize.Clear();
+            chk_TrangThai.Checked = true;
         }
 
         private bool ValidateInput()
