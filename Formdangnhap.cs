@@ -186,7 +186,7 @@ namespace SPORTSHOP
             // MỞ FORM CHÍNH
             // ==========================
 
-            FormNhapHang frm = new FormNhapHang();
+            FrmNhapHang frm = new FrmNhapHang();
             frm.Show();
 
             this.Hide();
