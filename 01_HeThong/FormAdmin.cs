@@ -30,7 +30,9 @@ namespace SPORTSHOP
             // KHÔNG gắn lại ở đây nữa để tránh bị gọi 2 lần (double-fire) khi click.
 
             controlsTongQuan.AddRange(panel1.Controls.Cast<Control>().ToArray());
-
+            this.WindowState = FormWindowState.Maximized;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            panel1.Dock = DockStyle.Fill;
             LoadThongKe();
             LoadDanhSachSanPham();
 
@@ -450,7 +452,7 @@ namespace SPORTSHOP
 
         private void MoFormTrongPanel(Form form)
         {
-            // Đóng Form con hiện tại nếu có
+            // Đóng form con cũ
             if (formHienTai != null)
             {
                 formHienTai.Close();
@@ -458,19 +460,32 @@ namespace SPORTSHOP
                 formHienTai = null;
             }
 
-            // Xóa nội dung hiện tại
+            // Xóa form cũ trong panel
             panel1.Controls.Clear();
 
-            // Cấu hình Form con
+            // Cấu hình form con
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
-            form.Dock = DockStyle.Fill;
 
-            // Đưa Form con vào panel1
+            // QUAN TRỌNG
+            form.Dock = DockStyle.Fill;
+            form.AutoSize = false;
+            form.AutoScroll = true;
+
+            // Đảm bảo form con chiếm toàn bộ panel
+            form.Margin = new Padding(0);
+            form.Padding = new Padding(0);
+
             panel1.Controls.Add(form);
 
             formHienTai = form;
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.AutoSize = false;
+            form.AutoScroll = true;
 
+            form.BringToFront();
             form.Show();
         }
 
@@ -491,7 +506,7 @@ namespace SPORTSHOP
 
         private void ButtonNhapHang(object sender, EventArgs e)
         {
-            MoFormTrongPanel(new FrmPhieuNhap());
+            MoFormTrongPanel(new FormNhapHang());
         }
 
         private void btn_danhmuc1_Click(object sender, EventArgs e)
@@ -527,6 +542,16 @@ namespace SPORTSHOP
         private void btn_tonkho_Click(object sender, EventArgs e)
         {
             MoFormTrongPanel(new FormTonKho());
+        }
+
+        private void btn_lichsuton_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new FormLStonkho());
+        }
+
+        private void btn_phieukho_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new FrmPhieuKho());
         }
     }
 }

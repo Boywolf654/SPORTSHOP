@@ -37,6 +37,7 @@ namespace SPORTSHOP
             ORDER BY TenSize";
             DataTable dt = kt.GetData(sql);
             dgvSize.DataSource = dt;
+            dgvSize.AllowUserToAddRows = false;
 
             if (dgvSize.Columns.Contains("MaSize"))
                 dgvSize.Columns["MaSize"].HeaderText = "Mã";
@@ -48,17 +49,28 @@ namespace SPORTSHOP
 
         private void dgvSize_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvSize.CurrentRow == null) return;
+            if (dgvSize.CurrentRow == null)
+                return;
 
-            _selectedMaSize = Convert.ToInt32(
-                dgvSize.CurrentRow.Cells["MaSize"].Value);
+            if (dgvSize.CurrentRow.IsNewRow)
+                return;
+
+            object maSizeValue =
+                dgvSize.CurrentRow.Cells["MaSize"].Value;
+
+            if (maSizeValue == null || maSizeValue == DBNull.Value)
+                return;
+
+            _selectedMaSize = Convert.ToInt32(maSizeValue);
 
             txt_TenSize.Text =
-                dgvSize.CurrentRow.Cells["TenSize"].Value.ToString();
+                dgvSize.CurrentRow.Cells["TenSize"].Value?.ToString() ?? "";
 
             chk_TrangThai.Checked =
+                dgvSize.CurrentRow.Cells["TrangThai"].Value != DBNull.Value &&
                 Convert.ToBoolean(
-                    dgvSize.CurrentRow.Cells["TrangThai"].Value);
+                    dgvSize.CurrentRow.Cells["TrangThai"].Value
+                );
         }
 
         private void btn_them_Click(object sender, EventArgs e)

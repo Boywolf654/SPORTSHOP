@@ -16,6 +16,8 @@ namespace SPORTSHOP
             txt_TimKiem.TextChanged += txt_TimKiem_TextChanged;
             btn_ThemMoi.Click += btn_ThemMoi_Click;
             dgv_NCC.CellDoubleClick += guna2DataGridView1_CellDoubleClick;
+
+            
         }
 
         private void FormNhaCungCap_Load(object sender, EventArgs e)
@@ -178,6 +180,94 @@ namespace SPORTSHOP
                     // Thêm thành công → load lại danh sách
                     LoadDanhSach();
                 }
+            }
+        }
+
+        private void btn_Vohieuhoa(object sender, EventArgs e)
+        {
+            if (dgv_NCC.CurrentRow == null)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn nhà cung cấp cần vô hiệu hóa.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int maNCC = Convert.ToInt32(
+                    dgv_NCC.CurrentRow.Cells["MaNCC"].Value);
+
+                string tenNCC =
+                    dgv_NCC.CurrentRow.Cells["TenNCC"].Value?.ToString() ?? "";
+
+                bool trangThai = Convert.ToBoolean(
+                    dgv_NCC.CurrentRow.Cells["TrangThai"].Value);
+
+                // Nếu đã vô hiệu hóa rồi thì không cho vô hiệu hóa tiếp
+                if (!trangThai)
+                {
+                    MessageBox.Show(
+                        "Nhà cung cấp này đã được vô hiệu hóa.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                DialogResult result = MessageBox.Show(
+                    "Bạn có chắc muốn vô hiệu hóa nhà cung cấp:\n\n" +
+                    "Mã NCC: " + maNCC + "\n" +
+                    "Tên NCC: " + tenNCC + "\n\n" +
+                    "Nhà cung cấp sẽ không bị xóa khỏi hệ thống.",
+                    "Xác nhận vô hiệu hóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                    return;
+
+                string sql = @"
+            UPDATE NhaCungCap
+            SET TrangThai = 0
+            WHERE MaNCC = @MaNCC";
+
+                System.Data.SqlClient.SqlParameter[] parameters =
+                {
+            new System.Data.SqlClient.SqlParameter("@MaNCC", maNCC)
+        };
+
+                int affected = kt.Execute(sql, parameters);
+
+                if (affected > 0)
+                {
+                    MessageBox.Show(
+                        "Đã vô hiệu hóa nhà cung cấp thành công.",
+                        "Thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    LoadDanhSach();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Không thể vô hiệu hóa nhà cung cấp.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi khi vô hiệu hóa nhà cung cấp.\n\n" +
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

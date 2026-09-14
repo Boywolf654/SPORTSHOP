@@ -28,6 +28,7 @@ namespace SPORTSHOP
             btnXoaBienThe.Click += btnXoaBienThe_Click;
             btnLamMoiBienThe.Click += btnLamMoiBienThe_Click;
 
+            cmbDanhMuc.SelectedIndexChanged += cmbDanhMuc_SelectedIndexChanged;
             dgvSanPham.CellClick += dgvSanPham_CellClick;
             dgvBienThe.CellClick += dgvBienThe_CellClick;
 
@@ -99,7 +100,7 @@ namespace SPORTSHOP
             LoadThuongHieu();
             LoadSanPham();
 
-            LoadSize();
+            
             LoadMau();
             ClearForm();
 
@@ -130,21 +131,41 @@ namespace SPORTSHOP
             }
         }
 
-        private void LoadSize()
+        private void LoadSize(int maDM)
         {
             string sql = @"
         SELECT MaSize, TenSize
         FROM Size
         WHERE TrangThai = 1
+          AND MaDM = @MaDM
         ORDER BY TenSize";
 
-            DataTable dt = kt.GetData(sql);
+            SqlParameter[] parameters =
+            {
+        new SqlParameter("@MaDM", maDM)
+    };
 
-            cmbSize.DataSource = null;
+            DataTable dt = kt.GetData(sql, parameters);
+
             cmbSize.DataSource = dt;
             cmbSize.DisplayMember = "TenSize";
             cmbSize.ValueMember = "MaSize";
-            cmbSize.SelectedIndex = -1;
+        }
+
+        private void cmbDanhMuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbDanhMuc.SelectedValue == null)
+                return;
+
+            if (cmbDanhMuc.SelectedValue is DataRowView)
+                return;
+
+            int maDM;
+
+            if (!int.TryParse(cmbDanhMuc.SelectedValue.ToString(), out maDM))
+                return;
+
+            LoadSize(maDM);
         }
 
         private void LoadMau()

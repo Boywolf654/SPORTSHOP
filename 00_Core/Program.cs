@@ -13,6 +13,7 @@ namespace SPORTSHOP
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+
         static void Main()
         {
             if (Environment.OSVersion.Version.Major >= 6)
