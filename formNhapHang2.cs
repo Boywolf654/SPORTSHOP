@@ -19,7 +19,15 @@ namespace SPORTSHOP
         private Guna.UI2.WinForms.Guna2DateTimePicker GNdtpNgayNhap;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
-        private Panel panel1;
+        private Panel pnVien;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
+        private Panel pnVien2;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
+        private Panel pnVien3;
+        private Guna.UI2.WinForms.Guna2GradientPanel guna2GradientPanel1;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
+        private Guna.UI2.WinForms.Guna2GradientPanel guna2GradientPanel2;
+        private Label lblTonKhoNCC;
         private KetNoiDuLieu kt = new KetNoiDuLieu();
 
         public FormNhapHang()
@@ -991,9 +999,21 @@ namespace SPORTSHOP
             this.GNcmbKho = new Guna.UI2.WinForms.Guna2ComboBox();
             this.GNdtpNgayNhap = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.pnVien = new System.Windows.Forms.Panel();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
+            this.pnVien2 = new System.Windows.Forms.Panel();
+            this.guna2Panel4 = new Guna.UI2.WinForms.Guna2Panel();
+            this.pnVien3 = new System.Windows.Forms.Panel();
+            this.guna2GradientPanel1 = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2GradientPanel2 = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.lblTonKhoNCC = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
+            this.guna2Panel2.SuspendLayout();
+            this.guna2Panel3.SuspendLayout();
+            this.guna2Panel4.SuspendLayout();
+            this.guna2GradientPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // GNcmbNhaCungCap
@@ -1008,7 +1028,7 @@ namespace SPORTSHOP
             this.GNcmbNhaCungCap.ItemHeight = 30;
             this.GNcmbNhaCungCap.Location = new System.Drawing.Point(12, 119);
             this.GNcmbNhaCungCap.Name = "GNcmbNhaCungCap";
-            this.GNcmbNhaCungCap.Size = new System.Drawing.Size(214, 36);
+            this.GNcmbNhaCungCap.Size = new System.Drawing.Size(453, 36);
             this.GNcmbNhaCungCap.TabIndex = 5;
             // 
             // lblSPORTSHOP
@@ -1053,7 +1073,7 @@ namespace SPORTSHOP
             this.lblKho.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
             this.lblKho.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblKho.ForeColor = System.Drawing.Color.LightGray;
-            this.lblKho.Location = new System.Drawing.Point(246, 86);
+            this.lblKho.Location = new System.Drawing.Point(477, 86);
             this.lblKho.Name = "lblKho";
             this.lblKho.Size = new System.Drawing.Size(141, 25);
             this.lblKho.TabIndex = 2;
@@ -1065,7 +1085,7 @@ namespace SPORTSHOP
             this.lblNgayNhap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(13)))), ((int)(((byte)(13)))));
             this.lblNgayNhap.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNgayNhap.ForeColor = System.Drawing.Color.LightGray;
-            this.lblNgayNhap.Location = new System.Drawing.Point(522, 86);
+            this.lblNgayNhap.Location = new System.Drawing.Point(987, 91);
             this.lblNgayNhap.Name = "lblNgayNhap";
             this.lblNgayNhap.Size = new System.Drawing.Size(104, 25);
             this.lblNgayNhap.TabIndex = 2;
@@ -1081,9 +1101,9 @@ namespace SPORTSHOP
             this.GNcmbKho.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.GNcmbKho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.GNcmbKho.ItemHeight = 30;
-            this.GNcmbKho.Location = new System.Drawing.Point(247, 119);
+            this.GNcmbKho.Location = new System.Drawing.Point(482, 119);
             this.GNcmbKho.Name = "GNcmbKho";
-            this.GNcmbKho.Size = new System.Drawing.Size(257, 36);
+            this.GNcmbKho.Size = new System.Drawing.Size(495, 36);
             this.GNcmbKho.TabIndex = 5;
             // 
             // GNdtpNgayNhap
@@ -1091,44 +1111,130 @@ namespace SPORTSHOP
             this.GNdtpNgayNhap.Checked = true;
             this.GNdtpNgayNhap.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.GNdtpNgayNhap.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.GNdtpNgayNhap.Location = new System.Drawing.Point(527, 118);
+            this.GNdtpNgayNhap.Location = new System.Drawing.Point(992, 119);
             this.GNdtpNgayNhap.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.GNdtpNgayNhap.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.GNdtpNgayNhap.Name = "GNdtpNgayNhap";
-            this.GNdtpNgayNhap.Size = new System.Drawing.Size(226, 36);
+            this.GNdtpNgayNhap.Size = new System.Drawing.Size(495, 36);
             this.GNdtpNgayNhap.TabIndex = 6;
             this.GNdtpNgayNhap.Value = new System.DateTime(2026, 9, 10, 11, 22, 36, 985);
             // 
             // guna2Panel1
             // 
-            this.guna2Panel1.Controls.Add(this.panel1);
+            this.guna2Panel1.Controls.Add(this.guna2Panel4);
+            this.guna2Panel1.Controls.Add(this.guna2Panel3);
             this.guna2Panel1.Controls.Add(this.guna2Panel2);
             this.guna2Panel1.Location = new System.Drawing.Point(13, 179);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(740, 100);
+            this.guna2Panel1.Size = new System.Drawing.Size(1482, 84);
             this.guna2Panel1.TabIndex = 7;
+            // 
+            // pnVien
+            // 
+            this.pnVien.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(169)))), ((int)(((byte)(59)))));
+            this.pnVien.Location = new System.Drawing.Point(3, 3);
+            this.pnVien.Name = "pnVien";
+            this.pnVien.Size = new System.Drawing.Size(4, 73);
+            this.pnVien.TabIndex = 0;
             // 
             // guna2Panel2
             // 
             this.guna2Panel2.BorderRadius = 12;
+            this.guna2Panel2.BorderThickness = 8;
+            this.guna2Panel2.Controls.Add(this.pnVien);
             this.guna2Panel2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.guna2Panel2.Location = new System.Drawing.Point(3, 14);
+            this.guna2Panel2.Location = new System.Drawing.Point(3, 12);
             this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(200, 73);
+            this.guna2Panel2.Size = new System.Drawing.Size(449, 59);
             this.guna2Panel2.TabIndex = 0;
             // 
-            // panel1
+            // guna2Panel3
             // 
-            this.panel1.BackColor = System.Drawing.Color.Yellow;
-            this.panel1.Location = new System.Drawing.Point(6, 14);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(4, 73);
-            this.panel1.TabIndex = 0;
+            this.guna2Panel3.BorderRadius = 12;
+            this.guna2Panel3.Controls.Add(this.pnVien2);
+            this.guna2Panel3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.guna2Panel3.Location = new System.Drawing.Point(469, 12);
+            this.guna2Panel3.Name = "guna2Panel3";
+            this.guna2Panel3.Size = new System.Drawing.Size(495, 59);
+            this.guna2Panel3.TabIndex = 0;
+            // 
+            // pnVien2
+            // 
+            this.pnVien2.BackColor = System.Drawing.Color.DarkOrange;
+            this.pnVien2.Location = new System.Drawing.Point(3, 3);
+            this.pnVien2.Name = "pnVien2";
+            this.pnVien2.Size = new System.Drawing.Size(4, 73);
+            this.pnVien2.TabIndex = 0;
+            // 
+            // guna2Panel4
+            // 
+            this.guna2Panel4.BorderRadius = 12;
+            this.guna2Panel4.Controls.Add(this.pnVien3);
+            this.guna2Panel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.guna2Panel4.Location = new System.Drawing.Point(979, 12);
+            this.guna2Panel4.Name = "guna2Panel4";
+            this.guna2Panel4.Size = new System.Drawing.Size(495, 59);
+            this.guna2Panel4.TabIndex = 0;
+            // 
+            // pnVien3
+            // 
+            this.pnVien3.BackColor = System.Drawing.Color.Aquamarine;
+            this.pnVien3.Location = new System.Drawing.Point(3, 3);
+            this.pnVien3.Name = "pnVien3";
+            this.pnVien3.Size = new System.Drawing.Size(4, 73);
+            this.pnVien3.TabIndex = 0;
+            // 
+            // guna2GradientPanel1
+            // 
+            this.guna2GradientPanel1.Controls.Add(this.lblTonKhoNCC);
+            this.guna2GradientPanel1.Controls.Add(this.guna2TextBox1);
+            this.guna2GradientPanel1.Location = new System.Drawing.Point(16, 287);
+            this.guna2GradientPanel1.Name = "guna2GradientPanel1";
+            this.guna2GradientPanel1.Size = new System.Drawing.Size(771, 238);
+            this.guna2GradientPanel1.TabIndex = 8;
+            // 
+            // guna2GradientPanel2
+            // 
+            this.guna2GradientPanel2.Location = new System.Drawing.Point(808, 287);
+            this.guna2GradientPanel2.Name = "guna2GradientPanel2";
+            this.guna2GradientPanel2.Size = new System.Drawing.Size(687, 238);
+            this.guna2GradientPanel2.TabIndex = 8;
+            // 
+            // guna2TextBox1
+            // 
+            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.guna2TextBox1.DefaultText = "";
+            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Location = new System.Drawing.Point(14, 13);
+            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.guna2TextBox1.Name = "guna2TextBox1";
+            this.guna2TextBox1.PlaceholderText = "";
+            this.guna2TextBox1.SelectedText = "";
+            this.guna2TextBox1.Size = new System.Drawing.Size(740, 32);
+            this.guna2TextBox1.TabIndex = 0;
+            // 
+            // lblTonKhoNCC
+            // 
+            this.lblTonKhoNCC.AutoSize = true;
+            this.lblTonKhoNCC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(169)))), ((int)(((byte)(59)))));
+            this.lblTonKhoNCC.Location = new System.Drawing.Point(3, 59);
+            this.lblTonKhoNCC.Name = "lblTonKhoNCC";
+            this.lblTonKhoNCC.Size = new System.Drawing.Size(171, 16);
+            this.lblTonKhoNCC.TabIndex = 1;
+            this.lblTonKhoNCC.Text = "TỒN KHO NHÀ CUNG CẤP";
             // 
             // FormNhapHang
             // 
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(774, 537);
+            this.ClientSize = new System.Drawing.Size(1517, 667);
+            this.Controls.Add(this.guna2GradientPanel2);
+            this.Controls.Add(this.guna2GradientPanel1);
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.GNdtpNgayNhap);
             this.Controls.Add(this.GNcmbNhaCungCap);
@@ -1140,6 +1246,11 @@ namespace SPORTSHOP
             this.Controls.Add(this.lblNCC);
             this.Name = "FormNhapHang";
             this.guna2Panel1.ResumeLayout(false);
+            this.guna2Panel2.ResumeLayout(false);
+            this.guna2Panel3.ResumeLayout(false);
+            this.guna2Panel4.ResumeLayout(false);
+            this.guna2GradientPanel1.ResumeLayout(false);
+            this.guna2GradientPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

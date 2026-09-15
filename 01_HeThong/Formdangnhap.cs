@@ -1,4 +1,4 @@
-<<<<<<< HEAD:Formdangnhap.cs
+
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using SPORTSHOP._04_NhapHang;
 
 namespace SPORTSHOP
   
@@ -187,7 +188,7 @@ namespace SPORTSHOP
             // MỞ FORM CHÍNH
             // ==========================
 
-            FrmNhapHang frm = new FrmNhapHang();
+            FormNhapHang2 frm = new FormNhapHang2();
             frm.Show();
 
             this.Hide();
@@ -416,4 +417,3 @@ namespace SPORTSHOP
     }
  }
 
->>>>>>> ec73e39db2ae5ece1bd44eff4254011910db3357:01_HeThong/Formdangnhap.cs
