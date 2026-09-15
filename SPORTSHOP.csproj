@@ -244,6 +244,12 @@
     <Compile Include="02_QuanLySanPham\FormQLSanPham.Designer.cs">
       <DependentUpon>FormQLSanPham.cs</DependentUpon>
     </Compile>
+    <Compile Include="07_KhachHang\FormThongTinKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="07_KhachHang\FormThongTinKhachHang.Designer.cs">
+      <DependentUpon>FormThongTinKhachHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -326,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="02_QuanLySanPham\FormQLSanPham.resx">
       <DependentUpon>FormQLSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="07_KhachHang\FormThongTinKhachHang.resx">
+      <DependentUpon>FormThongTinKhachHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
