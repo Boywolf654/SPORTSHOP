@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -77,16 +77,16 @@ namespace SPORTSHOP
                 {
                     conn.Open();
 
-                    // Bắt đầu transaction
+                    // Bắt đầu SqlTransaction cho toàn bộ quá trình đăng ký
                     using (SqlTransaction transaction = conn.BeginTransaction())
                     {
                         try
                         {
                             // 3. Kiểm tra tên đăng nhập đã tồn tại chưa
                             string checkSql = @"
-                        SELECT COUNT(*)
-                        FROM TAIKHOAN
-                        WHERE TenDangNhap = @TenDangNhap";
+                                SELECT COUNT(*)
+                                FROM dbo.TaiKhoan
+                                WHERE TenDangNhap = @TenDangNhap";
 
                             using (SqlCommand cmdCheck = new SqlCommand(checkSql, conn, transaction))
                             {
@@ -109,44 +109,43 @@ namespace SPORTSHOP
                                 }
                             }
 
-                            // 4. Thêm tài khoản
-                            // MaVaiTro = 4 => Khách hàng
+                            // 4. Thêm tài khoản với vai trò Khách hàng (PhanQuyen.KHACH_HANG)
                             string insertTaiKhoanSql = @"
-                        INSERT INTO TAIKHOAN
-                            (TenDangNhap, MatKhau, MaVaiTro)
-                        OUTPUT INSERTED.MaTK
-                        VALUES
-                            (@TenDangNhap, @MatKhau, 4)";
+                                INSERT INTO dbo.TaiKhoan (TenDangNhap, MatKhau, MaVaiTro)
+                                VALUES (@TenDangNhap, @MatKhau, @MaVaiTro);
+                                SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                             int maTK;
 
-                            using (SqlCommand cmdTaiKhoan =
-                                   new SqlCommand(insertTaiKhoanSql, conn, transaction))
+                            using (SqlCommand cmdTaiKhoan = new SqlCommand(insertTaiKhoanSql, conn, transaction))
                             {
                                 cmdTaiKhoan.Parameters.AddWithValue("@TenDangNhap", username);
                                 cmdTaiKhoan.Parameters.AddWithValue("@MatKhau", password);
+                                cmdTaiKhoan.Parameters.AddWithValue("@MaVaiTro", PhanQuyen.KHACH_HANG);
 
-                                // Lấy MaTK vừa tạo
-                                maTK = Convert.ToInt32(cmdTaiKhoan.ExecuteScalar());
+                                // Lấy chính xác MaTK vừa tạo bằng SELECT CAST(SCOPE_IDENTITY() AS INT)
+                                object result = cmdTaiKhoan.ExecuteScalar();
+                                if (result == null || result == DBNull.Value)
+                                {
+                                    throw new Exception("Không thể lấy mã tài khoản vừa tạo.");
+                                }
+                                maTK = Convert.ToInt32(result);
                             }
 
-                            // 5. Thêm khách hàng
+                            // 5. Thêm thông tin khách hàng tương ứng (dbo.KhachHang)
                             string insertKhachHangSql = @"
-                        INSERT INTO KHACHHANG
-                            (TenKH, MaTK)
-                        VALUES
-                            (@TenKH, @MaTK)";
+                                INSERT INTO dbo.KhachHang (HoTen, MaTK)
+                                VALUES (@HoTen, @MaTK)";
 
-                            using (SqlCommand cmdKhachHang =
-                                   new SqlCommand(insertKhachHangSql, conn, transaction))
+                            using (SqlCommand cmdKhachHang = new SqlCommand(insertKhachHangSql, conn, transaction))
                             {
-                                cmdKhachHang.Parameters.AddWithValue("@TenKH", hoTen);
+                                cmdKhachHang.Parameters.AddWithValue("@HoTen", hoTen);
                                 cmdKhachHang.Parameters.AddWithValue("@MaTK", maTK);
 
                                 cmdKhachHang.ExecuteNonQuery();
                             }
 
-                            // 6. Xác nhận transaction
+                            // 6. Chỉ Commit khi cả hai INSERT thành công
                             transaction.Commit();
 
                             MessageBox.Show(
@@ -163,7 +162,7 @@ namespace SPORTSHOP
                         }
                         catch
                         {
-                            // Nếu một trong hai INSERT lỗi
+                            // Nếu một trong hai INSERT lỗi -> Rollback cả TaiKhoan và KhachHang
                             transaction.Rollback();
                             throw;
                         }
