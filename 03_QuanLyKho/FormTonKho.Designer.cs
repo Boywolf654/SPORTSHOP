@@ -189,7 +189,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvTonKho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvTonKho.ColumnHeadersHeight = 4;
+            this.dgvTonKho.ColumnHeadersHeight = 35;
             this.dgvTonKho.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
@@ -211,7 +211,7 @@
             this.dgvTonKho.ThemeStyle.BackColor = System.Drawing.Color.WhiteSmoke;
             this.dgvTonKho.ThemeStyle.GridColor = System.Drawing.Color.DarkGray;
             this.dgvTonKho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.dgvTonKho.ThemeStyle.HeaderStyle.Height = 4;
+            this.dgvTonKho.ThemeStyle.HeaderStyle.Height = 35;
             this.dgvTonKho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.dgvTonKho.ThemeStyle.RowsStyle.Height = 24;
             // 

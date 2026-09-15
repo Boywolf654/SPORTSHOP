@@ -115,9 +115,6 @@ namespace SPORTSHOP._03_QuanLyKho
         // =========================================================
         private void CauHinhDataGridView()
         {
-            dgvTonKho.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
             dgvTonKho.AllowUserToAddRows = false;
             dgvTonKho.AllowUserToDeleteRows = false;
             dgvTonKho.ReadOnly = true;
@@ -126,6 +123,19 @@ namespace SPORTSHOP._03_QuanLyKho
                 DataGridViewSelectionMode.FullRowSelect;
 
             dgvTonKho.MultiSelect = false;
+
+            dgvTonKho.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            dgvTonKho.ColumnHeadersHeight = 35;
+
+            dgvTonKho.ScrollBars = ScrollBars.Both;
+
+            dgvTonKho.ColumnHeadersDefaultCellStyle.Alignment =
+    DataGridViewContentAlignment.MiddleCenter;
+
+            dgvTonKho.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 10, FontStyle.Bold);
         }
 
         private void LoadDanhMuc()

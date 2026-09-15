@@ -65,35 +65,8 @@ namespace SPORTSHOP
             chk_TrangThai.Checked = Convert.ToBoolean(dgvDanhMuc.CurrentRow.Cells["TrangThai"].Value);
         }
 
-        // ================= THÊM MỚI =================
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            if (!ValidateInput()) return;
-
-            try
-            {
-                string sql = @"INSERT INTO DanhMuc (TenDanhMuc, TrangThai) 
-                                VALUES (@TenDanhMuc, @TrangThai)";
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@TenDanhMuc", txt_TenDanhMuc.Text.Trim()),
-                    new SqlParameter("@TrangThai", chk_TrangThai.Checked)
-                };
-
-                kt.Execute(sql, parameters);
-
-                MessageBox.Show("Thêm danh mục thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                LoadDanhMuc();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Lỗi khi thêm: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+      
+      
 
         private void btn_sua_Click(object sender, EventArgs e)
         {
@@ -185,6 +158,41 @@ namespace SPORTSHOP
                 return false;
             }
             return true;
+        }
+
+        private void btn_them_Click(object sender, EventArgs e)
+        {
+            if (!ValidateInput()) return;
+
+            try
+            {
+                string sql = @"INSERT INTO DanhMuc (TenDanhMuc, TrangThai) 
+                       VALUES (@TenDanhMuc, @TrangThai)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+            new SqlParameter("@TenDanhMuc", txt_TenDanhMuc.Text.Trim()),
+            new SqlParameter("@TrangThai", chk_TrangThai.Checked)
+                };
+
+                kt.Execute(sql, parameters);
+
+                MessageBox.Show(
+                    "Thêm danh mục thành công!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                LoadDanhMuc();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(
+                    "Lỗi khi thêm: " + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

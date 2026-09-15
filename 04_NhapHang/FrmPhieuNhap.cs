@@ -46,10 +46,13 @@ namespace SPORTSHOP
         {
 
             cboTrangThai.Items.Clear();
+
             cboTrangThai.Items.Add("Tất cả");
             cboTrangThai.Items.Add("Chờ duyệt");
-            cboTrangThai.Items.Add("Hoàn tất");
+            cboTrangThai.Items.Add("Chờ xuất kho");
+            cboTrangThai.Items.Add("Đã xuất kho");
             cboTrangThai.Items.Add("Đã hủy");
+
             cboTrangThai.SelectedIndex = 0;
 
             dtpNgayLap.Value = DateTime.Now;
@@ -365,9 +368,9 @@ namespace SPORTSHOP
                     "Không có quyền",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
                 return;
             }
+
             if (maPNDangChon == null)
             {
                 MessageBox.Show(
@@ -375,18 +378,6 @@ namespace SPORTSHOP
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            if (maTKNguoiDuyet == null)
-            {
-                MessageBox.Show(
-                    "Chưa xác định tài khoản người duyệt.",
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
                 return;
             }
 
@@ -400,303 +391,50 @@ namespace SPORTSHOP
             if (result != DialogResult.Yes)
                 return;
 
-            using (SqlConnection conn = kt.GetConnection())
+            try
             {
-                conn.Open();
+                string sql = @"
+            UPDATE PhieuNhap
+            SET TrangThai = N'Chờ xuất kho'
+            WHERE MaPN = @MaPN
+              AND TrangThai = N'Chờ duyệt'";
 
-                SqlTransaction tran =
-                    conn.BeginTransaction();
-
-                try
+                SqlParameter[] parameters =
                 {
-                    // =================================================
-                    // 1. Kiểm tra phiếu còn Chờ duyệt
-                    // =================================================
-                    string checkSql = @"
-                        SELECT COUNT(*)
-                        FROM PhieuNhap
-                        WHERE MaPN = @MaPN
-                          AND TrangThai = N'Chờ duyệt'";
+            new SqlParameter("@MaPN", maPNDangChon.Value)
+        };
 
-                    using (SqlCommand cmd =
-                        new SqlCommand(checkSql, conn, tran))
-                    {
-                        cmd.Parameters.AddWithValue(
-                            "@MaPN",
-                            maPNDangChon.Value);
+                int affected = kt.Execute(sql, parameters);
 
-                        int count =
-                            Convert.ToInt32(cmd.ExecuteScalar());
-
-                        if (count == 0)
-                        {
-                            throw new Exception(
-                                "Phiếu không còn ở trạng thái Chờ duyệt.");
-                        }
-                    }
-
-                    // =================================================
-                    // 2. Lấy chi tiết + kho
-                    // =================================================
-                    string detailSql = @"
-                        SELECT
-                            pn.MaKho,
-                            ct.MaBienThe,
-                            ct.SoLuong
-                        FROM PhieuNhap pn
-                        INNER JOIN ChiTietPhieuNhap ct
-                            ON ct.MaPN = pn.MaPN
-                        WHERE pn.MaPN = @MaPN";
-
-                    DataTable dt = new DataTable();
-
-                    using (SqlCommand cmd =
-                        new SqlCommand(detailSql, conn, tran))
-                    {
-                        cmd.Parameters.AddWithValue(
-                            "@MaPN",
-                            maPNDangChon.Value);
-
-                        using (SqlDataAdapter da =
-                            new SqlDataAdapter(cmd))
-                        {
-                            da.Fill(dt);
-                        }
-                    }
-
-                    if (dt.Rows.Count == 0)
-                    {
-                        throw new Exception(
-                            "Phiếu không có sản phẩm.");
-                    }
-
-                    // =================================================
-                    // 3. Cập nhật TonKho
-                    // =================================================
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        int maKho =
-                            Convert.ToInt32(row["MaKho"]);
-
-                        int maBienThe =
-                            Convert.ToInt32(row["MaBienThe"]);
-
-                        int soLuong =
-                            Convert.ToInt32(row["SoLuong"]);
-
-                        // Kiểm tra dòng tồn kho đã có chưa
-                        string checkTonSql = @"
-                            SELECT COUNT(*)
-                            FROM TonKho
-                            WHERE MaKho = @MaKho
-                              AND MaBienThe = @MaBienThe";
-
-                        bool tonKhoTonTai;
-
-                        using (SqlCommand cmd =
-                            new SqlCommand(
-                                checkTonSql,
-                                conn,
-                                tran))
-                        {
-                            cmd.Parameters.AddWithValue(
-                                "@MaKho",
-                                maKho);
-
-                            cmd.Parameters.AddWithValue(
-                                "@MaBienThe",
-                                maBienThe);
-
-                            tonKhoTonTai =
-                                Convert.ToInt32(
-                                    cmd.ExecuteScalar()) > 0;
-                        }
-
-                        if (tonKhoTonTai)
-                        {
-                            string updateSql = @"
-                                UPDATE TonKho
-                                SET
-                                    SLTon = SLTon + @SoLuong,
-                                    TongSLNhap =
-                                        TongSLNhap + @SoLuong,
-                                    NgayNhapGanNhat =
-                                        GETDATE()
-                                WHERE MaKho = @MaKho
-                                  AND MaBienThe = @MaBienThe";
-
-                            using (SqlCommand cmd =
-                                new SqlCommand(
-                                    updateSql,
-                                    conn,
-                                    tran))
-                            {
-                                cmd.Parameters.AddWithValue(
-                                    "@SoLuong",
-                                    soLuong);
-
-                                cmd.Parameters.AddWithValue(
-                                    "@MaKho",
-                                    maKho);
-
-                                cmd.Parameters.AddWithValue(
-                                    "@MaBienThe",
-                                    maBienThe);
-
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                        else
-                        {
-                            string insertSql = @"
-                                INSERT INTO TonKho
-                                (
-                                    MaKho,
-                                    MaBienThe,
-                                    SLTon,
-                                    SLToiThieu,
-                                    TongSLNhap,
-                                    TongSLXuat,
-                                    NgayNhapGanNhat
-                                )
-                                VALUES
-                                (
-                                    @MaKho,
-                                    @MaBienThe,
-                                    @SoLuong,
-                                    0,
-                                    @SoLuong,
-                                    0,
-                                    GETDATE()
-                                )";
-
-                            using (SqlCommand cmd =
-                                new SqlCommand(
-                                    insertSql,
-                                    conn,
-                                    tran))
-                            {
-                                cmd.Parameters.AddWithValue(
-                                    "@MaKho",
-                                    maKho);
-
-                                cmd.Parameters.AddWithValue(
-                                    "@MaBienThe",
-                                    maBienThe);
-
-                                cmd.Parameters.AddWithValue(
-                                    "@SoLuong",
-                                    soLuong);
-
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        // =================================================
-                        // 4. Ghi lịch sử tồn kho
-                        // =================================================
-                        string historySql = @"
-                            INSERT INTO LichSuTonKho
-                            (
-                                MaBienThe,
-                                ThayDoi,
-                                Loai,
-                                MaTK,
-                                ThoiGian
-                            )
-                            VALUES
-                            (
-                                @MaBienThe,
-                                @ThayDoi,
-                                N'Nhập hàng',
-                                @MaTK,
-                                GETDATE()
-                            )";
-
-                        using (SqlCommand cmd =
-                            new SqlCommand(
-                                historySql,
-                                conn,
-                                tran))
-                        {
-                            cmd.Parameters.AddWithValue(
-                                "@MaBienThe",
-                                maBienThe);
-
-                            cmd.Parameters.AddWithValue(
-                                "@ThayDoi",
-                                soLuong);
-
-                            cmd.Parameters.AddWithValue(
-                                "@MaTK",
-                                maTKNguoiDuyet.Value);
-
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-
-                    // =================================================
-                    // 5. Chuyển phiếu thành Hoàn tất
-                    // =================================================
-                    string updatePN = @"
-                        UPDATE PhieuNhap
-                        SET TrangThai = N'Hoàn tất'
-                        WHERE MaPN = @MaPN
-                          AND TrangThai = N'Chờ duyệt'";
-
-                    using (SqlCommand cmd =
-                        new SqlCommand(
-                            updatePN,
-                            conn,
-                            tran))
-                    {
-                        cmd.Parameters.AddWithValue(
-                            "@MaPN",
-                            maPNDangChon.Value);
-
-                        int affected =
-                            cmd.ExecuteNonQuery();
-
-                        if (affected == 0)
-                        {
-                            throw new Exception(
-                                "Không thể cập nhật trạng thái phiếu.");
-                        }
-                    }
-
-                    // =================================================
-                    // 6. Commit
-                    // =================================================
-                    tran.Commit();
-
-                    MessageBox.Show(
-                        "Duyệt phiếu thành công!",
-                        "Thành công",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    maPNDangChon = null;
-
-                    ClearChiTiet();
-                    LoadDanhSachPhieu();
-                }
-                catch (Exception ex)
+                if (affected == 0)
                 {
-                    try
-                    {
-                        tran.Rollback();
-                    }
-                    catch
-                    {
-                    }
-
                     MessageBox.Show(
-                        "Duyệt phiếu thất bại.\n\n" +
-                        ex.Message,
-                        "Lỗi",
+                        "Phiếu không còn ở trạng thái Chờ duyệt.",
+                        "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
+                    return;
                 }
+
+                MessageBox.Show(
+                    "Duyệt phiếu thành công!\n\n" +
+                    "Phiếu đã chuyển sang trạng thái 'Chờ xuất kho'.",
+                    "Thành công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                maPNDangChon = null;
+
+                ClearChiTiet();
+                LoadDanhSachPhieu();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Duyệt phiếu thất bại.\n\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

@@ -740,6 +740,7 @@
             this.btn_lichsuton.Text = "Lịch sử tồn kho";
             this.btn_lichsuton.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_lichsuton.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_lichsuton.Click += new System.EventHandler(this.btn_lichsuton_Click);
             // 
             // btn_tonkho
             // 
@@ -814,6 +815,7 @@
             this.btn_phieukho.Text = "Phiếu Kho";
             this.btn_phieukho.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_phieukho.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_phieukho.Click += new System.EventHandler(this.btn_phieukho_Click);
             // 
             // btn_phieunhap
             // 
