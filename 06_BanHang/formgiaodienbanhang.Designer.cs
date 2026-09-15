@@ -118,6 +118,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.label29 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -679,12 +680,12 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Times New Roman", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label8.Location = new System.Drawing.Point(8, 92);
+            this.label8.Font = new System.Drawing.Font("Times New Roman", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label8.Location = new System.Drawing.Point(12, 96);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(138, 24);
+            this.label8.Size = new System.Drawing.Size(125, 60);
             this.label8.TabIndex = 1;
-            this.label8.Text = "Nike Mercurial Superfly 11 \r\nElite FG Hồng Phấn WC 2026\r\n";
+            this.label8.Text = "Nike Tiempo Maestro\r\n Academy MG/ FG .....\r\n\r\n\r\n";
             // 
             // giay10pnl
             // 
@@ -712,7 +713,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Times New Roman", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label25.ForeColor = System.Drawing.Color.Silver;
-            this.label25.Location = new System.Drawing.Point(29, 127);
+            this.label25.Location = new System.Drawing.Point(28, 130);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(100, 20);
             this.label25.TabIndex = 12;
@@ -725,9 +726,10 @@
             this.label14.ForeColor = System.Drawing.Color.Yellow;
             this.label14.Location = new System.Drawing.Point(8, 90);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(138, 24);
+            this.label14.Size = new System.Drawing.Size(133, 48);
             this.label14.TabIndex = 1;
-            this.label14.Text = "Nike Tiempo Maestro Academy\r\n HG Hồng Phấn IQ2387-901";
+            this.label14.Text = "Nike Tiempo Ligera Pro FG\r\n Hồng Phấn World Cup 2026\r\n IO4400-901\r\n\r\n";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // pictureBox10
             // 
@@ -820,7 +822,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(100, 20);
             this.label22.TabIndex = 9;
-            this.label22.Text = "1.250.000 Đ";
+            this.label22.Text = "2.790.000 Đ";
             // 
             // label21
             // 
@@ -831,7 +833,7 @@
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(100, 20);
             this.label21.TabIndex = 8;
-            this.label21.Text = "1.370.000 Đ";
+            this.label21.Text = "3.000.000 Đ";
             // 
             // label12
             // 
@@ -856,6 +858,7 @@
             // 
             // giay7pnl
             // 
+            this.giay7pnl.Controls.Add(this.label29);
             this.giay7pnl.Controls.Add(this.label20);
             this.giay7pnl.Controls.Add(this.label19);
             this.giay7pnl.Controls.Add(this.label11);
@@ -869,22 +872,22 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label20.Location = new System.Drawing.Point(20, 161);
+            this.label20.Location = new System.Drawing.Point(29, 161);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(100, 20);
+            this.label20.Size = new System.Drawing.Size(86, 20);
             this.label20.TabIndex = 7;
-            this.label20.Text = "3.200.000 Đ";
+            this.label20.Text = "450.000 Đ";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Times New Roman", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label19.ForeColor = System.Drawing.Color.Silver;
-            this.label19.Location = new System.Drawing.Point(21, 126);
+            this.label19.Location = new System.Drawing.Point(28, 126);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(100, 20);
+            this.label19.Size = new System.Drawing.Size(86, 20);
             this.label19.TabIndex = 6;
-            this.label19.Text = "3.500.000 Đ";
+            this.label19.Text = "550.000 Đ";
             // 
             // label11
             // 
@@ -892,9 +895,8 @@
             this.label11.Font = new System.Drawing.Font("Times New Roman", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label11.Location = new System.Drawing.Point(3, 90);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(126, 24);
+            this.label11.Size = new System.Drawing.Size(0, 12);
             this.label11.TabIndex = 1;
-            this.label11.Text = "BEYONO STORM \r\n BORN FOR CHAMPIONS";
             // 
             // pictureBox13
             // 
@@ -1013,6 +1015,16 @@
             this.pictureBox15.TabIndex = 1;
             this.pictureBox15.TabStop = false;
             this.pictureBox15.Click += new System.EventHandler(this.pictureBox15_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label29.Location = new System.Drawing.Point(18, 92);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(114, 30);
+            this.label29.TabIndex = 8;
+            this.label29.Text = "Jogarbola Kumo TF\r\n màu hồng";
             // 
             // formgiaodienbanhang
             // 
@@ -1167,5 +1179,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label29;
     }
 }
