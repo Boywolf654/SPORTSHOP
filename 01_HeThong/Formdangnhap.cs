@@ -186,7 +186,7 @@ namespace SPORTSHOP
             // MỞ FORM CHÍNH
             // ==========================
 
-            FromKho frm = new FromKho();
+            FormAdmin frm = new FormAdmin(null);
             frm.Show();
 
             this.Hide();

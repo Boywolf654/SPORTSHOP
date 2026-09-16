@@ -61,6 +61,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pnl_giay14 = new System.Windows.Forms.Panel();
+            this.label23 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
@@ -107,7 +108,6 @@
             this.pnl_giay1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label23 = new System.Windows.Forms.Label();
             this.pnl_giay8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             this.pnl_giay9.SuspendLayout();
@@ -482,6 +482,16 @@
             this.pnl_giay14.Name = "pnl_giay14";
             this.pnl_giay14.Size = new System.Drawing.Size(188, 255);
             this.pnl_giay14.TabIndex = 8;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label23.Location = new System.Drawing.Point(47, 219);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(94, 23);
+            this.label23.TabIndex = 16;
+            this.label23.Text = "450.000 Đ";
             // 
             // label34
             // 
@@ -986,16 +996,6 @@
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
             // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label23.Location = new System.Drawing.Point(47, 219);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(94, 23);
-            this.label23.TabIndex = 16;
-            this.label23.Text = "450.000 Đ";
-            // 
             // giaodiengiay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1008,6 +1008,7 @@
             this.Controls.Add(this.panel2);
             this.Name = "giaodiengiay";
             this.Text = "giaodiengiay";
+            this.Load += new System.EventHandler(this.giaodiengiay_Load);
             this.pnl_giay8.ResumeLayout(false);
             this.pnl_giay8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
