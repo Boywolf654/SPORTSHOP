@@ -89,11 +89,17 @@ namespace SPORTSHOP
 
         private void btn_dangnhap_Click(object sender, EventArgs e)
         {
-            // Lấy dữ liệu người dùng nhập
+            // ==========================
+            // LẤY DỮ LIỆU
+            // ==========================
+
             string username = txt_username.Text.Trim();
             string password = txt_pass.Text;
 
-            // Kiểm tra bỏ trống
+            // ==========================
+            // KIỂM TRA BỎ TRỐNG
+            // ==========================
+
             if (username == "" || password == "")
             {
                 MessageBox.Show(
@@ -106,90 +112,390 @@ namespace SPORTSHOP
                 return;
             }
 
-            // Kiểm tra tài khoản + mật khẩu + trạng thái
-            string sql = @"
-                        SELECT 
-                            tk.MaTK,
-                            tk.TenDangNhap,
-                            tk.MatKhau,
-                            tk.MaVaiTro,
-                            tk.TrangThai,
-                            vt.TenVaiTro
-                        FROM TaiKhoan tk
-                        INNER JOIN VaiTro vt
-                            ON tk.MaVaiTro = vt.MaVaiTro
-                        WHERE tk.TenDangNhap = @username
-                          AND tk.MatKhau = @password
-                          AND tk.TrangThai = 1";
-
-            SqlParameter[] parameters =
+            try
             {
-                new SqlParameter("@username", username),
-                new SqlParameter("@password", password)
-            };
+                // ==========================
+                // LẤY TÀI KHOẢN THEO USERNAME
+                // ==========================
 
-            DataTable dt = kt.GetData(sql, parameters);
+                string sql = @"
+            SELECT 
+                tk.MaTK,
+                tk.TenDangNhap,
+                tk.MatKhau,
+                tk.MaVaiTro,
+                tk.TrangThai,
+                tk.SoLanSaiMatKhau,
+                vt.TenVaiTro
+            FROM TaiKhoan tk
+            INNER JOIN VaiTro vt
+                ON tk.MaVaiTro = vt.MaVaiTro
+            WHERE tk.TenDangNhap = @username";
 
-            // Không tìm thấy tài khoản
-            if (dt.Rows.Count == 0)
+                SqlParameter[] parameters =
+                {
+            new SqlParameter("@username", username)
+        };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                // ==========================
+                // KHÔNG TỒN TẠI TÀI KHOẢN
+                // ==========================
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Tài khoản hoặc mật khẩu không chính xác!",
+                        "Đăng nhập thất bại",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    txt_pass.Clear();
+                    txt_pass.Focus();
+
+                    return;
+                }
+
+                DataRow row = dt.Rows[0];
+
+                int maTK = Convert.ToInt32(row["MaTK"]);
+                string tenDangNhap = row["TenDangNhap"].ToString();
+                string matKhauDB = row["MatKhau"].ToString();
+                int maVaiTro = Convert.ToInt32(row["MaVaiTro"]);
+                bool trangThai = Convert.ToBoolean(row["TrangThai"]);
+                int soLanSai = Convert.ToInt32(row["SoLanSaiMatKhau"]);
+                string tenVaiTro = row["TenVaiTro"].ToString();
+
+                // ==========================
+                // KIỂM TRA TÀI KHOẢN ĐÃ KHÓA
+                // ==========================
+
+                if (!trangThai)
+                {
+                    MessageBox.Show(
+                        "Tài khoản này đã bị khóa!\n\n" +
+                        "Vui lòng liên hệ Admin hoặc Quản lý để được mở khóa.",
+                        "Tài khoản bị khóa",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+
+                    txt_pass.Clear();
+                    txt_pass.Focus();
+
+                    return;
+                }
+
+                // ==========================
+                // KIỂM TRA MẬT KHẨU
+                // ==========================
+
+                if (matKhauDB != password)
+                {
+                    soLanSai++;
+
+                    // ==========================
+                    // ADMIN / QUẢN LÝ
+                    // KHÔNG BỊ KHÓA
+                    // ==========================
+
+                    if (maVaiTro == PhanQuyen.ADMIN ||
+                        maVaiTro == PhanQuyen.QUAN_LY)
+                    {
+                        string sqlTangSai = @"
+                    UPDATE TaiKhoan
+                    SET SoLanSaiMatKhau = @SoLanSai
+                    WHERE MaTK = @MaTK";
+
+                        SqlParameter[] pTangSai =
+                        {
+                    new SqlParameter("@SoLanSai", soLanSai),
+                    new SqlParameter("@MaTK", maTK)
+                };
+
+                        kt.Execute(sqlTangSai, pTangSai);
+
+                        MessageBox.Show(
+                            "Tài khoản hoặc mật khẩu không chính xác!\n\n" +
+                            "Admin / Quản lý không bị khóa tài khoản.",
+                            "Đăng nhập thất bại",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+
+                    // ==========================
+                    // NHÂN VIÊN / KHÁCH HÀNG
+                    // ==========================
+
+                    else
+                    {
+                        if (soLanSai >= 3)
+                        {
+                            // ĐỦ 3 LẦN → KHÓA
+                            string sqlKhoa = @"
+                        UPDATE TaiKhoan
+                        SET 
+                            SoLanSaiMatKhau = @SoLanSai,
+                            TrangThai = 0
+                        WHERE MaTK = @MaTK";
+
+                            SqlParameter[] pKhoa =
+                            {
+                        new SqlParameter("@SoLanSai", soLanSai),
+                        new SqlParameter("@MaTK", maTK)
+                    };
+
+                            kt.Execute(sqlKhoa, pKhoa);
+
+                            MessageBox.Show(
+                                "Bạn đã nhập sai mật khẩu 3 lần!\n\n" +
+                                "Tài khoản đã bị khóa.\n" +
+                                "Vui lòng liên hệ Admin hoặc Quản lý để mở khóa.",
+                                "Tài khoản bị khóa",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
+                        }
+                        else
+                        {
+                            int conLai = 3 - soLanSai;
+
+                            string sqlTangSai = @"
+                        UPDATE TaiKhoan
+                        SET SoLanSaiMatKhau = @SoLanSai
+                        WHERE MaTK = @MaTK";
+
+                            SqlParameter[] pTangSai =
+                            {
+                        new SqlParameter("@SoLanSai", soLanSai),
+                        new SqlParameter("@MaTK", maTK)
+                    };
+
+                            kt.Execute(sqlTangSai, pTangSai);
+
+                            MessageBox.Show(
+                                "Tài khoản hoặc mật khẩu không chính xác!\n\n" +
+                                "Bạn còn " + conLai + " lần thử.",
+                                "Đăng nhập thất bại",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
+                        }
+                    }
+
+                    txt_pass.Clear();
+                    txt_pass.Focus();
+
+                    return;
+                }
+
+                // ==========================
+                // ĐĂNG NHẬP ĐÚNG
+                // RESET SỐ LẦN SAI
+                // ==========================
+
+                string sqlDangNhapDung = @"
+            UPDATE TaiKhoan
+            SET 
+                SoLanSaiMatKhau = 0,
+                LanDangNhapCuoi = GETDATE()
+            WHERE MaTK = @MaTK";
+
+                SqlParameter[] pDangNhapDung =
+                {
+            new SqlParameter("@MaTK", maTK)
+        };
+
+                kt.Execute(sqlDangNhapDung, pDangNhapDung);
+
+                // ==========================
+                // TẠO ĐỐI TƯỢNG TÀI KHOẢN
+                // ==========================
+
+                TaiKhoan tk = new TaiKhoan();
+
+                tk.MaTK = maTK;
+                tk.TenDangNhap = tenDangNhap;
+                tk.MatKhau = matKhauDB;
+                tk.MaVaiTro = maVaiTro;
+                tk.TrangThai = trangThai;
+
+                // ==========================
+                // LƯU SESSION
+                // ==========================
+
+                Session.MaTK = tk.MaTK;
+                Session.TenDangNhap = tk.TenDangNhap;
+                Session.MaVaiTro = tk.MaVaiTro;
+                Session.TenVaiTro = tenVaiTro;
+
+                // =========================================================
+                // NẾU LÀ NHÂN VIÊN → LẤY MaNV
+                // =========================================================
+                if (Session.MaVaiTro == PhanQuyen.NV_BAN_HANG ||
+                    Session.MaVaiTro == PhanQuyen.NV_KHO)
+                {
+                    string sqlMaNV = @"
+        SELECT MaNV
+        FROM NhanVien
+        WHERE MaTK = @MaTK";
+
+                    SqlParameter[] pMaNV =
+                    {
+        new SqlParameter("@MaTK", Session.MaTK)
+    };
+
+                    object resultMaNV = kt.ExecuteScalar(sqlMaNV, pMaNV);
+
+                    if (resultMaNV == null || resultMaNV == DBNull.Value)
+                    {
+                        MessageBox.Show(
+                            "Tài khoản này chưa được liên kết với nhân viên.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
+                        Session.DangXuat();
+                        return;
+                    }
+
+                    // Lưu MaNV vào Session TRƯỚC khi mở Form chấm công
+                    Session.MaNV = Convert.ToInt32(resultMaNV);
+
+                    // =========================================================
+                    // NHÂN VIÊN PHẢI VÀO CA TRƯỚC KHI VÀO HỆ THỐNG
+                    // =========================================================
+                    using (D formChamCong = new D(true))
+                    {
+                        DialogResult ketQua = formChamCong.ShowDialog();
+
+                        if (ketQua != DialogResult.OK)
+                        {
+                            Session.DangXuat();
+                            return;
+                        }
+                    }
+                }
+
+                // =========================================================
+                // GHI LỊCH SỬ ĐĂNG NHẬP CHO ADMIN / QUẢN LÝ
+                // =========================================================
+                if (Session.MaVaiTro == PhanQuyen.ADMIN ||
+                    Session.MaVaiTro == PhanQuyen.QUAN_LY)
+                {
+                    string sqlLichSu = @"
+        INSERT INTO LichSuDangNhap
+        (
+            MaTK,
+            ThoiGianVao,
+            ThoiGianRa,
+            KetQua,
+            LyDo
+        )
+        VALUES
+        (
+            @MaTK,
+            GETDATE(),
+            NULL,
+            N'Thành công',
+            NULL
+        )";
+
+                    SqlParameter[] pLichSu =
+                    {
+        new SqlParameter("@MaTK", Session.MaTK)
+    };
+
+                    kt.Execute(sqlLichSu, pLichSu);
+                }
+            
+                // ==========================
+                // THÔNG BÁO
+                // ==========================
+
+                MessageBox.Show(
+                    "Đăng nhập thành công!\n\n" +
+                    "Tài khoản: " + Session.TenDangNhap + "\n" +
+                    "Vai trò: " + Session.TenVaiTro,
+                    "Đăng nhập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                // ==========================
+                // ĐIỀU HƯỚNG THEO VAI TRÒ
+                // ==========================
+
+                Form frm = null;
+
+                switch (Session.MaVaiTro)
+                {
+                    case PhanQuyen.ADMIN:
+                    case PhanQuyen.QUAN_LY:
+
+                        // Admin / Quản lý
+                        frm = new FormAdmin(null);
+                        break;
+
+                    case PhanQuyen.NV_KHO:
+
+                        // Nhân viên kho
+                        frm = new FromKho();
+                        break;
+
+                    case PhanQuyen.NV_BAN_HANG:
+
+                        // Nhân viên bán hàng
+                        frm = new formgiaodienbanhang();
+                        break;
+
+                    case PhanQuyen.KHACH_HANG:
+
+                        // Khách hàng
+                        frm = new formgiaodienbanhang();
+                        break;
+
+                    default:
+
+                        MessageBox.Show(
+                            "Tài khoản chưa được phân quyền!",
+                            "Lỗi phân quyền",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+
+                        Session.DangXuat();
+                        return;
+                }
+
+                // ==========================
+                // MỞ FORM
+                // ==========================
+
+                if (frm != null)
+                {
+                    frm.FormClosed += (s, args) =>
+                    {
+                        Application.Exit();
+                    };
+
+                    frm.Show();
+                    this.Hide();
+                }
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Tài khoản hoặc mật khẩu không chính xác!",
-                    "Đăng nhập thất bại",
+                    "Có lỗi xảy ra khi đăng nhập!\n\n" +
+                    ex.Message,
+                    "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-
-                txt_pass.Clear();
-                txt_pass.Focus();
-
-                return;
             }
-
-            // ==========================
-            // ĐĂNG NHẬP THÀNH CÔNG
-            // ==========================
-
-            TaiKhoan tk = new TaiKhoan();
-
-            tk.MaTK = Convert.ToInt32(dt.Rows[0]["MaTK"]);
-            tk.TenDangNhap = dt.Rows[0]["TenDangNhap"].ToString();
-            tk.MatKhau = dt.Rows[0]["MatKhau"].ToString();
-            tk.MaVaiTro = Convert.ToInt32(dt.Rows[0]["MaVaiTro"]);
-            tk.TrangThai = Convert.ToBoolean(dt.Rows[0]["TrangThai"]);
-
-            // ==========================
-            // LƯU THÔNG TIN ĐĂNG NHẬP
-            // ==========================
-
-            Session.MaTK = tk.MaTK;
-            Session.TenDangNhap = tk.TenDangNhap;
-            Session.MaVaiTro = tk.MaVaiTro;
-            Session.TenVaiTro = dt.Rows[0]["TenVaiTro"].ToString();
-
-            
-
-            // ==========================
-            // THÔNG BÁO
-            // ==========================
-
-            MessageBox.Show(
-                "Đăng nhập thành công!\n\n" +
-                "Tài khoản: " + Session.TenDangNhap + "\n" +
-                "Vai trò: " + Session.TenVaiTro,
-                "Đăng nhập",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
-
-            // ==========================
-            // MỞ FORM CHÍNH
-            // ==========================
-
-            FormAdmin frm = new FormAdmin(null);
-            frm.Show();
-
-            this.Hide();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

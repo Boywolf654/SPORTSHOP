@@ -1,4 +1,5 @@
 ﻿using SPORTSHOP._06_BanHang;
+using SPORTSHOP._07_KhachHang;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -845,6 +846,12 @@ namespace SPORTSHOP
             object sender,
             EventArgs e)
         {
+        }
+
+        private void thôngTinKháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormThongTinKhachHang form = new FormThongTinKhachHang();
+            form.Show();
         }
     }
 

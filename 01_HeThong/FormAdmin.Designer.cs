@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAdmin));
             this.panelSidebar = new Guna.UI2.WinForms.Guna2Panel();
             this.label11 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_dangxuat = new Guna.UI2.WinForms.Guna2Button();
             this.btn_nhacungcap = new Guna.UI2.WinForms.Guna2Button();
             this.btn_baocao1 = new Guna.UI2.WinForms.Guna2Button();
@@ -43,20 +44,29 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.guna2TextBoxTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
+            this.btn_xemct = new System.Windows.Forms.Button();
+            this.btn_xoa = new System.Windows.Forms.Button();
+            this.btn_sua = new System.Windows.Forms.Button();
+            this.btn_them = new System.Windows.Forms.Button();
             this.dgv_admin = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnl_tonkho = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.pic_tonkho = new System.Windows.Forms.PictureBox();
             this.pnl_donhang = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.pic_donhang = new System.Windows.Forms.PictureBox();
             this.pnl_sanpham = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.pic_sanpham = new System.Windows.Forms.PictureBox();
             this.pnl_doanhthu = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pic_doanhthu = new System.Windows.Forms.PictureBox();
             this.panelMenuSanPham = new Guna.UI2.WinForms.Guna2Panel();
             this.btn_thuonghieu = new Guna.UI2.WinForms.Guna2Button();
             this.btn_mausac = new Guna.UI2.WinForms.Guna2Button();
@@ -78,34 +88,24 @@
             this.PanelMenuNCC = new Guna.UI2.WinForms.Guna2Panel();
             this.btn_themNCC = new Guna.UI2.WinForms.Guna2Button();
             this.btn_NCC = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2TextBoxTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
-            this.btn_xemct = new System.Windows.Forms.Button();
-            this.btn_xoa = new System.Windows.Forms.Button();
-            this.btn_sua = new System.Windows.Forms.Button();
-            this.btn_them = new System.Windows.Forms.Button();
-            this.pic_tonkho = new System.Windows.Forms.PictureBox();
-            this.pic_donhang = new System.Windows.Forms.PictureBox();
-            this.pic_sanpham = new System.Windows.Forms.PictureBox();
-            this.pic_doanhthu = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_admin)).BeginInit();
             this.panel2.SuspendLayout();
             this.pnl_tonkho.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_tonkho)).BeginInit();
             this.pnl_donhang.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_donhang)).BeginInit();
             this.pnl_sanpham.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_sanpham)).BeginInit();
             this.pnl_doanhthu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_doanhthu)).BeginInit();
             this.panelMenuSanPham.SuspendLayout();
             this.panelMenuKho.SuspendLayout();
             this.PanelMenuBanHang.SuspendLayout();
             this.panelMenuBaoCao.SuspendLayout();
             this.PanelMenuNCC.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_tonkho)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_donhang)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_sanpham)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_doanhthu)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelSidebar
@@ -139,6 +139,16 @@
             this.label11.Size = new System.Drawing.Size(153, 25);
             this.label11.TabIndex = 2;
             this.label11.Text = "SPORT SHOP";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(55, -1);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(118, 102);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // btn_dangxuat
             // 
@@ -404,6 +414,85 @@
             this.label9.TabIndex = 8;
             this.label9.Text = "Danh sách sản phẩm";
             // 
+            // guna2TextBoxTimKiem
+            // 
+            this.guna2TextBoxTimKiem.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(232)))), ((int)(((byte)(240)))));
+            this.guna2TextBoxTimKiem.BorderRadius = 15;
+            this.guna2TextBoxTimKiem.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.guna2TextBoxTimKiem.DefaultText = "";
+            this.guna2TextBoxTimKiem.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.guna2TextBoxTimKiem.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2TextBoxTimKiem.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBoxTimKiem.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBoxTimKiem.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBoxTimKiem.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2TextBoxTimKiem.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBoxTimKiem.IconRight = ((System.Drawing.Image)(resources.GetObject("guna2TextBoxTimKiem.IconRight")));
+            this.guna2TextBoxTimKiem.Location = new System.Drawing.Point(789, 605);
+            this.guna2TextBoxTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            this.guna2TextBoxTimKiem.Name = "guna2TextBoxTimKiem";
+            this.guna2TextBoxTimKiem.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(141)))), ((int)(((byte)(147)))));
+            this.guna2TextBoxTimKiem.PlaceholderText = "Tìm kiếm....";
+            this.guna2TextBoxTimKiem.SelectedText = "";
+            this.guna2TextBoxTimKiem.Size = new System.Drawing.Size(252, 43);
+            this.guna2TextBoxTimKiem.TabIndex = 7;
+            // 
+            // btn_xemct
+            // 
+            this.btn_xemct.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_xemct.Image = ((System.Drawing.Image)(resources.GetObject("btn_xemct.Image")));
+            this.btn_xemct.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_xemct.Location = new System.Drawing.Point(541, 605);
+            this.btn_xemct.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_xemct.Name = "btn_xemct";
+            this.btn_xemct.Size = new System.Drawing.Size(210, 45);
+            this.btn_xemct.TabIndex = 6;
+            this.btn_xemct.Text = "Xem chi tiết (F5)";
+            this.btn_xemct.UseVisualStyleBackColor = true;
+            this.btn_xemct.Click += new System.EventHandler(this.btn_xemct_Click);
+            // 
+            // btn_xoa
+            // 
+            this.btn_xoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_xoa.Image = ((System.Drawing.Image)(resources.GetObject("btn_xoa.Image")));
+            this.btn_xoa.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_xoa.Location = new System.Drawing.Point(377, 605);
+            this.btn_xoa.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.btn_xoa.Name = "btn_xoa";
+            this.btn_xoa.Size = new System.Drawing.Size(140, 45);
+            this.btn_xoa.TabIndex = 5;
+            this.btn_xoa.Text = "Khóa (F4)";
+            this.btn_xoa.UseVisualStyleBackColor = true;
+            this.btn_xoa.Click += new System.EventHandler(this.btn_xoa_Click);
+            // 
+            // btn_sua
+            // 
+            this.btn_sua.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_sua.Image = ((System.Drawing.Image)(resources.GetObject("btn_sua.Image")));
+            this.btn_sua.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_sua.Location = new System.Drawing.Point(207, 605);
+            this.btn_sua.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_sua.Name = "btn_sua";
+            this.btn_sua.Size = new System.Drawing.Size(140, 45);
+            this.btn_sua.TabIndex = 4;
+            this.btn_sua.Text = "Sửa (F3)";
+            this.btn_sua.UseVisualStyleBackColor = true;
+            this.btn_sua.Click += new System.EventHandler(this.btn_sua_Click);
+            // 
+            // btn_them
+            // 
+            this.btn_them.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_them.Image = ((System.Drawing.Image)(resources.GetObject("btn_them.Image")));
+            this.btn_them.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_them.Location = new System.Drawing.Point(36, 605);
+            this.btn_them.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_them.Name = "btn_them";
+            this.btn_them.Size = new System.Drawing.Size(154, 45);
+            this.btn_them.TabIndex = 3;
+            this.btn_them.Text = "Thêm (F2)";
+            this.btn_them.UseVisualStyleBackColor = true;
+            this.btn_them.Click += new System.EventHandler(this.btn_them_Click);
+            // 
             // dgv_admin
             // 
             this.dgv_admin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -464,6 +553,16 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Tồn kho";
             // 
+            // pic_tonkho
+            // 
+            this.pic_tonkho.Image = ((System.Drawing.Image)(resources.GetObject("pic_tonkho.Image")));
+            this.pic_tonkho.Location = new System.Drawing.Point(15, 14);
+            this.pic_tonkho.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pic_tonkho.Name = "pic_tonkho";
+            this.pic_tonkho.Size = new System.Drawing.Size(58, 53);
+            this.pic_tonkho.TabIndex = 0;
+            this.pic_tonkho.TabStop = false;
+            // 
             // pnl_donhang
             // 
             this.pnl_donhang.BackColor = System.Drawing.Color.White;
@@ -496,6 +595,16 @@
             this.label3.Size = new System.Drawing.Size(148, 20);
             this.label3.TabIndex = 1;
             this.label3.Text = "Đơn hàng hôm nay";
+            // 
+            // pic_donhang
+            // 
+            this.pic_donhang.Image = ((System.Drawing.Image)(resources.GetObject("pic_donhang.Image")));
+            this.pic_donhang.Location = new System.Drawing.Point(11, 8);
+            this.pic_donhang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pic_donhang.Name = "pic_donhang";
+            this.pic_donhang.Size = new System.Drawing.Size(58, 53);
+            this.pic_donhang.TabIndex = 0;
+            this.pic_donhang.TabStop = false;
             // 
             // pnl_sanpham
             // 
@@ -530,6 +639,16 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "Sản phẩm";
             // 
+            // pic_sanpham
+            // 
+            this.pic_sanpham.Image = ((System.Drawing.Image)(resources.GetObject("pic_sanpham.Image")));
+            this.pic_sanpham.Location = new System.Drawing.Point(16, 10);
+            this.pic_sanpham.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pic_sanpham.Name = "pic_sanpham";
+            this.pic_sanpham.Size = new System.Drawing.Size(58, 53);
+            this.pic_sanpham.TabIndex = 0;
+            this.pic_sanpham.TabStop = false;
+            // 
             // pnl_doanhthu
             // 
             this.pnl_doanhthu.BackColor = System.Drawing.Color.White;
@@ -562,6 +681,16 @@
             this.label1.Size = new System.Drawing.Size(145, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "Tổng doanh thu";
+            // 
+            // pic_doanhthu
+            // 
+            this.pic_doanhthu.Image = ((System.Drawing.Image)(resources.GetObject("pic_doanhthu.Image")));
+            this.pic_doanhthu.Location = new System.Drawing.Point(14, 10);
+            this.pic_doanhthu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pic_doanhthu.Name = "pic_doanhthu";
+            this.pic_doanhthu.Size = new System.Drawing.Size(58, 52);
+            this.pic_doanhthu.TabIndex = 0;
+            this.pic_doanhthu.TabStop = false;
             // 
             // panelMenuSanPham
             // 
@@ -1021,135 +1150,6 @@
             this.btn_NCC.TextOffset = new System.Drawing.Point(10, 0);
             this.btn_NCC.Click += new System.EventHandler(this.btn_NCC_Click);
             // 
-            // guna2TextBoxTimKiem
-            // 
-            this.guna2TextBoxTimKiem.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(232)))), ((int)(((byte)(240)))));
-            this.guna2TextBoxTimKiem.BorderRadius = 15;
-            this.guna2TextBoxTimKiem.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBoxTimKiem.DefaultText = "";
-            this.guna2TextBoxTimKiem.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBoxTimKiem.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBoxTimKiem.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBoxTimKiem.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBoxTimKiem.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBoxTimKiem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBoxTimKiem.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBoxTimKiem.IconRight = ((System.Drawing.Image)(resources.GetObject("guna2TextBoxTimKiem.IconRight")));
-            this.guna2TextBoxTimKiem.Location = new System.Drawing.Point(789, 605);
-            this.guna2TextBoxTimKiem.Margin = new System.Windows.Forms.Padding(4);
-            this.guna2TextBoxTimKiem.Name = "guna2TextBoxTimKiem";
-            this.guna2TextBoxTimKiem.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(141)))), ((int)(((byte)(147)))));
-            this.guna2TextBoxTimKiem.PlaceholderText = "Tìm kiếm....";
-            this.guna2TextBoxTimKiem.SelectedText = "";
-            this.guna2TextBoxTimKiem.Size = new System.Drawing.Size(252, 43);
-            this.guna2TextBoxTimKiem.TabIndex = 7;
-            // 
-            // btn_xemct
-            // 
-            this.btn_xemct.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_xemct.Image = ((System.Drawing.Image)(resources.GetObject("btn_xemct.Image")));
-            this.btn_xemct.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_xemct.Location = new System.Drawing.Point(541, 605);
-            this.btn_xemct.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_xemct.Name = "btn_xemct";
-            this.btn_xemct.Size = new System.Drawing.Size(210, 45);
-            this.btn_xemct.TabIndex = 6;
-            this.btn_xemct.Text = "Xem chi tiết (F5)";
-            this.btn_xemct.UseVisualStyleBackColor = true;
-            this.btn_xemct.Click += new System.EventHandler(this.btn_xemct_Click);
-            // 
-            // btn_xoa
-            // 
-            this.btn_xoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_xoa.Image = ((System.Drawing.Image)(resources.GetObject("btn_xoa.Image")));
-            this.btn_xoa.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_xoa.Location = new System.Drawing.Point(377, 605);
-            this.btn_xoa.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
-            this.btn_xoa.Name = "btn_xoa";
-            this.btn_xoa.Size = new System.Drawing.Size(140, 45);
-            this.btn_xoa.TabIndex = 5;
-            this.btn_xoa.Text = "Khóa (F4)";
-            this.btn_xoa.UseVisualStyleBackColor = true;
-            this.btn_xoa.Click += new System.EventHandler(this.btn_xoa_Click);
-            // 
-            // btn_sua
-            // 
-            this.btn_sua.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_sua.Image = ((System.Drawing.Image)(resources.GetObject("btn_sua.Image")));
-            this.btn_sua.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_sua.Location = new System.Drawing.Point(207, 605);
-            this.btn_sua.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_sua.Name = "btn_sua";
-            this.btn_sua.Size = new System.Drawing.Size(140, 45);
-            this.btn_sua.TabIndex = 4;
-            this.btn_sua.Text = "Sửa (F3)";
-            this.btn_sua.UseVisualStyleBackColor = true;
-            this.btn_sua.Click += new System.EventHandler(this.btn_sua_Click);
-            // 
-            // btn_them
-            // 
-            this.btn_them.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_them.Image = ((System.Drawing.Image)(resources.GetObject("btn_them.Image")));
-            this.btn_them.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_them.Location = new System.Drawing.Point(36, 605);
-            this.btn_them.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_them.Name = "btn_them";
-            this.btn_them.Size = new System.Drawing.Size(154, 45);
-            this.btn_them.TabIndex = 3;
-            this.btn_them.Text = "Thêm (F2)";
-            this.btn_them.UseVisualStyleBackColor = true;
-            this.btn_them.Click += new System.EventHandler(this.btn_them_Click);
-            // 
-            // pic_tonkho
-            // 
-            this.pic_tonkho.Image = ((System.Drawing.Image)(resources.GetObject("pic_tonkho.Image")));
-            this.pic_tonkho.Location = new System.Drawing.Point(15, 14);
-            this.pic_tonkho.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pic_tonkho.Name = "pic_tonkho";
-            this.pic_tonkho.Size = new System.Drawing.Size(58, 53);
-            this.pic_tonkho.TabIndex = 0;
-            this.pic_tonkho.TabStop = false;
-            // 
-            // pic_donhang
-            // 
-            this.pic_donhang.Image = ((System.Drawing.Image)(resources.GetObject("pic_donhang.Image")));
-            this.pic_donhang.Location = new System.Drawing.Point(11, 8);
-            this.pic_donhang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pic_donhang.Name = "pic_donhang";
-            this.pic_donhang.Size = new System.Drawing.Size(58, 53);
-            this.pic_donhang.TabIndex = 0;
-            this.pic_donhang.TabStop = false;
-            // 
-            // pic_sanpham
-            // 
-            this.pic_sanpham.Image = ((System.Drawing.Image)(resources.GetObject("pic_sanpham.Image")));
-            this.pic_sanpham.Location = new System.Drawing.Point(16, 10);
-            this.pic_sanpham.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pic_sanpham.Name = "pic_sanpham";
-            this.pic_sanpham.Size = new System.Drawing.Size(58, 53);
-            this.pic_sanpham.TabIndex = 0;
-            this.pic_sanpham.TabStop = false;
-            // 
-            // pic_doanhthu
-            // 
-            this.pic_doanhthu.Image = ((System.Drawing.Image)(resources.GetObject("pic_doanhthu.Image")));
-            this.pic_doanhthu.Location = new System.Drawing.Point(14, 10);
-            this.pic_doanhthu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pic_doanhthu.Name = "pic_doanhthu";
-            this.pic_doanhthu.Size = new System.Drawing.Size(58, 52);
-            this.pic_doanhthu.TabIndex = 0;
-            this.pic_doanhthu.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(55, -1);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(118, 102);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
             // FormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1168,28 +1168,28 @@
             this.Load += new System.EventHandler(this.FormAdmin_Load);
             this.panelSidebar.ResumeLayout(false);
             this.panelSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_admin)).EndInit();
             this.panel2.ResumeLayout(false);
             this.pnl_tonkho.ResumeLayout(false);
             this.pnl_tonkho.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_tonkho)).EndInit();
             this.pnl_donhang.ResumeLayout(false);
             this.pnl_donhang.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_donhang)).EndInit();
             this.pnl_sanpham.ResumeLayout(false);
             this.pnl_sanpham.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_sanpham)).EndInit();
             this.pnl_doanhthu.ResumeLayout(false);
             this.pnl_doanhthu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_doanhthu)).EndInit();
             this.panelMenuSanPham.ResumeLayout(false);
             this.panelMenuKho.ResumeLayout(false);
             this.PanelMenuBanHang.ResumeLayout(false);
             this.panelMenuBaoCao.ResumeLayout(false);
             this.PanelMenuNCC.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pic_tonkho)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_donhang)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_sanpham)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_doanhthu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

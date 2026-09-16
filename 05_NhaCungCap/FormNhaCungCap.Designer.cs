@@ -43,6 +43,7 @@
             this.TrangThai = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_Vohieu = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_Xemchitiet = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_NCC)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,6 +99,7 @@
             this.btn_ThemMoi.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_ThemMoi.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_ThemMoi.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_ThemMoi.FillColor = System.Drawing.Color.Green;
             this.btn_ThemMoi.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_ThemMoi.ForeColor = System.Drawing.Color.White;
             this.btn_ThemMoi.Location = new System.Drawing.Point(585, 63);
@@ -201,6 +203,7 @@
             this.btn_Vohieu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_Vohieu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_Vohieu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_Vohieu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btn_Vohieu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_Vohieu.ForeColor = System.Drawing.Color.White;
             this.btn_Vohieu.Location = new System.Drawing.Point(585, 25);
@@ -210,12 +213,30 @@
             this.btn_Vohieu.Text = "Vô hiệu hóa NCC";
             this.btn_Vohieu.Click += new System.EventHandler(this.btn_Vohieuhoa);
             // 
+            // btn_Xemchitiet
+            // 
+            this.btn_Xemchitiet.BorderRadius = 4;
+            this.btn_Xemchitiet.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btn_Xemchitiet.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btn_Xemchitiet.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btn_Xemchitiet.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_Xemchitiet.FillColor = System.Drawing.Color.Silver;
+            this.btn_Xemchitiet.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_Xemchitiet.ForeColor = System.Drawing.Color.White;
+            this.btn_Xemchitiet.Location = new System.Drawing.Point(585, 327);
+            this.btn_Xemchitiet.Name = "btn_Xemchitiet";
+            this.btn_Xemchitiet.Size = new System.Drawing.Size(118, 27);
+            this.btn_Xemchitiet.TabIndex = 3;
+            this.btn_Xemchitiet.Text = "Xem Chi Tiết";
+            this.btn_Xemchitiet.Click += new System.EventHandler(this.btn_xemchitiet);
+            // 
             // FormNhaCungCap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 396);
             this.Controls.Add(this.dgv_NCC);
+            this.Controls.Add(this.btn_Xemchitiet);
             this.Controls.Add(this.btn_Vohieu);
             this.Controls.Add(this.btn_ThemMoi);
             this.Controls.Add(this.txt_TimKiem);
@@ -243,5 +264,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn TrangThai;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private Guna.UI2.WinForms.Guna2Button btn_Vohieu;
+        private Guna.UI2.WinForms.Guna2Button btn_Xemchitiet;
     }
 }

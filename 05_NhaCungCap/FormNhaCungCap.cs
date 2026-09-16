@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPORTSHOP._05_NhaCungCap;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -140,33 +141,18 @@ namespace SPORTSHOP
             if (e.RowIndex < 0)
                 return;
 
-            DataGridViewRow row =
-                dgv_NCC.Rows[e.RowIndex];
+            DataGridViewRow row = dgv_NCC.Rows[e.RowIndex];
 
-            int maNCC =
-                Convert.ToInt32(row.Cells["MaNCC"].Value);
+            int maNCC = Convert.ToInt32(
+                row.Cells["MaNCC"].Value);
 
-            string tenNCC =
-                row.Cells["TenNCC"].Value?.ToString() ?? "";
+            using (FormChiTietNhaCungCap form =
+                new FormChiTietNhaCungCap(maNCC))
+            {
+                form.ShowDialog();
+            }
 
-            string sdt =
-                row.Cells["SDT"].Value?.ToString() ?? "";
-
-            string email =
-                row.Cells["Email"].Value?.ToString() ?? "";
-
-            string diaChi =
-                row.Cells["DiaChi"].Value?.ToString() ?? "";
-
-            MessageBox.Show(
-                "Mã NCC: " + maNCC +
-                "\nTên: " + tenNCC +
-                "\nSĐT: " + sdt +
-                "\nEmail: " + email +
-                "\nĐịa chỉ: " + diaChi,
-                "Thông tin nhà cung cấp",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            LoadDanhSach();
         }
 
         private void btn_ThemMoi_Click_1(object sender, EventArgs e)
@@ -264,6 +250,44 @@ namespace SPORTSHOP
             {
                 MessageBox.Show(
                     "Lỗi khi vô hiệu hóa nhà cung cấp.\n\n" +
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_xemchitiet(object sender, EventArgs e)
+        {
+            if (dgv_NCC.CurrentRow == null)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn nhà cung cấp cần xem chi tiết.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            try
+            {
+                int maNCC = Convert.ToInt32(
+                    dgv_NCC.CurrentRow.Cells["MaNCC"].Value);
+
+                using (FormChiTietNhaCungCap form =
+                    new FormChiTietNhaCungCap(maNCC))
+                {
+                    form.ShowDialog();
+                }
+
+                // Sau khi đóng form chi tiết → load lại danh sách
+                LoadDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở thông tin chi tiết nhà cung cấp.\n\n" +
                     ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
