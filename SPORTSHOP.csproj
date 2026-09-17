@@ -154,6 +154,12 @@
     <Compile Include="06_BanHang\chitietsanpham.Designer.cs">
       <DependentUpon>chitietsanpham.cs</DependentUpon>
     </Compile>
+    <Compile Include="06_BanHang\coupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="06_BanHang\coupon.Designer.cs">
+      <DependentUpon>coupon.cs</DependentUpon>
+    </Compile>
     <Compile Include="06_BanHang\giaodiengiay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,18 @@
     </Compile>
     <Compile Include="06_BanHang\Giohang.Designer.cs">
       <DependentUpon>Giohang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="06_BanHang\thanhtoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="06_BanHang\thanhtoan.Designer.cs">
+      <DependentUpon>thanhtoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="06_BanHang\themcoupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="06_BanHang\themcoupon.Designer.cs">
+      <DependentUpon>themcoupon.cs</DependentUpon>
     </Compile>
     <Compile Include="07_KhachHang\FormDangNhapKH.cs">
       <SubType>Form</SubType>
@@ -348,6 +366,9 @@
     <EmbeddedResource Include="06_BanHang\chitietsanpham.resx">
       <DependentUpon>chitietsanpham.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="06_BanHang\coupon.resx">
+      <DependentUpon>coupon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="06_BanHang\formgiaodienbanhang.resx">
       <DependentUpon>formgiaodienbanhang.cs</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +407,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="02_QuanLySanPham\FormQLSanPham.resx">
       <DependentUpon>FormQLSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="06_BanHang\thanhtoan.resx">
+      <DependentUpon>thanhtoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="06_BanHang\themcoupon.resx">
+      <DependentUpon>themcoupon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="07_KhachHang\FormThongTinKhachHang.resx">
       <DependentUpon>FormThongTinKhachHang.cs</DependentUpon>
