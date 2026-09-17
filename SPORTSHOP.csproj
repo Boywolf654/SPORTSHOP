@@ -265,7 +265,6 @@
     </Compile>
     <Compile Include="04_NhapHang\FrmPhieuKho.cs">
       <SubType>Form</SubType>
-    </Compile>      <SubType>Form</SubType>
     </Compile>
     <Compile Include="04_NhapHang\FrmPhieuKho.Designer.cs">
       <DependentUpon>FrmPhieuKho.cs</DependentUpon>
@@ -403,7 +402,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="04_NhapHang\FrmPhieuKho.resx">
       <DependentUpon>FrmPhieuKho.cs</DependentUpon>
-    </EmbeddedResource>      <DependentUpon>FrmPhieuKho.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="02_QuanLySanPham\FormSize.resx">
       <DependentUpon>FormSize.cs</DependentUpon>
