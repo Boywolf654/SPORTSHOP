@@ -1,6 +1,7 @@
 using SPORTSHOP._04_NhapHang;
 using SPORTSHOP._05_NhaCungCap;
 using SPORTSHOP._07_KhachHang;
+using SPORTSHOP._01_HeThong;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace SPORTSHOP
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-<<<<<<< HEAD
+
 
 
             Application.Run(new Formdangnhap());
@@ -36,9 +37,9 @@ namespace SPORTSHOP
 
             Application.Run(new FormThongTinKhachHang());
 
-=======
+
             Application.Run(new formgiaodienbanhang());
->>>>>>> 8ded47b9c063512a14bb0cc6934ecac348ea4bbd
+
         }
 
         // Khai báo hàm API của Windows

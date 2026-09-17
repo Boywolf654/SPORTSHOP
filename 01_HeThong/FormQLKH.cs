@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SPORTSHOP
+namespace SPORTSHOP._01_HeThong
 {
     public partial class FormKhachHang : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+﻿namespace SPORTSHOP._01_HeThong
 {
     partial class Formdangnhap
     {
@@ -147,7 +147,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(163, 28);
             this.label6.TabIndex = 0;
-            this.label6.Text = "SPORTSHOP";
+            this.label6.Text = "SPORTSHOP._01_HeThong";
             // 
             // label1
             // 
@@ -185,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::SPORTSHOP.Properties.Resources.LOGINSPORTSHOP;
+            this.BackgroundImage = global::SPORTSHOP._01_HeThong.Properties.Resources.LOGINSPORTSHOP;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(929, 559);
             this.Controls.Add(this.panel1);

@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+﻿namespace SPORTSHOP._01_HeThong
 {
     partial class FormDangKy
     {
@@ -205,14 +205,14 @@
             this.lb_logo.Name = "lb_logo";
             this.lb_logo.Size = new System.Drawing.Size(209, 36);
             this.lb_logo.TabIndex = 0;
-            this.lb_logo.Text = "SPORTSHOP";
+            this.lb_logo.Text = "SPORTSHOP._01_HeThong";
             this.lb_logo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormDangKy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::SPORTSHOP.Properties.Resources._1115ec25_ce99_469b_bd2b_8abc4a7915b6;
+            this.BackgroundImage = global::SPORTSHOP._01_HeThong.Properties.Resources._1115ec25_ce99_469b_bd2b_8abc4a7915b6;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1001, 646);
             this.Controls.Add(this.panel1);

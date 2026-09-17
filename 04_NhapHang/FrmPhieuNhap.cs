@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace SPORTSHOP
+namespace SPORTSHOP._04_NhapHang
 {
     public partial class FrmPhieuNhap : Form
     {

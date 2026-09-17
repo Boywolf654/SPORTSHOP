@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+﻿namespace SPORTSHOP._04_NhapHang
 {
     partial class FrmPhieuNhap
     {

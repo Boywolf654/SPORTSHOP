@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SPORTSHOP
+namespace SPORTSHOP._01_HeThong
 {
     public partial class FormQLTK : Form
     {

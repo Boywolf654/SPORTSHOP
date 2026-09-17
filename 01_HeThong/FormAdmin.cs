@@ -1,4 +1,5 @@
 ﻿using SPORTSHOP._03_QuanLyKho;
+using SPORTSHOP._04_NhapHang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SPORTSHOP;
 
 namespace SPORTSHOP
 {
@@ -170,54 +170,26 @@ namespace SPORTSHOP
         {
             DongTatCaMenu();
 
-            MoFormTrongPanel(new FormQLTK());
+            MessageBox.Show(
+                "Mở quản lý tài khoản.",
+                "Thông báo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private void btn_dangxuat_Click(object sender, EventArgs e)
         {
-
             DialogResult result = MessageBox.Show(
-         "Bạn có chắc muốn đăng xuất không?",
-         "Đăng xuất",
-         MessageBoxButtons.YesNo,
-         MessageBoxIcon.Question);
+                "Bạn có chắc muốn đăng xuất không?",
+                "Đăng xuất",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            if (result != DialogResult.Yes)
-                return;
-
-            try
+            if (result == DialogResult.Yes)
             {
-                // Chỉ cập nhật phiên đăng nhập của Admin / Quản lý
-                if (Session.MaVaiTro == PhanQuyen.ADMIN ||
-                    Session.MaVaiTro == PhanQuyen.QUAN_LY)
-                {
-                    string sql = @"
-                UPDATE LichSuDangNhap
-                SET ThoiGianRa = GETDATE()
-                WHERE MaTK = @MaTK
-                  AND ThoiGianRa IS NULL";
-
-                    SqlParameter[] parameters =
-                    {
-                new SqlParameter("@MaTK", Session.MaTK)
-            };
-
-                    KetNoiDuLieu kt = new KetNoiDuLieu();
-                    kt.Execute(sql, parameters);
-                }
-
                 Session.DangXuat();
                 this.Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Lỗi khi ghi nhận thời gian đăng xuất:\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-
         }
 
         // Chỉ còn btn_nhaphang trỏ vào hàm này (xem InitializeComponent).
@@ -581,11 +553,6 @@ namespace SPORTSHOP
         private void btn_phieukho_Click(object sender, EventArgs e)
         {
             MoFormTrongPanel(new FrmPhieuKho());
-        }
-
-        private void FormChiTietNCC_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
