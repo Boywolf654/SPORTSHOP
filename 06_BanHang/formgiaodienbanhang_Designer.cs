@@ -73,6 +73,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.giay7pnl = new System.Windows.Forms.Panel();
+            this.label29 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -110,6 +111,7 @@
             this.thanhlykiguimsp = new System.Windows.Forms.ToolStripMenuItem();
             this.suachuamsp = new System.Windows.Forms.ToolStripMenuItem();
             this.doitramsp = new System.Windows.Forms.ToolStripMenuItem();
+<<<<<<< HEAD:06_BanHang/formgiaodienbanhang_Designer.cs
             this.hướngDẫnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hdmuahangmsp = new System.Windows.Forms.ToolStripMenuItem();
             this.hddoitramsp = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +121,12 @@
             this.tuyendungmsp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.label29 = new System.Windows.Forms.Label();
+=======
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.giỏHàngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thôngTinKháchHàngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+>>>>>>> 8ded47b9c063512a14bb0cc6934ecac348ea4bbd:06_BanHang/formgiaodienbanhang.Designer.cs
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.phukienpbx)).BeginInit();
@@ -451,7 +459,7 @@
             this.label8.Font = new System.Drawing.Font("Times New Roman", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label8.Location = new System.Drawing.Point(12, 96);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(125, 60);
+            this.label8.Size = new System.Drawing.Size(122, 60);
             this.label8.TabIndex = 1;
             this.label8.Text = "Nike Tiempo Maestro\r\n Academy MG/ FG .....\r\n\r\n\r\n";
             // 
@@ -636,6 +644,16 @@
             this.giay7pnl.Size = new System.Drawing.Size(149, 203);
             this.giay7pnl.TabIndex = 2;
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label29.Location = new System.Drawing.Point(18, 92);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(114, 30);
+            this.label29.TabIndex = 8;
+            this.label29.Text = "Jogarbola Kumo TF\r\n màu hồng";
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -785,6 +803,7 @@
             this.pictureBox15.Click += new System.EventHandler(this.pictureBox15_Click);
             // 
             // quầnÁoToolStripMenuItem
+<<<<<<< HEAD:06_BanHang/formgiaodienbanhang_Designer.cs
             // 
             this.quầnÁoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.qaobongdamsp,
@@ -1013,14 +1032,206 @@
             // 
             // frmGiaoDienBanHang
             // label29
+=======
+>>>>>>> 8ded47b9c063512a14bb0cc6934ecac348ea4bbd:06_BanHang/formgiaodienbanhang.Designer.cs
             // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label29.Location = new System.Drawing.Point(18, 92);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(114, 30);
-            this.label29.TabIndex = 8;
-            this.label29.Text = "Jogarbola Kumo TF\r\n màu hồng";
+            this.quầnÁoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.qaobongdamsp,
+            this.qaobongchuyenmsp,
+            this.qaobongromsp,
+            this.qaocaulongmsp,
+            this.qaochaybomsp});
+            this.quầnÁoToolStripMenuItem.Name = "quầnÁoToolStripMenuItem";
+            this.quầnÁoToolStripMenuItem.Size = new System.Drawing.Size(122, 36);
+            this.quầnÁoToolStripMenuItem.Text = "Quần Áo";
+            // 
+            // qaobongdamsp
+            // 
+            this.qaobongdamsp.Name = "qaobongdamsp";
+            this.qaobongdamsp.Size = new System.Drawing.Size(350, 36);
+            this.qaobongdamsp.Text = "Quần Áo Bóng Đá";
+            // 
+            // qaobongchuyenmsp
+            // 
+            this.qaobongchuyenmsp.Name = "qaobongchuyenmsp";
+            this.qaobongchuyenmsp.Size = new System.Drawing.Size(350, 36);
+            this.qaobongchuyenmsp.Text = "QUần Áo Bóng Chuyền";
+            // 
+            // qaobongromsp
+            // 
+            this.qaobongromsp.Name = "qaobongromsp";
+            this.qaobongromsp.Size = new System.Drawing.Size(350, 36);
+            this.qaobongromsp.Text = "Quần Áo Bóng Rổ";
+            // 
+            // qaocaulongmsp
+            // 
+            this.qaocaulongmsp.Name = "qaocaulongmsp";
+            this.qaocaulongmsp.Size = new System.Drawing.Size(350, 36);
+            this.qaocaulongmsp.Text = "Quần Áo Cầu Lông";
+            // 
+            // qaochaybomsp
+            // 
+            this.qaochaybomsp.Name = "qaochaybomsp";
+            this.qaochaybomsp.Size = new System.Drawing.Size(350, 36);
+            this.qaochaybomsp.Text = "Quần Áo  Chạy Bộ";
+            // 
+            // giàyThểThaoToolStripMenuItem
+            // 
+            this.giàyThểThaoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.giaybongdamsp,
+            this.giaybongchuyenmsp,
+            this.giaybongromsp,
+            this.giaycaulong,
+            this.giaychaybo});
+            this.giàyThểThaoToolStripMenuItem.Name = "giàyThểThaoToolStripMenuItem";
+            this.giàyThểThaoToolStripMenuItem.Size = new System.Drawing.Size(181, 36);
+            this.giàyThểThaoToolStripMenuItem.Text = "Giày Thể Thao";
+            // 
+            // giaybongdamsp
+            // 
+            this.giaybongdamsp.Name = "giaybongdamsp";
+            this.giaybongdamsp.Size = new System.Drawing.Size(300, 36);
+            this.giaybongdamsp.Text = "Giày Bóng Đá";
+            // 
+            // giaybongchuyenmsp
+            // 
+            this.giaybongchuyenmsp.Name = "giaybongchuyenmsp";
+            this.giaybongchuyenmsp.Size = new System.Drawing.Size(300, 36);
+            this.giaybongchuyenmsp.Text = "Giày Bóng Chuyền";
+            // 
+            // giaybongromsp
+            // 
+            this.giaybongromsp.Name = "giaybongromsp";
+            this.giaybongromsp.Size = new System.Drawing.Size(300, 36);
+            this.giaybongromsp.Text = "Giày Bóng Rổ";
+            // 
+            // giaycaulong
+            // 
+            this.giaycaulong.Name = "giaycaulong";
+            this.giaycaulong.Size = new System.Drawing.Size(300, 36);
+            this.giaycaulong.Text = "Giày Cầu Lông";
+            // 
+            // giaychaybo
+            // 
+            this.giaychaybo.Name = "giaychaybo";
+            this.giaychaybo.Size = new System.Drawing.Size(300, 36);
+            this.giaychaybo.Text = "Giày Chạy  Bộ";
+            // 
+            // phụKiệnToolStripMenuItem
+            // 
+            this.phụKiệnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.phukienbongdamsp,
+            this.phukienbongchuyenmsp,
+            this.phukienbongromsp,
+            this.phukiencaulongmsp,
+            this.phukienchaybomsp});
+            this.phụKiệnToolStripMenuItem.Name = "phụKiệnToolStripMenuItem";
+            this.phụKiệnToolStripMenuItem.Size = new System.Drawing.Size(123, 36);
+            this.phụKiệnToolStripMenuItem.Text = "Phụ Kiện";
+            // 
+            // phukienbongdamsp
+            // 
+            this.phukienbongdamsp.Name = "phukienbongdamsp";
+            this.phukienbongdamsp.Size = new System.Drawing.Size(247, 36);
+            this.phukienbongdamsp.Text = "Bóng Đá";
+            // 
+            // phukienbongchuyenmsp
+            // 
+            this.phukienbongchuyenmsp.Name = "phukienbongchuyenmsp";
+            this.phukienbongchuyenmsp.Size = new System.Drawing.Size(247, 36);
+            this.phukienbongchuyenmsp.Text = "Bóng Chuyền";
+            // 
+            // phukienbongromsp
+            // 
+            this.phukienbongromsp.Name = "phukienbongromsp";
+            this.phukienbongromsp.Size = new System.Drawing.Size(247, 36);
+            this.phukienbongromsp.Text = "Bóng Rổ";
+            // 
+            // phukiencaulongmsp
+            // 
+            this.phukiencaulongmsp.Name = "phukiencaulongmsp";
+            this.phukiencaulongmsp.Size = new System.Drawing.Size(247, 36);
+            this.phukiencaulongmsp.Text = "Cầu Lông";
+            // 
+            // phukienchaybomsp
+            // 
+            this.phukienchaybomsp.Name = "phukienchaybomsp";
+            this.phukienchaybomsp.Size = new System.Drawing.Size(247, 36);
+            this.phukienchaybomsp.Text = "Chạy Bộ";
+            // 
+            // dịchVụToolStripMenuItem
+            // 
+            this.dịchVụToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inanmsp,
+            this.thanhlykiguimsp,
+            this.suachuamsp,
+            this.doitramsp});
+            this.dịchVụToolStripMenuItem.Name = "dịchVụToolStripMenuItem";
+            this.dịchVụToolStripMenuItem.Size = new System.Drawing.Size(112, 36);
+            this.dịchVụToolStripMenuItem.Text = "Dịch Vụ";
+            // 
+            // inanmsp
+            // 
+            this.inanmsp.Name = "inanmsp";
+            this.inanmsp.Size = new System.Drawing.Size(305, 36);
+            this.inanmsp.Text = "In Ấn Quần Áo Đội";
+            // 
+            // thanhlykiguimsp
+            // 
+            this.thanhlykiguimsp.Name = "thanhlykiguimsp";
+            this.thanhlykiguimsp.Size = new System.Drawing.Size(305, 36);
+            this.thanhlykiguimsp.Text = "Thanh Lý Và Ký Gửi";
+            // 
+            // suachuamsp
+            // 
+            this.suachuamsp.Name = "suachuamsp";
+            this.suachuamsp.Size = new System.Drawing.Size(305, 36);
+            this.suachuamsp.Text = "Sửa Chữa";
+            // 
+            // doitramsp
+            // 
+            this.doitramsp.Name = "doitramsp";
+            this.doitramsp.Size = new System.Drawing.Size(305, 36);
+            this.doitramsp.Text = "Đổi Trả";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quầnÁoToolStripMenuItem,
+            this.giàyThểThaoToolStripMenuItem,
+            this.phụKiệnToolStripMenuItem,
+            this.dịchVụToolStripMenuItem,
+            this.giỏHàngToolStripMenuItem,
+            this.tàiKhoảnToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(353, 27);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1079, 40);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // giỏHàngToolStripMenuItem
+            // 
+            this.giỏHàngToolStripMenuItem.Name = "giỏHàngToolStripMenuItem";
+            this.giỏHàngToolStripMenuItem.Size = new System.Drawing.Size(179, 36);
+            this.giỏHàngToolStripMenuItem.Text = "🛒  Giỏ hàng ";
+            // 
+            // tàiKhoảnToolStripMenuItem
+            // 
+            this.tàiKhoảnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thôngTinKháchHàngToolStripMenuItem});
+            this.tàiKhoảnToolStripMenuItem.Name = "tàiKhoảnToolStripMenuItem";
+            this.tàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(204, 36);
+            this.tàiKhoảnToolStripMenuItem.Text = "    👤  Tài khoản";
+            // 
+            // thôngTinKháchHàngToolStripMenuItem
+            // 
+            this.thôngTinKháchHàngToolStripMenuItem.Name = "thôngTinKháchHàngToolStripMenuItem";
+            this.thôngTinKháchHàngToolStripMenuItem.Size = new System.Drawing.Size(347, 36);
+            this.thôngTinKháchHàngToolStripMenuItem.Text = "Thông Tin Khách Hàng";
+            this.thôngTinKháchHàngToolStripMenuItem.Click += new System.EventHandler(this.thôngTinKháchHàngToolStripMenuItem_Click);
             // 
             // formgiaodienbanhang
             // 
@@ -1176,5 +1387,32 @@
         private System.Windows.Forms.ToolStripMenuItem tuyendungmsp;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ToolStripMenuItem quầnÁoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem qaobongdamsp;
+        private System.Windows.Forms.ToolStripMenuItem qaobongchuyenmsp;
+        private System.Windows.Forms.ToolStripMenuItem qaobongromsp;
+        private System.Windows.Forms.ToolStripMenuItem qaocaulongmsp;
+        private System.Windows.Forms.ToolStripMenuItem qaochaybomsp;
+        private System.Windows.Forms.ToolStripMenuItem giàyThểThaoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem giaybongdamsp;
+        private System.Windows.Forms.ToolStripMenuItem giaybongchuyenmsp;
+        private System.Windows.Forms.ToolStripMenuItem giaybongromsp;
+        private System.Windows.Forms.ToolStripMenuItem giaycaulong;
+        private System.Windows.Forms.ToolStripMenuItem giaychaybo;
+        private System.Windows.Forms.ToolStripMenuItem phụKiệnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem phukienbongdamsp;
+        private System.Windows.Forms.ToolStripMenuItem phukienbongchuyenmsp;
+        private System.Windows.Forms.ToolStripMenuItem phukienbongromsp;
+        private System.Windows.Forms.ToolStripMenuItem phukiencaulongmsp;
+        private System.Windows.Forms.ToolStripMenuItem phukienchaybomsp;
+        private System.Windows.Forms.ToolStripMenuItem dịchVụToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inanmsp;
+        private System.Windows.Forms.ToolStripMenuItem thanhlykiguimsp;
+        private System.Windows.Forms.ToolStripMenuItem suachuamsp;
+        private System.Windows.Forms.ToolStripMenuItem doitramsp;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem giỏHàngToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tàiKhoảnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem thôngTinKháchHàngToolStripMenuItem;
     }
 }

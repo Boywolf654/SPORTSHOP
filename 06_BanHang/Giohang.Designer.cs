@@ -90,7 +90,7 @@
             this.cmb_vanchuyen.Name = "cmb_vanchuyen";
             this.cmb_vanchuyen.Size = new System.Drawing.Size(172, 24);
             this.cmb_vanchuyen.TabIndex = 8;
-            this.cmb_vanchuyen.Text = "Nhập mã giảm giá";
+            this.cmb_vanchuyen.Text = "[Chọn phương thức giao hàng ▼]";
             // 
             // btn_giamgia
             // 
@@ -281,6 +281,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "Giohang";
             this.Text = "Giohang";
+            this.Load += new System.EventHandler(this.Giohang_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_giohang)).EndInit();
