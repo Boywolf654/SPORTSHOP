@@ -140,12 +140,6 @@
     <Compile Include="03_QuanLyKho\FormTonKho.Designer.cs">
       <DependentUpon>FormTonKho.cs</DependentUpon>
     </Compile>
-    <Compile Include="04_NhapHang\FormNhapHang2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="04_NhapHang\FormNhapHang2.Designer.cs">
-      <DependentUpon>FormNhapHang2.cs</DependentUpon>
-    </Compile>
     <Compile Include="05_NhaCungCap\FormChiTietNhaCungCap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,12 +205,6 @@
     </Compile>
     <Compile Include="01_HeThong\FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
-    </Compile>
-    <Compile Include="04_NhapHang\FormNhapHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="04_NhapHang\FormNhapHang.Designer.cs">
-      <DependentUpon>FormNhapHang.cs</DependentUpon>
     </Compile>
     <Compile Include="01_HeThong\FormQLKH.cs">
       <SubType>Form</SubType>
@@ -286,6 +274,9 @@
     <Compile Include="07_KhachHang\FormThongTinKhachHang.Designer.cs">
       <DependentUpon>FormThongTinKhachHang.cs</DependentUpon>
     </Compile>
+    <Compile Include="04_NhapHang\formNhapHang2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -324,6 +315,9 @@
     <EmbeddedResource Include="03_QuanLyKho\FormTonKho.resx">
       <DependentUpon>FormTonKho.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="04_NhapHang\formNhapHang2.resx">
+      <DependentUpon>formNhapHang2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="05_NhaCungCap\FormChiTietNhaCungCap.resx">
       <DependentUpon>FormChiTietNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
@@ -335,9 +329,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="06_BanHang\formgiaodienbanhang.resx">
       <DependentUpon>formgiaodienbanhang.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="04_NhapHang\FormNhapHang.resx">
-      <DependentUpon>FormNhapHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="01_HeThong\FormQLKH.resx">
       <DependentUpon>FormQLKH.cs</DependentUpon>
