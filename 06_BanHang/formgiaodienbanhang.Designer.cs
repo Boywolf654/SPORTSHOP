@@ -979,6 +979,7 @@
             this.giỏHàngToolStripMenuItem.Name = "giỏHàngToolStripMenuItem";
             this.giỏHàngToolStripMenuItem.Size = new System.Drawing.Size(179, 36);
             this.giỏHàngToolStripMenuItem.Text = "🛒  Giỏ hàng ";
+            this.giỏHàngToolStripMenuItem.Click += new System.EventHandler(this.giỏHàngToolStripMenuItem_Click);
             // 
             // tàiKhoảnToolStripMenuItem
             // 
@@ -1009,7 +1010,8 @@
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.AliceBlue;
             this.Name = "formgiaodienbanhang";
-            this.Text = "formgiaodienbanhang";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SPORTSHOP - Bán Hàng";
             this.Load += new System.EventHandler(this.formgiaodienbanhang_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);

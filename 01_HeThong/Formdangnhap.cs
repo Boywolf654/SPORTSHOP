@@ -10,15 +10,13 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
-  
 {
-    
     public partial class Formdangnhap : Form
     {
         KetNoiDuLieu kt = new KetNoiDuLieu();
+
         public Formdangnhap()
         {
-
             InitializeComponent();
 
             // Ẩn mật khẩu mặc định
@@ -35,6 +33,7 @@ namespace SPORTSHOP
             // Checkbox hiện mật khẩu
             pass_check.CheckedChanged += pass_check_CheckedChanged;
         }
+
         private void Formdangnhap_Shown(object sender, EventArgs e)
         {
             txt_username.Focus();
@@ -42,8 +41,8 @@ namespace SPORTSHOP
         }
 
         private void pass_check_CheckedChanged(
-    object sender,
-    EventArgs e)
+            object sender,
+            EventArgs e)
         {
             if (pass_check.Checked)
             {
@@ -56,14 +55,13 @@ namespace SPORTSHOP
                 txt_pass.PasswordChar = '*';
             }
         }
+
         private void Formdangnhap_Load(object sender, EventArgs e)
         {
-
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-          
             using (Pen pen = new Pen(Color.Gold, 2))
             {
                 e.Graphics.DrawRectangle(
@@ -87,6 +85,9 @@ namespace SPORTSHOP
             }
         }
 
+        // =========================================================
+        // ĐĂNG NHẬP
+        // =========================================================
         private void btn_dangnhap_Click(object sender, EventArgs e)
         {
             // ==========================
@@ -119,23 +120,23 @@ namespace SPORTSHOP
                 // ==========================
 
                 string sql = @"
-            SELECT 
-                tk.MaTK,
-                tk.TenDangNhap,
-                tk.MatKhau,
-                tk.MaVaiTro,
-                tk.TrangThai,
-                tk.SoLanSaiMatKhau,
-                vt.TenVaiTro
-            FROM TaiKhoan tk
-            INNER JOIN VaiTro vt
-                ON tk.MaVaiTro = vt.MaVaiTro
-            WHERE tk.TenDangNhap = @username";
+                    SELECT 
+                        tk.MaTK,
+                        tk.TenDangNhap,
+                        tk.MatKhau,
+                        tk.MaVaiTro,
+                        tk.TrangThai,
+                        tk.SoLanSaiMatKhau,
+                        vt.TenVaiTro
+                    FROM TaiKhoan tk
+                    INNER JOIN VaiTro vt
+                        ON tk.MaVaiTro = vt.MaVaiTro
+                    WHERE tk.TenDangNhap = @username";
 
                 SqlParameter[] parameters =
                 {
-            new SqlParameter("@username", username)
-        };
+                    new SqlParameter("@username", username)
+                };
 
                 DataTable dt = kt.GetData(sql, parameters);
 
@@ -205,15 +206,15 @@ namespace SPORTSHOP
                         maVaiTro == PhanQuyen.QUAN_LY)
                     {
                         string sqlTangSai = @"
-                    UPDATE TaiKhoan
-                    SET SoLanSaiMatKhau = @SoLanSai
-                    WHERE MaTK = @MaTK";
+                            UPDATE TaiKhoan
+                            SET SoLanSaiMatKhau = @SoLanSai
+                            WHERE MaTK = @MaTK";
 
                         SqlParameter[] pTangSai =
                         {
-                    new SqlParameter("@SoLanSai", soLanSai),
-                    new SqlParameter("@MaTK", maTK)
-                };
+                            new SqlParameter("@SoLanSai", soLanSai),
+                            new SqlParameter("@MaTK", maTK)
+                        };
 
                         kt.Execute(sqlTangSai, pTangSai);
 
@@ -236,17 +237,17 @@ namespace SPORTSHOP
                         {
                             // ĐỦ 3 LẦN → KHÓA
                             string sqlKhoa = @"
-                        UPDATE TaiKhoan
-                        SET 
-                            SoLanSaiMatKhau = @SoLanSai,
-                            TrangThai = 0
-                        WHERE MaTK = @MaTK";
+                                UPDATE TaiKhoan
+                                SET 
+                                    SoLanSaiMatKhau = @SoLanSai,
+                                    TrangThai = 0
+                                WHERE MaTK = @MaTK";
 
                             SqlParameter[] pKhoa =
                             {
-                        new SqlParameter("@SoLanSai", soLanSai),
-                        new SqlParameter("@MaTK", maTK)
-                    };
+                                new SqlParameter("@SoLanSai", soLanSai),
+                                new SqlParameter("@MaTK", maTK)
+                            };
 
                             kt.Execute(sqlKhoa, pKhoa);
 
@@ -264,15 +265,15 @@ namespace SPORTSHOP
                             int conLai = 3 - soLanSai;
 
                             string sqlTangSai = @"
-                        UPDATE TaiKhoan
-                        SET SoLanSaiMatKhau = @SoLanSai
-                        WHERE MaTK = @MaTK";
+                                UPDATE TaiKhoan
+                                SET SoLanSaiMatKhau = @SoLanSai
+                                WHERE MaTK = @MaTK";
 
                             SqlParameter[] pTangSai =
                             {
-                        new SqlParameter("@SoLanSai", soLanSai),
-                        new SqlParameter("@MaTK", maTK)
-                    };
+                                new SqlParameter("@SoLanSai", soLanSai),
+                                new SqlParameter("@MaTK", maTK)
+                            };
 
                             kt.Execute(sqlTangSai, pTangSai);
 
@@ -292,28 +293,28 @@ namespace SPORTSHOP
                     return;
                 }
 
-                // ==========================
+                // =========================================================
                 // ĐĂNG NHẬP ĐÚNG
                 // RESET SỐ LẦN SAI
-                // ==========================
+                // =========================================================
 
                 string sqlDangNhapDung = @"
-            UPDATE TaiKhoan
-            SET 
-                SoLanSaiMatKhau = 0,
-                LanDangNhapCuoi = GETDATE()
-            WHERE MaTK = @MaTK";
+                    UPDATE TaiKhoan
+                    SET 
+                        SoLanSaiMatKhau = 0,
+                        LanDangNhapCuoi = GETDATE()
+                    WHERE MaTK = @MaTK";
 
                 SqlParameter[] pDangNhapDung =
                 {
-            new SqlParameter("@MaTK", maTK)
-        };
+                    new SqlParameter("@MaTK", maTK)
+                };
 
                 kt.Execute(sqlDangNhapDung, pDangNhapDung);
 
-                // ==========================
+                // =========================================================
                 // TẠO ĐỐI TƯỢNG TÀI KHOẢN
-                // ==========================
+                // =========================================================
 
                 TaiKhoan tk = new TaiKhoan();
 
@@ -323,9 +324,9 @@ namespace SPORTSHOP
                 tk.MaVaiTro = maVaiTro;
                 tk.TrangThai = trangThai;
 
-                // ==========================
+                // =========================================================
                 // LƯU SESSION
-                // ==========================
+                // =========================================================
 
                 Session.MaTK = tk.MaTK;
                 Session.TenDangNhap = tk.TenDangNhap;
@@ -333,88 +334,154 @@ namespace SPORTSHOP
                 Session.TenVaiTro = tenVaiTro;
 
                 // =========================================================
-                // NẾU LÀ NHÂN VIÊN → LẤY MaNV
+                // CHỈ NHÂN VIÊN MỚI CÓ MaNV
                 // =========================================================
+
                 if (Session.MaVaiTro == PhanQuyen.NV_BAN_HANG ||
                     Session.MaVaiTro == PhanQuyen.NV_KHO)
                 {
+                    // -----------------------------------------------------
+                    // 1. Kiểm tra tài khoản đã có MaNV chưa
+                    // -----------------------------------------------------
+
                     string sqlMaNV = @"
-        SELECT MaNV
-        FROM NhanVien
-        WHERE MaTK = @MaTK";
+                        SELECT MaNV
+                        FROM NhanVien
+                        WHERE MaTK = @MaTK";
 
                     SqlParameter[] pMaNV =
                     {
-        new SqlParameter("@MaTK", Session.MaTK)
-    };
+                        new SqlParameter("@MaTK", Session.MaTK)
+                    };
 
-                    object resultMaNV = kt.ExecuteScalar(sqlMaNV, pMaNV);
+                    object resultMaNV =
+                        kt.ExecuteScalar(sqlMaNV, pMaNV);
 
-                    if (resultMaNV == null || resultMaNV == DBNull.Value)
+                    int maNV;
+
+                    // -----------------------------------------------------
+                    // 2. Chưa có MaNV → TỰ ĐỘNG TẠO
+                    // -----------------------------------------------------
+
+                    if (resultMaNV == null ||
+                        resultMaNV == DBNull.Value)
                     {
-                        MessageBox.Show(
-                            "Tài khoản này chưa được liên kết với nhân viên.",
-                            "Thông báo",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
+                        string sqlTaoNhanVien = @"
+                            INSERT INTO NhanVien
+                            (
+                                HoTen,
+                                ChucVu,
+                                TrangThai,
+                                MaTK
+                            )
+                            VALUES
+                            (
+                                @HoTen,
+                                @ChucVu,
+                                1,
+                                @MaTK
+                            );
 
-                        Session.DangXuat();
-                        return;
-                    }
+                            SELECT SCOPE_IDENTITY();";
 
-                    // Lưu MaNV vào Session TRƯỚC khi mở Form chấm công
-                    Session.MaNV = Convert.ToInt32(resultMaNV);
-
-                    // =========================================================
-                    // NHÂN VIÊN PHẢI VÀO CA TRƯỚC KHI VÀO HỆ THỐNG
-                    // =========================================================
-                    using (D formChamCong = new D(true))
-                    {
-                        DialogResult ketQua = formChamCong.ShowDialog();
-
-                        if (ketQua != DialogResult.OK)
+                        SqlParameter[] pTaoNV =
                         {
-                            Session.DangXuat();
-                            return;
+                            new SqlParameter(
+                                "@HoTen",
+                                Session.TenDangNhap),
+
+                            new SqlParameter(
+                                "@ChucVu",
+                                tenVaiTro),
+
+                            new SqlParameter(
+                                "@MaTK",
+                                Session.MaTK)
+                        };
+
+                        object resultTaoNV =
+                            kt.ExecuteScalar(
+                                sqlTaoNhanVien,
+                                pTaoNV);
+
+                        if (resultTaoNV == null ||
+                            resultTaoNV == DBNull.Value)
+                        {
+                            throw new Exception(
+                                "Không thể tạo mã nhân viên cho tài khoản.");
                         }
+
+                        maNV =
+                            Convert.ToInt32(resultTaoNV);
                     }
+                    else
+                    {
+                        // -------------------------------------------------
+                        // 3. Đã có MaNV → DÙNG MaNV CŨ
+                        // -------------------------------------------------
+
+                        maNV =
+                            Convert.ToInt32(resultMaNV);
+                    }
+
+                    // -----------------------------------------------------
+                    // 4. Lưu MaNV vào Session
+                    // -----------------------------------------------------
+
+                    Session.MaNV = maNV;
+
+                    
+                }
+                else
+                {
+                    // =====================================================
+                    // ADMIN / QUẢN LÝ / KHÁCH HÀNG
+                    // KHÔNG CÓ MaNV
+                    // =====================================================
+
+                    Session.MaNV = 0;
                 }
 
                 // =========================================================
                 // GHI LỊCH SỬ ĐĂNG NHẬP CHO ADMIN / QUẢN LÝ
                 // =========================================================
+
                 if (Session.MaVaiTro == PhanQuyen.ADMIN ||
                     Session.MaVaiTro == PhanQuyen.QUAN_LY)
                 {
                     string sqlLichSu = @"
-        INSERT INTO LichSuDangNhap
-        (
-            MaTK,
-            ThoiGianVao,
-            ThoiGianRa,
-            KetQua,
-            LyDo
-        )
-        VALUES
-        (
-            @MaTK,
-            GETDATE(),
-            NULL,
-            N'Thành công',
-            NULL
-        )";
+                        INSERT INTO LichSuDangNhap
+                        (
+                            MaTK,
+                            ThoiGianVao,
+                            ThoiGianRa,
+                            KetQua,
+                            LyDo
+                        )
+                        VALUES
+                        (
+                            @MaTK,
+                            GETDATE(),
+                            NULL,
+                            N'Thành công',
+                            NULL
+                        )";
 
                     SqlParameter[] pLichSu =
                     {
-        new SqlParameter("@MaTK", Session.MaTK)
-    };
+                        new SqlParameter(
+                            "@MaTK",
+                            Session.MaTK)
+                    };
 
-                    kt.Execute(sqlLichSu, pLichSu);
+                    kt.Execute(
+                        sqlLichSu,
+                        pLichSu);
                 }
-            
-                // ==========================
+
+                // =========================================================
                 // THÔNG BÁO
-                // ==========================
+                // =========================================================
 
                 MessageBox.Show(
                     "Đăng nhập thành công!\n\n" +
@@ -425,55 +492,77 @@ namespace SPORTSHOP
                     MessageBoxIcon.Information
                 );
 
-                // ==========================
+                // =========================================================
                 // ĐIỀU HƯỚNG THEO VAI TRÒ
-                // ==========================
+                // =========================================================
 
                 Form frm = null;
 
                 switch (Session.MaVaiTro)
                 {
+                    // =====================================================
+                    // ADMIN
+                    // =====================================================
                     case PhanQuyen.ADMIN:
-                    case PhanQuyen.QUAN_LY:
 
-                        // Admin / Quản lý
-                        frm = new FormAdmin(null);
+                        frm = new FormAdmin(tk);
                         break;
 
+
+                    // =====================================================
+                    // QUẢN LÝ
+                    // =====================================================
+                    case PhanQuyen.QUAN_LY:
+
+                        frm = new FormAdmin(tk);
+                        break;
+
+
+                    // =====================================================
+                    // NHÂN VIÊN KHO
+                    // =====================================================
                     case PhanQuyen.NV_KHO:
 
-                        // Nhân viên kho
                         frm = new FromKho();
                         break;
 
+
+                    // =====================================================
+                    // NHÂN VIÊN BÁN HÀNG
+                    // =====================================================
                     case PhanQuyen.NV_BAN_HANG:
 
-                        // Nhân viên bán hàng
-                        frm = new formgiaodienbanhang();
+                        frm = new form_hóa_đơn_bán_hàng();
                         break;
 
+
+                    // =====================================================
+                    // KHÁCH HÀNG
+                    // =====================================================
                     case PhanQuyen.KHACH_HANG:
 
-                        // Khách hàng
                         frm = new formgiaodienbanhang();
                         break;
 
+
+                    // =====================================================
+                    // KHÔNG CÓ QUYỀN
+                    // =====================================================
                     default:
 
                         MessageBox.Show(
                             "Tài khoản chưa được phân quyền!",
                             "Lỗi phân quyền",
                             MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
+                            MessageBoxIcon.Error);
 
                         Session.DangXuat();
                         return;
                 }
 
-                // ==========================
+                // =========================================================
                 // MỞ FORM
-                // ==========================
+                // =========================================================
 
                 if (frm != null)
                 {
@@ -498,17 +587,32 @@ namespace SPORTSHOP
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        // =========================================================
+        // QUÊN MẬT KHẨU
+        // =========================================================
+
+        private void linkLabel1_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-            formquenmatkhau frm = new formquenmatkhau();
+            formquenmatkhau frm =
+                new formquenmatkhau();
+
             frm.ShowDialog();
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        // =========================================================
+        // ĐĂNG KÝ
+        // =========================================================
+
+        private void linkLabel2_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-            FormDangKy frm = new FormDangKy();
+            FormDangKy frm =
+                new FormDangKy();
+
             frm.ShowDialog();
         }
     }
- }
-
+}

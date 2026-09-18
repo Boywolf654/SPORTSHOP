@@ -891,7 +891,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel2);
             this.Name = "giaodienqao";
-            this.Text = "giaodienqao";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SPORTSHOP - Quần Áo";
             this.Load += new System.EventHandler(this.giaodienqao_Load);
             this.pnl_qao10.ResumeLayout(false);
             this.pnl_qao10.PerformLayout();

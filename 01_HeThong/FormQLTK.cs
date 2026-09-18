@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
@@ -14,15 +13,15 @@ namespace SPORTSHOP
         {
             InitializeComponent();
 
-            // ==========================
-            // EVENT
-            // ==========================
-
             btn_Mo.Click += btn_Mo_Click;
             Btn_Khoa.Click += Btn_Khoa_Click;
             btn_thoat.Click += btn_thoat_Click;
+            btn_phanquyen.Click += btn_phanquyen_Click;
 
             dgv_QLTK.CellClick += dgv_QLTK_CellClick;
+
+            cmb_trangthai.SelectedIndexChanged += cmb_trangthai_SelectedIndexChanged;
+            txt_timtk.TextChanged += txt_timtk_TextChanged;
         }
 
         // =========================================================
@@ -31,7 +30,7 @@ namespace SPORTSHOP
 
         private void FormQLTK_Load(object sender, EventArgs e)
         {
-            // Chỉ Admin / Quản lý được vào quản lý tài khoản
+            // Chỉ Admin / Quản lý được vào
             if (Session.MaVaiTro != PhanQuyen.ADMIN &&
                 Session.MaVaiTro != PhanQuyen.QUAN_LY)
             {
@@ -39,14 +38,47 @@ namespace SPORTSHOP
                     "Bạn không có quyền quản lý tài khoản!",
                     "Không có quyền",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
-                this.Close();
+                Close();
                 return;
             }
 
             CauHinhDgv();
+            LoadComboTrangThai();
+            LoadDanhSachTaiKhoan();
+        }
+
+        // =========================================================
+        // COMBOBOX TRẠNG THÁI
+        // =========================================================
+
+        private void LoadComboTrangThai()
+        {
+            cmb_trangthai.Items.Clear();
+
+            cmb_trangthai.Items.Add("Tất cả");
+            cmb_trangthai.Items.Add("Đang hoạt động");
+            cmb_trangthai.Items.Add("Đã khóa");
+
+            cmb_trangthai.SelectedIndex = 0;
+        }
+
+        private void cmb_trangthai_SelectedIndexChanged(
+            object sender,
+            EventArgs e)
+        {
+            LoadDanhSachTaiKhoan();
+        }
+
+        // =========================================================
+        // TÌM KIẾM
+        // =========================================================
+
+        private void txt_timtk_TextChanged(
+            object sender,
+            EventArgs e)
+        {
             LoadDanhSachTaiKhoan();
         }
 
@@ -84,6 +116,8 @@ namespace SPORTSHOP
         {
             try
             {
+                string tuKhoa = txt_timtk.Text.Trim();
+
                 string sql = @"
                     SELECT
                         tk.MaTK,
@@ -99,51 +133,80 @@ namespace SPORTSHOP
                     FROM TaiKhoan tk
                     INNER JOIN VaiTro vt
                         ON tk.MaVaiTro = vt.MaVaiTro
+                    WHERE
+                        tk.TenDangNhap LIKE '%' + @TuKhoa + '%'
+                        AND
+                        (
+                            @TrangThai = -1
+                            OR tk.TrangThai = @TrangThai
+                        )
                     ORDER BY tk.MaTK";
 
-                DataTable dt = kt.GetData(sql);
+                int trangThai = -1;
+
+                if (cmb_trangthai.SelectedIndex == 1)
+                    trangThai = 1;
+                else if (cmb_trangthai.SelectedIndex == 2)
+                    trangThai = 0;
+
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@TuKhoa", tuKhoa),
+                    new SqlParameter("@TrangThai", trangThai)
+                };
+
+                DataTable dt =
+                    kt.GetData(sql, parameters);
 
                 dgv_QLTK.DataSource = dt;
 
                 // ==========================
-                // ĐỔI TÊN CỘT HIỂN THỊ
+                // ĐỔI TÊN CỘT
                 // ==========================
 
                 if (dgv_QLTK.Columns.Contains("MaTK"))
                     dgv_QLTK.Columns["MaTK"].HeaderText = "Mã TK";
 
                 if (dgv_QLTK.Columns.Contains("TenDangNhap"))
-                    dgv_QLTK.Columns["TenDangNhap"].HeaderText = "Tên đăng nhập";
+                    dgv_QLTK.Columns["TenDangNhap"].HeaderText =
+                        "Tên đăng nhập";
 
                 if (dgv_QLTK.Columns.Contains("TenVaiTro"))
-                    dgv_QLTK.Columns["TenVaiTro"].HeaderText = "Vai trò";
+                    dgv_QLTK.Columns["TenVaiTro"].HeaderText =
+                        "Vai trò";
 
                 if (dgv_QLTK.Columns.Contains("TrangThai"))
-                    dgv_QLTK.Columns["TrangThai"].HeaderText = "Trạng thái";
+                    dgv_QLTK.Columns["TrangThai"].HeaderText =
+                        "Trạng thái";
 
                 if (dgv_QLTK.Columns.Contains("SoLanSaiMatKhau"))
-                    dgv_QLTK.Columns["SoLanSaiMatKhau"].HeaderText = "Số lần sai";
+                    dgv_QLTK.Columns["SoLanSaiMatKhau"].HeaderText =
+                        "Số lần sai";
 
                 if (dgv_QLTK.Columns.Contains("LanDangNhapCuoi"))
                     dgv_QLTK.Columns["LanDangNhapCuoi"].HeaderText =
                         "Đăng nhập cuối";
 
-                // Định dạng ngày giờ
                 if (dgv_QLTK.Columns.Contains("LanDangNhapCuoi"))
                 {
                     dgv_QLTK.Columns["LanDangNhapCuoi"]
-                        .DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+                        .DefaultCellStyle.Format =
+                        "dd/MM/yyyy HH:mm";
                 }
 
-                // Căn giữa một số cột
                 if (dgv_QLTK.Columns.Contains("MaTK"))
-                    dgv_QLTK.Columns["MaTK"].DefaultCellStyle.Alignment =
+                {
+                    dgv_QLTK.Columns["MaTK"]
+                        .DefaultCellStyle.Alignment =
                         DataGridViewContentAlignment.MiddleCenter;
+                }
 
                 if (dgv_QLTK.Columns.Contains("SoLanSaiMatKhau"))
+                {
                     dgv_QLTK.Columns["SoLanSaiMatKhau"]
                         .DefaultCellStyle.Alignment =
                         DataGridViewContentAlignment.MiddleCenter;
+                }
             }
             catch (Exception ex)
             {
@@ -152,8 +215,7 @@ namespace SPORTSHOP
                     ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -172,7 +234,7 @@ namespace SPORTSHOP
         }
 
         // =========================================================
-        // LẤY MÃ TÀI KHOẢN ĐANG CHỌN
+        // LẤY MÃ TÀI KHOẢN
         // =========================================================
 
         private int? GetMaTKDangChon()
@@ -183,8 +245,7 @@ namespace SPORTSHOP
                     "Vui lòng chọn một tài khoản!",
                     "Thông báo",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return null;
             }
@@ -196,15 +257,107 @@ namespace SPORTSHOP
                 return null;
 
             return Convert.ToInt32(
-                row.Cells["MaTK"].Value
-            );
+                row.Cells["MaTK"].Value);
         }
 
         // =========================================================
-        // MỞ KHÓA TÀI KHOẢN
+        // PHÂN QUYỀN
         // =========================================================
 
-        private void btn_Mo_Click(object sender, EventArgs e)
+        private void btn_phanquyen_Click(
+            object sender,
+            EventArgs e)
+        {
+            int? maTK = GetMaTKDangChon();
+
+            if (maTK == null)
+                return;
+
+            // Không cho tự phân quyền chính mình
+            if (maTK.Value == Session.MaTK)
+            {
+                MessageBox.Show(
+                    "Bạn không thể thay đổi quyền của chính tài khoản đang đăng nhập!",
+                    "Không được phép",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            try
+            {
+                string sql = @"
+                    SELECT MaVaiTro
+                    FROM TaiKhoan
+                    WHERE MaTK = @MaTK";
+
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@MaTK", maTK.Value)
+                };
+
+                object result =
+                    kt.ExecuteScalar(sql, parameters);
+
+                if (result == null ||
+                    result == DBNull.Value)
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy tài khoản!",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                int maVaiTro =
+                    Convert.ToInt32(result);
+
+                // Không cho bất kỳ ai sửa Admin
+                if (maVaiTro == PhanQuyen.ADMIN)
+                {
+                    MessageBox.Show(
+                        "Không thể thay đổi quyền của tài khoản Admin!",
+                        "Không được phép",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                using (FormPhanQuyen form =
+                new FormPhanQuyen(maTK.Value))
+                {
+                    DialogResult resultForm =
+                        form.ShowDialog();
+
+                    if (resultForm == DialogResult.OK)
+                    {
+                        TaoNhanVienNeuChuaCo(maTK.Value);
+                        LoadDanhSachTaiKhoan();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở chức năng phân quyền!\n\n" +
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        // =========================================================
+        // MỞ KHÓA
+        // =========================================================
+
+        private void btn_Mo_Click(
+            object sender,
+            EventArgs e)
         {
             int? maTK = GetMaTKDangChon();
 
@@ -213,7 +366,6 @@ namespace SPORTSHOP
 
             try
             {
-                // Lấy thông tin tài khoản
                 string sqlCheck = @"
                     SELECT
                         TenDangNhap,
@@ -236,8 +388,7 @@ namespace SPORTSHOP
                         "Không tìm thấy tài khoản!",
                         "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
+                        MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -253,7 +404,6 @@ namespace SPORTSHOP
                 bool trangThai =
                     Convert.ToBoolean(row["TrangThai"]);
 
-                // Admin / Quản lý không cần mở khóa
                 if (maVaiTro == PhanQuyen.ADMIN ||
                     maVaiTro == PhanQuyen.QUAN_LY)
                 {
@@ -261,8 +411,7 @@ namespace SPORTSHOP
                         "Admin / Quản lý không thuộc diện bị khóa tự động.",
                         "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                        MessageBoxIcon.Information);
 
                     return;
                 }
@@ -274,8 +423,7 @@ namespace SPORTSHOP
                         "\" hiện đang hoạt động.",
                         "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                        MessageBoxIcon.Information);
 
                     return;
                 }
@@ -285,8 +433,7 @@ namespace SPORTSHOP
                     tenDangNhap + "?",
                     "Xác nhận mở khóa",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+                    MessageBoxIcon.Question);
 
                 if (result != DialogResult.Yes)
                     return;
@@ -310,8 +457,7 @@ namespace SPORTSHOP
                     tenDangNhap,
                     "Thành công",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                    MessageBoxIcon.Information);
 
                 LoadDanhSachTaiKhoan();
             }
@@ -322,16 +468,17 @@ namespace SPORTSHOP
                     ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    MessageBoxIcon.Error);
             }
         }
 
         // =========================================================
-        // KHÓA TÀI KHOẢN THỦ CÔNG
+        // KHÓA
         // =========================================================
 
-        private void Btn_Khoa_Click(object sender, EventArgs e)
+        private void Btn_Khoa_Click(
+            object sender,
+            EventArgs e)
         {
             int? maTK = GetMaTKDangChon();
 
@@ -362,8 +509,7 @@ namespace SPORTSHOP
                         "Không tìm thấy tài khoản!",
                         "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
+                        MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -379,10 +525,6 @@ namespace SPORTSHOP
                 bool trangThai =
                     Convert.ToBoolean(row["TrangThai"]);
 
-                // ==========================
-                // KHÔNG CHO KHÓA ADMIN / QL
-                // ==========================
-
                 if (maVaiTro == PhanQuyen.ADMIN ||
                     maVaiTro == PhanQuyen.QUAN_LY)
                 {
@@ -390,8 +532,7 @@ namespace SPORTSHOP
                         "Không thể khóa tài khoản Admin hoặc Quản lý!",
                         "Không được phép",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
+                        MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -403,8 +544,7 @@ namespace SPORTSHOP
                         "\" đã bị khóa.",
                         "Thông báo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                        MessageBoxIcon.Information);
 
                     return;
                 }
@@ -415,8 +555,7 @@ namespace SPORTSHOP
                     "Tài khoản sẽ không thể đăng nhập cho đến khi được mở khóa.",
                     "Xác nhận khóa tài khoản",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 if (result != DialogResult.Yes)
                     return;
@@ -438,8 +577,7 @@ namespace SPORTSHOP
                     tenDangNhap,
                     "Thành công",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                    MessageBoxIcon.Information);
 
                 LoadDanhSachTaiKhoan();
             }
@@ -450,8 +588,7 @@ namespace SPORTSHOP
                     ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -459,9 +596,78 @@ namespace SPORTSHOP
         // THOÁT
         // =========================================================
 
-        private void btn_thoat_Click(object sender, EventArgs e)
+        private void btn_thoat_Click(
+            object sender,
+            EventArgs e)
         {
-            this.Close();
+            Close();
+        }
+
+        private void TaoNhanVienNeuChuaCo(int maTK)
+        {
+            try
+            {
+                string sql = @"
+            IF EXISTS
+            (
+                SELECT 1
+                FROM TaiKhoan
+                WHERE MaTK = @MaTK
+                  AND MaVaiTro IN (@NV_BAN_HANG, @NV_KHO)
+            )
+            AND NOT EXISTS
+            (
+                SELECT 1
+                FROM NhanVien
+                WHERE MaTK = @MaTK
+            )
+            BEGIN
+
+                INSERT INTO NhanVien
+                (
+                    HoTen,
+                    ChucVu,
+                    TrangThai,
+                    MaTK
+                )
+                SELECT
+                    TenDangNhap,
+                    vt.TenVaiTro,
+                    1,
+                    tk.MaTK
+                FROM TaiKhoan tk
+                INNER JOIN VaiTro vt
+                    ON tk.MaVaiTro = vt.MaVaiTro
+                WHERE tk.MaTK = @MaTK;
+
+            END";
+
+
+                SqlParameter[] parameters =
+                {
+            new SqlParameter("@MaTK", maTK),
+
+            new SqlParameter(
+                "@NV_BAN_HANG",
+                PhanQuyen.NV_BAN_HANG),
+
+            new SqlParameter(
+                "@NV_KHO",
+                PhanQuyen.NV_KHO)
+        };
+
+
+                kt.Execute(sql, parameters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể tự tạo hồ sơ nhân viên!\n\n"
+                    + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

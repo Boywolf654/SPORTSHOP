@@ -68,7 +68,6 @@ namespace SPORTSHOP
                 btnTuChoi.Visible = false;
             }
         }
-
         // =========================================================
         // LOAD DANH SÁCH PHIẾU
         // =========================================================
@@ -80,47 +79,49 @@ namespace SPORTSHOP
                 string trangThai = cboTrangThai.Text;
 
                 string sql = @"
-                    SELECT
-                        pn.MaPN,
-                        pn.NgayNhap,
-                        nv.HoTen AS TenNhanVien,
-                        ncc.TenNCC,
-                        k.TenKho,
-                        pn.TrangThai
-                    FROM PhieuNhap pn
-                    INNER JOIN NhanVien nv
-                        ON nv.MaNV = pn.MaNV
-                    INNER JOIN NhaCungCap ncc
-                        ON ncc.MaNCC = pn.MaNCC
-                    LEFT JOIN Kho k
-                        ON k.MaKho = pn.MaKho
-                    WHERE
-                    (
-                        CAST(pn.MaPN AS NVARCHAR(20)) LIKE '%' + @TuKhoa + '%'
-                        OR nv.HoTen LIKE '%' + @TuKhoa + '%'
-                        OR ncc.TenNCC LIKE '%' + @TuKhoa + '%'
-                    )
-                    AND
-                    (
-                        @TrangThai = N'Tất cả'
-                        OR pn.TrangThai = @TrangThai
-                    )
-                    ORDER BY pn.MaPN DESC";
+            SELECT
+                pn.MaPN,
+                pn.NgayNhap,
+                nv.HoTen AS TenNhanVien,
+                ncc.TenNCC,
+                k.TenKho,
+                pn.TrangThai
+            FROM PhieuNhap pn
+            INNER JOIN NhanVien nv
+                ON nv.MaNV = pn.MaNV
+            INNER JOIN NhaCungCap ncc
+                ON ncc.MaNCC = pn.MaNCC
+            LEFT JOIN Kho k
+                ON k.MaKho = pn.MaKho
+            WHERE
+            (
+                CAST(pn.MaPN AS NVARCHAR(20)) LIKE '%' + @TuKhoa + '%'
+                OR nv.HoTen LIKE '%' + @TuKhoa + '%'
+                OR ncc.TenNCC LIKE '%' + @TuKhoa + '%'
+            )
+            AND
+            (
+                @TrangThai = N'Tất cả'
+                OR pn.TrangThai = @TrangThai
+            )
+            ORDER BY pn.MaPN DESC";
 
                 SqlParameter[] parameters =
                 {
-                    new SqlParameter("@TuKhoa", tuKhoa),
-                    new SqlParameter("@TrangThai",
-                        string.IsNullOrWhiteSpace(trangThai)
-                            ? "Tất cả"
-                            : trangThai)
-                };
+            new SqlParameter("@TuKhoa", tuKhoa),
+            new SqlParameter(
+                "@TrangThai",
+                string.IsNullOrWhiteSpace(trangThai)
+                    ? "Tất cả"
+                    : trangThai)
+        };
 
                 DataTable dt = kt.GetData(sql, parameters);
 
                 dgvDanhSachPhieu.DataSource = dt;
 
                 DinhDangDanhSachPhieu();
+
                 lblSoPhieu.Text =
                     "Danh sách phiếu (" + dt.Rows.Count + ")";
             }
@@ -134,6 +135,7 @@ namespace SPORTSHOP
                     MessageBoxIcon.Error);
             }
         }
+
 
         private void DinhDangDanhSachPhieu()
         {
@@ -393,11 +395,21 @@ namespace SPORTSHOP
 
             try
             {
+                // =====================================================
+                // CHỈ CHO PHÉP 1 PHIẾU Ở TRẠNG THÁI "CHỜ XUẤT KHO"
+                // =====================================================
+
                 string sql = @"
             UPDATE PhieuNhap
             SET TrangThai = N'Chờ xuất kho'
             WHERE MaPN = @MaPN
-              AND TrangThai = N'Chờ duyệt'";
+              AND TrangThai = N'Chờ duyệt'
+              AND NOT EXISTS
+              (
+                  SELECT 1
+                  FROM PhieuNhap
+                  WHERE TrangThai = N'Chờ xuất kho'
+              )";
 
                 SqlParameter[] parameters =
                 {
@@ -408,11 +420,38 @@ namespace SPORTSHOP
 
                 if (affected == 0)
                 {
-                    MessageBox.Show(
-                        "Phiếu không còn ở trạng thái Chờ duyệt.",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    // Kiểm tra xem đã có phiếu khác đang chờ xuất kho
+                    string sqlCheck = @"
+                SELECT TOP 1 MaPN
+                FROM PhieuNhap
+                WHERE TrangThai = N'Chờ xuất kho'
+                ORDER BY NgayNhap ASC";
+
+                    object maPNChoXuat =
+                        kt.ExecuteScalar(sqlCheck, null);
+
+                    if (maPNChoXuat != null &&
+                        maPNChoXuat != DBNull.Value)
+                    {
+                        MessageBox.Show(
+                            "Hiện đang có phiếu PN" +
+                            Convert.ToInt32(maPNChoXuat).ToString("D4") +
+                            " đang ở trạng thái 'Chờ xuất kho'.\n\n" +
+                            "Vui lòng kiểm kho và xuất kho phiếu này trước " +
+                            "khi duyệt phiếu tiếp theo.",
+                            "Không thể duyệt phiếu",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Phiếu không còn ở trạng thái 'Chờ duyệt'.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+
                     return;
                 }
 
@@ -431,7 +470,8 @@ namespace SPORTSHOP
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Duyệt phiếu thất bại.\n\n" + ex.Message,
+                    "Duyệt phiếu thất bại.\n\n" +
+                    ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

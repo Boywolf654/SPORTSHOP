@@ -16,5 +16,10 @@ namespace SPORTSHOP._06_BanHang
         {
             InitializeComponent();
         }
+
+        private void thanhtoan_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

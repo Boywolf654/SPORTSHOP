@@ -257,10 +257,10 @@
     <Compile Include="05_NhaCungCap\FormThemNhaCungCap.Designer.cs">
       <DependentUpon>FormThemNhaCungCap.cs</DependentUpon>
     </Compile>
-    <Compile Include="form_hóa_đơn_bán_hàng.cs">
+    <Compile Include="08_NhanVien\form_hóa_đơn_bán_hàng.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form_hóa_đơn_bán_hàng.Designer.cs">
+    <Compile Include="08_NhanVien\form_hóa_đơn_bán_hàng.Designer.cs">
       <DependentUpon>form_hóa_đơn_bán_hàng.cs</DependentUpon>
     </Compile>
     <Compile Include="04_NhapHang\FrmPhieuKho.cs">
@@ -324,6 +324,48 @@
     </Compile>
     <Compile Include="08_NhanVien\FormChamCong.Designer.cs">
       <DependentUpon>FormChamCong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="01_HeThong\FormPhanQuyen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01_HeThong\FormPhanQuyen.Designer.cs">
+      <DependentUpon>FormPhanQuyen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="08_NhanVien\FormMenuNV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="08_NhanVien\FormMenuNV.Designer.cs">
+      <DependentUpon>FormMenuNV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="08_NhanVien\FormThemSPKH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="08_NhanVien\FormThemSPKH.Designer.cs">
+      <DependentUpon>FormThemSPKH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="06_BanHang\FormDonOnline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="06_BanHang\FormDonOnline.Designer.cs">
+      <DependentUpon>FormDonOnline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="02_QuanLySanPham\FormQLHinhAnhSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="02_QuanLySanPham\FormQLHinhAnhSanPham.Designer.cs">
+      <DependentUpon>FormQLHinhAnhSanPham.cs</DependentUpon>
+    </Compile>
+    <Compile Include="08_NhanVien\FormDangNhapID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="08_NhanVien\FormDangNhapID.Designer.cs">
+      <DependentUpon>FormDangNhapID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="08_NhanVien\FormManHinhKhoa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="08_NhanVien\FormManHinhKhoa.Designer.cs">
+      <DependentUpon>FormManHinhKhoa.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -397,7 +439,7 @@
     <EmbeddedResource Include="05_NhaCungCap\FormThemNhaCungCap.resx">
       <DependentUpon>FormThemNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form_hóa_đơn_bán_hàng.resx">
+    <EmbeddedResource Include="08_NhanVien\form_hóa_đơn_bán_hàng.resx">
       <DependentUpon>form_hóa_đơn_bán_hàng.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="04_NhapHang\FrmPhieuKho.resx">
@@ -448,6 +490,27 @@
     <EmbeddedResource Include="08_NhanVien\FormChamCong.resx">
       <DependentUpon>FormChamCong.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="01_HeThong\FormPhanQuyen.resx">
+      <DependentUpon>FormPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="08_NhanVien\FormMenuNV.resx">
+      <DependentUpon>FormMenuNV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="08_NhanVien\FormThemSPKH.resx">
+      <DependentUpon>FormThemSPKH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="06_BanHang\FormDonOnline.resx">
+      <DependentUpon>FormDonOnline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="02_QuanLySanPham\FormQLHinhAnhSanPham.resx">
+      <DependentUpon>FormQLHinhAnhSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="08_NhanVien\FormDangNhapID.resx">
+      <DependentUpon>FormDangNhapID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="08_NhanVien\FormManHinhKhoa.resx">
+      <DependentUpon>FormManHinhKhoa.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -483,6 +546,7 @@
     <Content Include="packages\Guna.UI2.WinForms.2.0.4.8\lib\net7.0-windows7.0\Guna.UI2.dll" />
     <Content Include="packages\Guna.UI2.WinForms.2.0.4.8\lib\netcoreapp3.1\Guna.UI2.dll" />
     <Content Include="packages\Guna.UI2.WinForms.2.0.4.8\LICENSE.txt" />
+    <None Include="Resources\0efc2f0c-b840-4b95-958c-66408152fd60.png" />
     <Content Include="SPORTSHOP_SQL.sql" />
     <Content Include="UpgradeLog.htm" />
     <Content Include="UpgradeLog2.htm" />

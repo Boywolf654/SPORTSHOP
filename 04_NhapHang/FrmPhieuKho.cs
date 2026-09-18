@@ -75,7 +75,7 @@ namespace SPORTSHOP
             lblDaKiem.Text = "0";
             lblKhop.Text = "0";
             lblLech.Text = "0";
-            lblChuaKiem.Text = "Còn 0 Mục Chưa Kiểm";
+            lblChuaKiem.Text = "Không có mục Chưa Kiểm";
             lblDaQuet.Text = "0 Lượt";
         }
 
@@ -97,7 +97,7 @@ namespace SPORTSHOP
 
                 if (result == null || result == DBNull.Value)
                 {
-                   
+
 
                     MessageBox.Show(
                         "Hiện không có phiếu nhập nào đang chờ xuất kho.",
@@ -175,7 +175,7 @@ namespace SPORTSHOP
             lblThoiGianKiem.Text =
                 DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
-            
+
         }
 
         // =========================================================
@@ -245,14 +245,18 @@ namespace SPORTSHOP
                 r.Cells["colSLTheoPhieu"].Value =
                     row["SoLuong"];
 
-                // Chưa quét = 0
+                // Mặc định SL thực tế = 0
+                // Nếu không giao hàng thì giữ nguyên 0.
+                int slTheoPhieu =
+                    Convert.ToInt32(row["SoLuong"]);
+
                 r.Cells["colSLThucTe"].Value = 0;
 
                 r.Cells["colChenhLech"].Value =
-                    -Convert.ToInt32(row["SoLuong"]);
+                    -slTheoPhieu;
 
                 r.Cells["colTrangThai"].Value =
-                    "Chưa kiểm";
+                    slTheoPhieu == 0 ? "Khớp" : "Lệch";
 
                 r.Cells["colGhiChu"].Value = "";
             }
@@ -512,29 +516,36 @@ namespace SPORTSHOP
                     row.Cells["colSLThucTe"].Value),
                 out slThucTe);
 
+            // Không cho phép số lượng âm
             if (slThucTe < 0)
+            {
                 slThucTe = 0;
 
-            int chenhLech =
-                slThucTe - slTheoPhieu;
-
-            row.Cells["colChenhLech"].Value =
-                chenhLech;
-
-            if (slThucTe == 0)
-            {
-                row.Cells["colTrangThai"].Value =
-                    "Chưa kiểm";
+                // Giữ giá trị hiển thị là 0
+                row.Cells["colSLThucTe"].Value = 0;
             }
-            else if (slThucTe == slTheoPhieu)
+
+            // Không cho vượt quá số lượng theo phiếu
+            if (slThucTe > slTheoPhieu)
             {
-                row.Cells["colTrangThai"].Value =
-                    "Khớp";
+                slThucTe = slTheoPhieu;
+                row.Cells["colSLThucTe"].Value = slTheoPhieu;
+            }
+
+            int chenhLech = slThucTe - slTheoPhieu;
+
+            row.Cells["colChenhLech"].Value = chenhLech;
+
+            // SL thực tế = 0 vẫn là giá trị hợp lệ:
+            // hiểu là nhà cung cấp không giao mặt hàng này.
+            // Không dùng trạng thái "Chưa kiểm" nữa.
+            if (slThucTe == slTheoPhieu)
+            {
+                row.Cells["colTrangThai"].Value = "Khớp";
             }
             else
             {
-                row.Cells["colTrangThai"].Value =
-                    "Lệch";
+                row.Cells["colTrangThai"].Value = "Lệch";
             }
         }
 
@@ -549,6 +560,8 @@ namespace SPORTSHOP
             int khop = 0;
             int lech = 0;
 
+            // Mỗi dòng luôn có SL thực tế, mặc định là 0.
+            // Vì vậy không còn khái niệm "Chưa kiểm".
             foreach (DataGridViewRow row
                 in dgvHangHoa.Rows)
             {
@@ -571,9 +584,6 @@ namespace SPORTSHOP
                 }
             }
 
-            int chuaKiem =
-                tong - daKiem;
-
             lblTongSanPham.Text =
                 tong.ToString();
 
@@ -586,14 +596,12 @@ namespace SPORTSHOP
             lblLech.Text =
                 lech.ToString();
 
+            // Không còn mặt hàng "Chưa kiểm".
             lblChuaKiem.Text =
-                "Còn " + chuaKiem +
-                " Mục Chưa Kiểm";
+                "Không có mục Chưa Kiểm";
 
             lblChuaKiem.ForeColor =
-                chuaKiem > 0
-                    ? Color.DarkOrange
-                    : Color.Green;
+                Color.Green;
         }
 
         // =========================================================
@@ -607,8 +615,7 @@ namespace SPORTSHOP
             if (daXacNhan)
                 return;
 
-            foreach (DataGridViewRow row
-                in dgvHangHoa.Rows)
+            foreach (DataGridViewRow row in dgvHangHoa.Rows)
             {
                 if (row.IsNewRow)
                     continue;
@@ -620,18 +627,24 @@ namespace SPORTSHOP
                         row.Cells["colSLTheoPhieu"].Value),
                     out slTheoPhieu);
 
-                int maBienThe =
-                    Convert.ToInt32(
-                        row.Cells["colMaBienThe"].Value);
+                // Nếu phiếu có số lượng <= 0
+                // thì không được đánh dấu Khớp
+                if (slTheoPhieu <= 0)
+                {
+                    row.Cells["colSLThucTe"].Value = 0;
+                    row.Cells["colChenhLech"].Value = 0;
+                    row.Cells["colTrangThai"].Value = "Khớp";
+                    continue;
+                }
 
-                row.Cells["colSLThucTe"].Value =
-                    slTheoPhieu;
+                int maBienThe = Convert.ToInt32(
+                    row.Cells["colMaBienThe"].Value);
 
-                row.Cells["colChenhLech"].Value =
-                    0;
+                row.Cells["colSLThucTe"].Value = slTheoPhieu;
 
-                row.Cells["colTrangThai"].Value =
-                    "Khớp";
+                row.Cells["colChenhLech"].Value = 0;
+
+                row.Cells["colTrangThai"].Value = "Khớp";
 
                 danhSachDaQuet.Add(maBienThe);
             }
@@ -674,8 +687,10 @@ namespace SPORTSHOP
                 row.Cells["colChenhLech"].Value =
                     -slTheoPhieu;
 
+                // SL thực tế = 0 là giá trị hợp lệ:
+                // không giao hàng -> lệch so với số lượng theo phiếu.
                 row.Cells["colTrangThai"].Value =
-                    "Chưa kiểm";
+                    slTheoPhieu == 0 ? "Khớp" : "Lệch";
 
                 row.Cells["colGhiChu"].Value =
                     "";
@@ -685,7 +700,7 @@ namespace SPORTSHOP
 
             CapNhatThongKe();
 
-            
+
         }
 
         // =========================================================
@@ -710,29 +725,9 @@ namespace SPORTSHOP
                 return;
             }
 
-            // Không cho xác nhận nếu còn hàng chưa kiểm
-            foreach (DataGridViewRow row
-                in dgvHangHoa.Rows)
-            {
-                if (row.IsNewRow)
-                    continue;
-
-                string trangThai =
-                    Convert.ToString(
-                        row.Cells["colTrangThai"].Value);
-
-                if (trangThai == "Chưa kiểm")
-                {
-                    MessageBox.Show(
-                        "Vẫn còn mặt hàng chưa kiểm.\n\n" +
-                        "Hãy kiểm đủ tất cả mặt hàng trước khi xác nhận.",
-                        "Chưa thể xác nhận",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-            }
+            // Không còn kiểm tra "Chưa kiểm".
+            // SL thực tế mặc định = 0 và được hiểu là không giao hàng.
+            // Nếu 0 < SL theo phiếu thì dòng đó là "Lệch" và vẫn được xác nhận.
 
             // Nếu có hàng lệch -> cảnh báo
             int soDongLech = 0;
@@ -986,7 +981,30 @@ namespace SPORTSHOP
                     // ---------------------------------------------
                     // Ghi lịch sử tồn kho
                     // ---------------------------------------------
+                    // ---------------------------------------------
+                    // Cập nhật tồn kho tổng trên BienTheSanPham
+                    // ---------------------------------------------
+                    string sqlUpdateBienThe = @"
+                    UPDATE BienTheSanPham
+                    SET SoLuong = SoLuong + @SL
+                    WHERE MaBienThe = @MaBienThe";
 
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            sqlUpdateBienThe,
+                            conn,
+                            tran))
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@SL",
+                            slThucTe);
+
+                        cmd.Parameters.AddWithValue(
+                            "@MaBienThe",
+                            maBienThe);
+
+                        cmd.ExecuteNonQuery();
+                    }
                     if (slThucTe > 0)
                     {
                         string sqlHistory = @"
@@ -1075,7 +1093,7 @@ namespace SPORTSHOP
                 btnXacNhanKiemKho.Enabled = false;
                 txtMaVach.Enabled = false;
 
-              
+
 
                 MessageBox.Show(
                     "Kiểm kho thành công!\n\n" +

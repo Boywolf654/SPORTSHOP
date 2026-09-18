@@ -1,4 +1,7 @@
-﻿using SPORTSHOP._06_BanHang;
+﻿using System.IO;
+using System.Data.SqlClient;
+using System.Data;
+using SPORTSHOP._06_BanHang;
 using SPORTSHOP._07_KhachHang;
 using System;
 using System.Drawing;
@@ -250,12 +253,13 @@ namespace SPORTSHOP
             SanPhamTam sanPham =
                 new SanPhamTam
                 {
-                    MaSP = maSP,
+                    MaSP = LayMaSPTheoTen(tenSP, maSP),
                     TenSP = tenSP,
                     Gia = gia,
                     GiaCu = giaCu,
-                    Anh = pictureBox.Image ??
-                          pictureBox.BackgroundImage,
+                    Anh = LayAnhChinhTheoMaSP(
+                         LayMaSPTheoTen(tenSP, maSP),
+                         pictureBox.Image ?? pictureBox.BackgroundImage),
                     ThuongHieu = thuongHieu,
                     MauSac = mauSac,
                     MoTa = moTa
@@ -853,6 +857,95 @@ namespace SPORTSHOP
             FormThongTinKhachHang form = new FormThongTinKhachHang();
             form.Show();
         }
+        // =========================================================
+        // ĐỒNG BỘ CARD CLONE VỚI CSDL
+        // =========================================================
+
+        private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
+
+        private int LayMaSPTheoTen(string tenSP, int maSPCu)
+        {
+            try
+            {
+                string sql = @"
+                    SELECT TOP 1 MaSP
+                    FROM SanPham
+                    WHERE TenSP = @TenSP
+                      AND TrangThai = 1
+                    ORDER BY MaSP";
+
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@TenSP", tenSP)
+                };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                if (dt.Rows.Count > 0)
+                    return Convert.ToInt32(dt.Rows[0]["MaSP"]);
+
+                return 0;
+            }
+            catch
+            {
+                // Nếu CSDL chưa sẵn sàng, vẫn cho form mở để không làm vỡ UI.
+                return 0;
+            }
+        }
+
+        private Image LayAnhChinhTheoMaSP(int maSP, Image anhMacDinh)
+        {
+            if (maSP <= 0)
+                return anhMacDinh;
+
+            try
+            {
+                string sql = @"
+                    SELECT TOP 1 UrlAnh
+                    FROM HinhAnhSanPham
+                    WHERE MaSP = @MaSP
+                      AND AnhChinh = 1
+                    ORDER BY MaAnh";
+
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@MaSP", maSP)
+                };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                if (dt.Rows.Count == 0)
+                    return anhMacDinh;
+
+                string urlAnh = dt.Rows[0]["UrlAnh"]?.ToString();
+
+                if (string.IsNullOrWhiteSpace(urlAnh))
+                    return anhMacDinh;
+
+                string duongDan = urlAnh.Replace("/", Path.DirectorySeparatorChar.ToString());
+
+                if (!Path.IsPathRooted(duongDan))
+                    duongDan = Path.Combine(Application.StartupPath, duongDan);
+
+                if (!File.Exists(duongDan))
+                    return anhMacDinh;
+
+                using (Image temp = Image.FromFile(duongDan))
+                {
+                    return new Bitmap(temp);
+                }
+            }
+            catch
+            {
+                return anhMacDinh;
+            }
+        }
+
+        private void giỏHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Giohang formGioHang = new Giohang();
+            formGioHang.ShowDialog();
+        }
     }
 
     // =============================================================
@@ -944,5 +1037,7 @@ namespace SPORTSHOP
                 return Color.Transparent;
             }
         }
+
+
     }
 }

@@ -929,7 +929,8 @@
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Name = "giaodienpkien";
-            this.Text = "giaodienpkien";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SPORTSHOP - Phụ Kiện";
             this.Load += new System.EventHandler(this.giaodienpkien_Load);
             this.pnl_phukien4.ResumeLayout(false);
             this.pnl_phukien4.PerformLayout();
