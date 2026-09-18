@@ -212,7 +212,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::SPORTSHOP._01_HeThong.Properties.Resources._1115ec25_ce99_469b_bd2b_8abc4a7915b6;
+            //this.BackgroundImage = global::SPORTSHOP._01_HeThong.Properties.Resources._1115ec25_ce99_469b_bd2b_8abc4a7915b6;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1001, 646);
             this.Controls.Add(this.panel1);

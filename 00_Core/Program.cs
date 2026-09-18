@@ -2,6 +2,8 @@ using SPORTSHOP._04_NhapHang;
 using SPORTSHOP._05_NhaCungCap;
 using SPORTSHOP._07_KhachHang;
 using SPORTSHOP._01_HeThong;
+using SPORTSHOP._09_BaoCao;
+using SPORTSHOP._06_BanHang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +32,12 @@ namespace SPORTSHOP
 
 
 
-            Application.Run(new Formdangnhap());
-
-         
-
-
-            Application.Run(new FormThongTinKhachHang());
-
-
             Application.Run(new formgiaodienbanhang());
+
+            Application.Run(new Formdangnhap());
+            Application.Run(new FormAdmin(null));
+
+
 
         }
 
