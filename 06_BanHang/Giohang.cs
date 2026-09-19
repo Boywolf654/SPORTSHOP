@@ -266,105 +266,32 @@ namespace SPORTSHOP._06_BanHang
                     "SPORTSHOP",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
 
-            string ma = cmb_giamgia.Text.Trim().ToUpper();
+            decimal tongTien = GioHangManager.TongTien();
 
-            if (string.IsNullOrWhiteSpace(ma))
+            using (coupon frm = new coupon(tongTien))
             {
-                MessageBox.Show(
-                    "Vui lòng nhập mã giảm giá.",
-                    "SPORTSHOP",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                cmb_giamgia.Focus();
-                return;
-            }
-
-            try
-            {
-                string sql = @"
-                    SELECT TOP 1
-                        MaVoucher,
-                        GiaTri,
-                        LoaiGiam,
-                        GiaTriDonToiThieu,
-                        SoLuongToiDa,
-                        DaSuDung
-                    FROM Voucher
-                    WHERE UPPER(MaCode) = @MaCode
-                      AND TrangThai = 1
-                      AND NgayBatDau <= CAST(GETDATE() AS DATE)
-                      AND (NgayHetHan IS NULL OR NgayHetHan >= CAST(GETDATE() AS DATE))
-                      AND DaSuDung < SoLuongToiDa";
-
-                SqlParameter[] parameters =
+                if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    new SqlParameter("@MaCode", ma)
-                };
+                    maVoucherDangApDung = frm.MaVoucherDuocChon;
+                    giamGia = frm.SoTienGiam;
 
-                DataTable dt = kt.GetData(sql, parameters);
-
-                if (dt.Rows.Count == 0)
-                {
-                    maVoucherDangApDung = 0;
-                    giamGia = 0;
                     CapNhatTongTien();
 
+                    // Hiển thị mã đã chọn trên ComboBox
+                    cmb_giamgia.Text = frm.MaCodeDuocChon;
+
                     MessageBox.Show(
-                        "Mã giảm giá không tồn tại, đã hết hạn hoặc đã hết lượt sử dụng.",
+                        "Đã áp dụng mã giảm giá!\n\n" +
+                        "Mã: " + frm.MaCodeDuocChon + "\n" +
+                        "Số tiền giảm: " + giamGia.ToString("N0") + " Đ",
                         "Voucher",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
+                        MessageBoxIcon.Information);
                 }
-
-                DataRow row = dt.Rows[0];
-                decimal giaGoc = GioHangManager.TongTien();
-                decimal toiThieu = Convert.ToDecimal(row["GiaTriDonToiThieu"]);
-
-                if (giaGoc < toiThieu)
-                {
-                    MessageBox.Show(
-                        "Đơn hàng chưa đạt giá trị tối thiểu " +
-                        toiThieu.ToString("N0") + " Đ.",
-                        "Voucher",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
-
-                decimal giaTri = Convert.ToDecimal(row["GiaTri"]);
-                string loai = row["LoaiGiam"].ToString();
-
-                if (loai.Equals("PhanTram", StringComparison.OrdinalIgnoreCase))
-                    giamGia = giaGoc * giaTri / 100m;
-                else
-                    giamGia = giaTri;
-
-                if (giamGia > giaGoc)
-                    giamGia = giaGoc;
-
-                maVoucherDangApDung = Convert.ToInt32(row["MaVoucher"]);
-
-                CapNhatTongTien();
-
-                MessageBox.Show(
-                    "Áp dụng voucher thành công!\n" +
-                    "Mã: " + ma +
-                    "\nGiảm: " + giamGia.ToString("N0") + " Đ",
-                    "Voucher",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Không thể áp dụng voucher.\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
         }
 

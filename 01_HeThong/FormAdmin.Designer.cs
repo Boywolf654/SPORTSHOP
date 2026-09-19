@@ -88,6 +88,7 @@
             this.PanelMenuNCC = new Guna.UI2.WinForms.Guna2Panel();
             this.btn_themNCC = new Guna.UI2.WinForms.Guna2Button();
             this.btn_NCC = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_BaoCaoCHamCong = new Guna.UI2.WinForms.Guna2Button();
             this.panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -1059,6 +1060,7 @@
             // 
             this.panelMenuBaoCao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             this.panelMenuBaoCao.Controls.Add(this.btn_doanhthu);
+            this.panelMenuBaoCao.Controls.Add(this.btn_BaoCaoCHamCong);
             this.panelMenuBaoCao.Location = new System.Drawing.Point(218, 459);
             this.panelMenuBaoCao.Name = "panelMenuBaoCao";
             this.panelMenuBaoCao.Size = new System.Drawing.Size(222, 62);
@@ -1149,6 +1151,31 @@
             this.btn_NCC.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_NCC.TextOffset = new System.Drawing.Point(10, 0);
             this.btn_NCC.Click += new System.EventHandler(this.btn_NCC_Click);
+            // 
+            // btn_BaoCaoCHamCong
+            // 
+            this.btn_BaoCaoCHamCong.BorderColor = System.Drawing.Color.White;
+            this.btn_BaoCaoCHamCong.BorderRadius = 10;
+            this.btn_BaoCaoCHamCong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btn_BaoCaoCHamCong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btn_BaoCaoCHamCong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btn_BaoCaoCHamCong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btn_BaoCaoCHamCong.FillColor = System.Drawing.Color.Transparent;
+            this.btn_BaoCaoCHamCong.FocusedColor = System.Drawing.Color.Transparent;
+            this.btn_BaoCaoCHamCong.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btn_BaoCaoCHamCong.ForeColor = System.Drawing.Color.White;
+            this.btn_BaoCaoCHamCong.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.btn_BaoCaoCHamCong.HoverState.ForeColor = System.Drawing.Color.White;
+            this.btn_BaoCaoCHamCong.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_BaoCaoCHamCong.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btn_BaoCaoCHamCong.Location = new System.Drawing.Point(1, 51);
+            this.btn_BaoCaoCHamCong.Name = "btn_BaoCaoCHamCong";
+            this.btn_BaoCaoCHamCong.Size = new System.Drawing.Size(217, 50);
+            this.btn_BaoCaoCHamCong.TabIndex = 1;
+            this.btn_BaoCaoCHamCong.Text = "Báo Cáo Chấm Công";
+            this.btn_BaoCaoCHamCong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_BaoCaoCHamCong.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_BaoCaoCHamCong.Click += new System.EventHandler(this.btn_BaoCaoCHamCong_Click);
             // 
             // FormAdmin
             // 
@@ -1255,5 +1282,6 @@
         private Guna.UI2.WinForms.Guna2Button btn_NCC;
         private Guna.UI2.WinForms.Guna2Button btn_phieukho;
         private Guna.UI2.WinForms.Guna2Button btn_phieunhap;
+        private Guna.UI2.WinForms.Guna2Button btn_BaoCaoCHamCong;
     }
 }

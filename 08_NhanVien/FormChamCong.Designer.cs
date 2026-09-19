@@ -127,6 +127,7 @@
             // dtp_GioVao
             // 
             this.dtp_GioVao.Checked = true;
+            this.dtp_GioVao.FillColor = System.Drawing.Color.PaleGreen;
             this.dtp_GioVao.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtp_GioVao.Format = System.Windows.Forms.DateTimePickerFormat.Long;
             this.dtp_GioVao.Location = new System.Drawing.Point(455, 125);
@@ -160,6 +161,7 @@
             // Dtp_GioRa
             // 
             this.Dtp_GioRa.Checked = true;
+            this.Dtp_GioRa.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.Dtp_GioRa.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Dtp_GioRa.Format = System.Windows.Forms.DateTimePickerFormat.Long;
             this.Dtp_GioRa.Location = new System.Drawing.Point(455, 198);

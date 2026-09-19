@@ -430,7 +430,7 @@ namespace SPORTSHOP
 
                     Session.MaNV = maNV;
 
-                    
+
                 }
                 else
                 {
@@ -500,56 +500,27 @@ namespace SPORTSHOP
 
                 switch (Session.MaVaiTro)
                 {
-                    // =====================================================
-                    // ADMIN
-                    // =====================================================
                     case PhanQuyen.ADMIN:
-
-                        frm = new FormAdmin(tk);
+                        frm = new FormAdmin(null);
                         break;
 
-
-                    // =====================================================
-                    // QUẢN LÝ
-                    // =====================================================
                     case PhanQuyen.QUAN_LY:
-
-                        frm = new FormAdmin(tk);
+                        frm = new FormQuanLy(tk);
                         break;
 
-
-                    // =====================================================
-                    // NHÂN VIÊN KHO
-                    // =====================================================
                     case PhanQuyen.NV_KHO:
-
-                        frm = new FromKho();
+                        frm = new FormNVKho(tk);
                         break;
 
-
-                    // =====================================================
-                    // NHÂN VIÊN BÁN HÀNG
-                    // =====================================================
                     case PhanQuyen.NV_BAN_HANG:
-
                         frm = new form_hóa_đơn_bán_hàng();
                         break;
 
-
-                    // =====================================================
-                    // KHÁCH HÀNG
-                    // =====================================================
                     case PhanQuyen.KHACH_HANG:
-
                         frm = new formgiaodienbanhang();
                         break;
 
-
-                    // =====================================================
-                    // KHÔNG CÓ QUYỀN
-                    // =====================================================
                     default:
-
                         MessageBox.Show(
                             "Tài khoản chưa được phân quyền!",
                             "Lỗi phân quyền",
@@ -560,6 +531,8 @@ namespace SPORTSHOP
                         return;
                 }
 
+
+
                 // =========================================================
                 // MỞ FORM
                 // =========================================================
@@ -568,7 +541,8 @@ namespace SPORTSHOP
                 {
                     frm.FormClosed += (s, args) =>
                     {
-                        Application.Exit();
+                        Session.DangXuat();
+                        this.Show();
                     };
 
                     frm.Show();

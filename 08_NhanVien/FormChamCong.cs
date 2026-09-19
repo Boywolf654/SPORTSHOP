@@ -40,6 +40,23 @@ namespace SPORTSHOP
 
             dtp_GioVao.Value = DateTime.Now;
             Dtp_GioRa.Value = DateTime.Now;
+
+            // Chỉ nhân viên bán hàng và nhân viên kho mới bắt buộc chấm công.
+            if (cheDoNhanVien &&
+                Session.MaVaiTro != PhanQuyen.NV_BAN_HANG &&
+                Session.MaVaiTro != PhanQuyen.NV_KHO)
+            {
+                MessageBox.Show(
+                    "Tài khoản hiện tại không thuộc nhóm nhân viên phải chấm công.",
+                    "Không được chấm công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+                return;
+            }
+
             if (cheDoNhanVien)
             {
                 // Tự điền mã NV nhưng vẫn bắt buộc bấm TÌM

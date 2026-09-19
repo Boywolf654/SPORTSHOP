@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SPORTSHOP.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML, Version=0.105.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <HintPath>packages\ClosedXML.0.105.1\lib\netstandard2.0\ClosedXML.dll</HintPath>
@@ -118,6 +121,12 @@
     </Compile>
     <Compile Include="01_HeThong\FormAdmin.Designer.cs">
       <DependentUpon>FormAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="01_HeThong\Formquanly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01_HeThong\Formquanly.Designer.cs">
+      <DependentUpon>Formquanly.cs</DependentUpon>
     </Compile>
     <Compile Include="01_HeThong\FormDangKy.cs">
       <SubType>Form</SubType>
@@ -367,6 +376,36 @@
     <Compile Include="08_NhanVien\FormManHinhKhoa.Designer.cs">
       <DependentUpon>FormManHinhKhoa.cs</DependentUpon>
     </Compile>
+    <Compile Include="07_KhachHang\Formhoivien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="07_KhachHang\Formhoivien.Designer.cs">
+      <DependentUpon>Formhoivien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="08_NhanVien\Formthanhtoankh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="08_NhanVien\Formthanhtoankh.Designer.cs">
+      <DependentUpon>Formthanhtoankh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="01_HeThong\Formnvkho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01_HeThong\Formnvkho.Designer.cs">
+      <DependentUpon>Formnvkho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="07_KhachHang\FormViDienTu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="07_KhachHang\FormViDienTu.Designer.cs">
+      <DependentUpon>FormViDienTu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="01_HeThong\FormQuanLyChamCong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01_HeThong\FormQuanLyChamCong.Designer.cs">
+      <DependentUpon>FormQuanLyChamCong.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -510,6 +549,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="08_NhanVien\FormManHinhKhoa.resx">
       <DependentUpon>FormManHinhKhoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="07_KhachHang\Formhoivien.resx">
+      <DependentUpon>Formhoivien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="08_NhanVien\Formthanhtoankh.resx">
+      <DependentUpon>Formthanhtoankh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="01_HeThong\Formnvkho.resx">
+      <DependentUpon>Formnvkho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="01_HeThong\Formquanly.resx">
+      <DependentUpon>Formquanly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="07_KhachHang\FormViDienTu.resx">
+      <DependentUpon>FormViDienTu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="01_HeThong\FormQuanLyChamCong.resx">
+      <DependentUpon>FormQuanLyChamCong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

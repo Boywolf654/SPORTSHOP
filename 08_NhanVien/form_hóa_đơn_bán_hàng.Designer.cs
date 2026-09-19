@@ -71,6 +71,11 @@
             this.btn_TaoHoaDon = new System.Windows.Forms.Button();
             this.btn_ThanhToan = new System.Windows.Forms.Button();
             this.btn_InHoaDon = new System.Windows.Forms.Button();
+            this.btn_Voucher = new System.Windows.Forms.Button();
+            this.lb_Voucher = new System.Windows.Forms.Label();
+            this.lb_KhuyenMai = new System.Windows.Forms.Label();
+            this.lb_PhuongThuc = new System.Windows.Forms.Label();
+            this.cmb_PhuongThuc = new System.Windows.Forms.ComboBox();
             this.btn_menu = new Guna.UI2.WinForms.Guna2Button();
             this.pnl_ThongTin.SuspendLayout();
             this.pnl_ChiTietHoaDon.SuspendLayout();
@@ -462,6 +467,11 @@
             this.pnl_TongTien.Controls.Add(this.lb_TongTienHang);
             this.pnl_TongTien.Controls.Add(this.lb_TongTienHangText);
             this.pnl_TongTien.Controls.Add(this.lb_TongTien);
+            this.pnl_TongTien.Controls.Add(this.btn_Voucher);
+            this.pnl_TongTien.Controls.Add(this.lb_Voucher);
+            this.pnl_TongTien.Controls.Add(this.lb_KhuyenMai);
+            this.pnl_TongTien.Controls.Add(this.lb_PhuongThuc);
+            this.pnl_TongTien.Controls.Add(this.cmb_PhuongThuc);
             this.pnl_TongTien.Location = new System.Drawing.Point(659, 656);
             this.pnl_TongTien.Name = "pnl_TongTien";
             this.pnl_TongTien.Size = new System.Drawing.Size(847, 200);
@@ -543,7 +553,72 @@
             this.lb_TongTien.Size = new System.Drawing.Size(185, 31);
             this.lb_TongTien.TabIndex = 0;
             this.lb_TongTien.Text = " 💰  TỔNG TIỀN\n";
-            // 
+            //
+            // btn_Voucher
+            //
+            this.btn_Voucher.BackColor = System.Drawing.Color.FromArgb(112, 64, 216);
+            this.btn_Voucher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Voucher.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.btn_Voucher.ForeColor = System.Drawing.Color.White;
+            this.btn_Voucher.Location = new System.Drawing.Point(220, 42);
+            this.btn_Voucher.Name = "btn_Voucher";
+            this.btn_Voucher.Size = new System.Drawing.Size(135, 38);
+            this.btn_Voucher.TabIndex = 7;
+            this.btn_Voucher.Text = "🎟  Voucher";
+            this.btn_Voucher.UseVisualStyleBackColor = false;
+            
+            //
+            // lb_Voucher
+            //
+            this.lb_Voucher.AutoSize = true;
+            this.lb_Voucher.Font = new System.Drawing.Font("Segoe UI", 8.8F);
+            this.lb_Voucher.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lb_Voucher.Location = new System.Drawing.Point(220, 87);
+            this.lb_Voucher.Name = "lb_Voucher";
+            this.lb_Voucher.Size = new System.Drawing.Size(160, 20);
+            this.lb_Voucher.TabIndex = 9;
+            this.lb_Voucher.Text = "🎟 Voucher: Chưa áp dụng";
+            //
+            // lb_KhuyenMai
+            //
+            this.lb_KhuyenMai.AutoSize = true;
+            this.lb_KhuyenMai.Font = new System.Drawing.Font("Segoe UI", 8.8F);
+            this.lb_KhuyenMai.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lb_KhuyenMai.Location = new System.Drawing.Point(220, 112);
+            this.lb_KhuyenMai.Name = "lb_KhuyenMai";
+            this.lb_KhuyenMai.Size = new System.Drawing.Size(160, 20);
+            this.lb_KhuyenMai.TabIndex = 10;
+            this.lb_KhuyenMai.Text = "🎁 Khuyến mãi: 0 đ";
+            //
+            // lb_PhuongThuc
+            //
+            this.lb_PhuongThuc.AutoSize = true;
+            this.lb_PhuongThuc.Font = new System.Drawing.Font("Segoe UI", 8.8F);
+            this.lb_PhuongThuc.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lb_PhuongThuc.Location = new System.Drawing.Point(220, 150);
+            this.lb_PhuongThuc.Name = "lb_PhuongThuc";
+            this.lb_PhuongThuc.Size = new System.Drawing.Size(100, 20);
+            this.lb_PhuongThuc.TabIndex = 11;
+            this.lb_PhuongThuc.Text = "💰 Thanh toán:";
+            //
+            // cmb_PhuongThuc
+            //
+            this.cmb_PhuongThuc.BackColor = System.Drawing.Color.FromArgb(16, 38, 56);
+            this.cmb_PhuongThuc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_PhuongThuc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmb_PhuongThuc.ForeColor = System.Drawing.Color.White;
+            this.cmb_PhuongThuc.FormattingEnabled = true;
+            this.cmb_PhuongThuc.Items.AddRange(new object[] {
+            "Tiền mặt",
+            "Thẻ",
+            "Chuyển khoản",
+            "Ví điện tử"});
+            this.cmb_PhuongThuc.Location = new System.Drawing.Point(325, 146);
+            this.cmb_PhuongThuc.Name = "cmb_PhuongThuc";
+            this.cmb_PhuongThuc.Size = new System.Drawing.Size(175, 28);
+            this.cmb_PhuongThuc.TabIndex = 12;
+            this.cmb_PhuongThuc.SelectedIndex = 0;
+            //
             // btn_TaoHoaDon
             // 
             this.btn_TaoHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(185)))), ((int)(((byte)(99)))));
@@ -678,6 +753,11 @@
         private System.Windows.Forms.Button btn_TaoHoaDon;
         private System.Windows.Forms.Button btn_ThanhToan;
         private System.Windows.Forms.Button btn_InHoaDon;
+        private System.Windows.Forms.Button btn_Voucher;
+        private System.Windows.Forms.Label lb_Voucher;
+        private System.Windows.Forms.Label lb_KhuyenMai;
+        private System.Windows.Forms.Label lb_PhuongThuc;
+        private System.Windows.Forms.ComboBox cmb_PhuongThuc;
         private Guna.UI2.WinForms.Guna2Button btn_menu;
     }
 }

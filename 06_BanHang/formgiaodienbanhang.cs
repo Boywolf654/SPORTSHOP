@@ -357,34 +357,32 @@ namespace SPORTSHOP
 
         private void DecorMenu()
         {
-            menuStrip1.BackColor =
-                Color.Transparent;
+            // Thanh menu chính
+            menuStrip1.BackColor = Color.FromArgb(18, 18, 18);
+            menuStrip1.ForeColor = Color.White;
+            menuStrip1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            menuStrip1.Renderer = new ModernMenuRenderer();
 
-            menuStrip1.ForeColor =
-                MauTrang;
-
-            menuStrip1.Font =
-                new Font(
-                    "Segoe UI",
-                    12F,
-                    FontStyle.Bold);
-
-            menuStrip1.Renderer =
-                new ModernMenuRenderer();
-
-            foreach (ToolStripItem item
-                in menuStrip1.Items)
+            foreach (ToolStripItem item in menuStrip1.Items)
             {
-                item.ForeColor = MauTrang;
-                item.BackColor =
-                    Color.Transparent;
+                item.ForeColor = Color.White;
+                item.BackColor = Color.FromArgb(18, 18, 18);
+                item.Padding = new Padding(14, 8, 14, 8);
 
-                item.Padding =
-                    new Padding(
-                        14,
-                        8,
-                        14,
-                        8);
+                if (item is ToolStripMenuItem menuItem)
+                {
+                    menuItem.DropDown.BackColor = Color.White;
+                    menuItem.DropDown.ForeColor = Color.FromArgb(35, 35, 35);
+                    menuItem.DropDown.Padding = new Padding(5);
+
+                    foreach (ToolStripItem child in menuItem.DropDownItems)
+                    {
+                        child.ForeColor = Color.FromArgb(35, 35, 35);
+                        child.BackColor = Color.White;
+                        child.Padding = new Padding(12, 8, 24, 8);
+                        child.Margin = new Padding(0);
+                    }
+                }
             }
         }
 
@@ -964,9 +962,11 @@ namespace SPORTSHOP
             ToolStripItemTextRenderEventArgs e)
         {
             if (e.Item.Selected)
-            {
                 e.TextColor = Color.White;
-            }
+            else if (e.Item.OwnerItem != null)
+                e.TextColor = Color.FromArgb(35, 35, 35);
+            else
+                e.TextColor = Color.White;
 
             base.OnRenderItemText(e);
         }
@@ -1012,10 +1012,7 @@ namespace SPORTSHOP
         {
             get
             {
-                return Color.FromArgb(
-                    28,
-                    28,
-                    30);
+                return Color.White;
             }
         }
 
@@ -1023,10 +1020,7 @@ namespace SPORTSHOP
         {
             get
             {
-                return Color.FromArgb(
-                    60,
-                    60,
-                    60);
+                return Color.FromArgb(220, 220, 220);
             }
         }
 

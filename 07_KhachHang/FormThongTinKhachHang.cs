@@ -137,10 +137,17 @@ namespace SPORTSHOP._07_KhachHang
             // HEADER
             // ==============================
 
-            lbthongtinkhachhang.Text = hoTen;
+            lbthongtinkhachhang.Text =
+                string.IsNullOrWhiteSpace(hoTen)
+                    ? "Khách hàng"
+                    : hoTen;
 
-            lbMakh.Text =
-                "KH-" + maKH.ToString("D5");
+            lbMakh.Text = "KH-" + maKH.ToString("D5");
+
+            btnDaiDienAvatar.Text = LayChuCaiDaiDien(hoTen);
+
+            // Trạng thái đặt lại vị trí ngay sau mã KH
+            lbTrangthai.Left = lbMakh.Right + 18;
 
             if (trangThai)
             {
@@ -148,8 +155,14 @@ namespace SPORTSHOP._07_KhachHang
                 lbTrangthai.ForeColor =
                     Color.FromArgb(16, 185, 129);
 
-                btnNgunggiaodich.Text =
-                    "Ngừng giao dịch";
+                btnNgunggiaodich.Text = "Ngừng giao dịch";
+
+                btnNgunggiaodich.FillColor =
+                    Color.FromArgb(254, 242, 242);
+                btnNgunggiaodich.ForeColor =
+                    Color.FromArgb(220, 38, 38);
+                btnNgunggiaodich.BorderColor =
+                    Color.FromArgb(252, 165, 165);
             }
             else
             {
@@ -157,8 +170,14 @@ namespace SPORTSHOP._07_KhachHang
                 lbTrangthai.ForeColor =
                     Color.FromArgb(220, 38, 38);
 
-                btnNgunggiaodich.Text =
-                    "Mở lại giao dịch";
+                btnNgunggiaodich.Text = "Mở lại giao dịch";
+
+                btnNgunggiaodich.FillColor =
+                    Color.FromArgb(236, 253, 245);
+                btnNgunggiaodich.ForeColor =
+                    Color.FromArgb(5, 150, 105);
+                btnNgunggiaodich.BorderColor =
+                    Color.FromArgb(167, 243, 208);
             }
 
             // ==============================
@@ -166,8 +185,8 @@ namespace SPORTSHOP._07_KhachHang
             // ==============================
 
             label5.Text = hoTen;
-            label11.Text =
-                "KH-" + maKH.ToString("D5");
+
+            label11.Text = "KH-" + maKH.ToString("D5");
 
             label15.Text =
                 string.IsNullOrWhiteSpace(sdt)
@@ -182,15 +201,56 @@ namespace SPORTSHOP._07_KhachHang
 
             // Hạng thành viên
             label37.Text = hang;
+            label37.ForeColor = LayMauTheoHang(hang);
 
             // Điểm tích lũy
-            label41.Text =
-                diem.ToString("N0") + " điểm";
+            label41.Text = diem.ToString("N0") + " điểm";
 
-            // Thông tin hiện tại chưa có cột tương ứng
+            // Thông tin hiện tại chưa có cột tương ứng trong CSDL
             label7.Text = "Chưa cập nhật";
             label9.Text = "Chưa cập nhật";
             label13.Text = "Chưa cập nhật";
+        }
+
+        // =========================================================
+        // TIỆN ÍCH HIỂN THỊ
+        // =========================================================
+
+        private string LayChuCaiDaiDien(string hoTen)
+        {
+            if (string.IsNullOrWhiteSpace(hoTen))
+                return "KH";
+
+            string[] phan = hoTen.Trim().Split(
+                new[] { ' ' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            if (phan.Length == 1)
+                return phan[0].Substring(0, 1).ToUpper();
+
+            string dau = phan[0].Substring(0, 1);
+            string cuoi = phan[phan.Length - 1].Substring(0, 1);
+
+            return (dau + cuoi).ToUpper();
+        }
+
+        private Color LayMauTheoHang(string hang)
+        {
+            string h = (hang ?? "").Trim().ToLower();
+
+            if (h.Contains("kim cương"))
+                return Color.FromArgb(14, 165, 233);
+
+            if (h.Contains("vàng"))
+                return Color.FromArgb(217, 119, 6);
+
+            if (h.Contains("bạc"))
+                return Color.FromArgb(100, 116, 139);
+
+            if (h.Contains("đồng"))
+                return Color.FromArgb(180, 83, 9);
+
+            return Color.FromArgb(90, 96, 108);
         }
 
         // =========================================================
@@ -209,6 +269,9 @@ namespace SPORTSHOP._07_KhachHang
                 BatCheDoChinhSua();
 
                 btnChinhsua.Text = "Lưu thay đổi";
+
+                btnChinhsua.FillColor =
+                    Color.FromArgb(16, 185, 129);
 
                 dangChinhSua = true;
 
@@ -242,6 +305,8 @@ namespace SPORTSHOP._07_KhachHang
                 label21.Text == "Chưa cập nhật"
                     ? ""
                     : label21.Text);
+
+            txtHoTen.Focus();
         }
 
         private TextBox TaoTextBox(
@@ -251,16 +316,25 @@ namespace SPORTSHOP._07_KhachHang
             TextBox txt = new TextBox();
 
             txt.Text = giaTri;
-            txt.Font = label.Font;
-            txt.Location = label.Location;
-            txt.Size = new Size(
-                Math.Max(250, label.Width + 100),
-                32);
 
-            txt.BorderStyle =
-                BorderStyle.FixedSingle;
+            txt.Font = new Font(
+                "Segoe UI",
+                10.5F);
+
+            txt.Location = new Point(
+                label.Location.X,
+                label.Location.Y + 1);
+
+            // Giữ nguyên bề rộng của nhãn để không tràn ra ngoài thẻ
+            txt.Size = new Size(
+                Math.Max(200, label.Width),
+                28);
+
+            txt.BorderStyle = BorderStyle.FixedSingle;
 
             txt.BackColor = Color.White;
+
+            txt.ForeColor = Color.FromArgb(30, 35, 42);
 
             label.Parent.Controls.Add(txt);
 
@@ -277,14 +351,11 @@ namespace SPORTSHOP._07_KhachHang
 
         private void LuuThongTinKhachHang()
         {
-            string hoTen =
-                txtHoTen.Text.Trim();
+            string hoTen = txtHoTen.Text.Trim();
 
-            string sdt =
-                txtSDT.Text.Trim();
+            string sdt = txtSDT.Text.Trim();
 
-            string email =
-                txtEmail.Text.Trim();
+            string email = txtEmail.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(hoTen))
             {
@@ -363,6 +434,9 @@ namespace SPORTSHOP._07_KhachHang
                 dangChinhSua = false;
 
                 btnChinhsua.Text = "Chỉnh sửa";
+
+                btnChinhsua.FillColor =
+                    Color.FromArgb(24, 119, 242);
 
                 LoadThongTinKhachHang();
 
@@ -504,6 +578,9 @@ namespace SPORTSHOP._07_KhachHang
 
             btn_dntc.ForeColor =
                 Color.FromArgb(110, 115, 125);
+
+            label3.Text =
+                "Áp dụng khi khách hàng là một cá nhân mua hàng trực tiếp.";
         }
 
         private void btn_dntc_Click(
@@ -520,6 +597,9 @@ namespace SPORTSHOP._07_KhachHang
 
             btn_canhan.ForeColor =
                 Color.FromArgb(110, 115, 125);
+
+            label3.Text =
+                "Áp dụng khi khách hàng là doanh nghiệp hoặc tổ chức mua hàng.";
         }
 
         // =========================================================

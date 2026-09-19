@@ -177,10 +177,10 @@ namespace SPORTSHOP
         {
 
             DialogResult result = MessageBox.Show(
-         "Bạn có chắc muốn đăng xuất không?",
-         "Đăng xuất",
-         MessageBoxButtons.YesNo,
-         MessageBoxIcon.Question);
+       "Bạn có chắc muốn đăng xuất không?",
+       "Đăng xuất",
+       MessageBoxButtons.YesNo,
+       MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes)
                 return;
@@ -206,7 +206,10 @@ namespace SPORTSHOP
                     kt.Execute(sql, parameters);
                 }
 
+                // Xóa phiên đăng nhập
                 Session.DangXuat();
+
+                // Đóng form hiện tại
                 this.Close();
             }
             catch (Exception ex)
@@ -586,6 +589,11 @@ namespace SPORTSHOP
         private void FormChiTietNCC_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void btn_BaoCaoCHamCong_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new FormQuanLyChamCong());
         }
     }
 }

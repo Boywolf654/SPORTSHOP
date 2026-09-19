@@ -1,141 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SPORTSHOP._03_QuanLyKho
 {
-
     public partial class FormTonKho : Form
     {
-        private KetNoiDuLieu kt = new KetNoiDuLieu();
-
+        private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
         private DataTable dtTonKho;
+
         public FormTonKho()
         {
             InitializeComponent();
 
+            LoadKho();
             LoadDanhMuc();
             LoadTrangThai();
             LoadTonKho();
-            CauHinhDataGridView1();
 
-            // Sự kiện tìm kiếm
-            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
-
-            // Sự kiện lọc
-            cmbDanhMuc.SelectedIndexChanged += cmbDanhMuc_SelectedIndexChanged;
-            cmbTrangThai.SelectedIndexChanged += cmbTrangThai_SelectedIndexChanged;
+            txtTimKiem.TextChanged += (s, e) => LocDuLieu();
+            cmbKho.SelectedIndexChanged += (s, e) => { if (IsHandleCreated) { LocDuLieu(); CapNhatThongKe(); } };
+            cmbDanhMuc.SelectedIndexChanged += (s, e) => LocDuLieu();
+            cmbTrangThai.SelectedIndexChanged += (s, e) => LocDuLieu();
+            btnLamMoi.Click += btnLamMoi_Click;
         }
 
-        private void FormTonKho_Load(object sender, EventArgs e)
+        private void LoadKho()
         {
+            string sql = "SELECT MaKho, TenKho FROM Kho ORDER BY TenKho;";
+            DataTable dt = kt.GetData(sql);
+            DataRow all = dt.NewRow();
+            all["MaKho"] = 0;
+            all["TenKho"] = "Tất cả kho";
+            dt.Rows.InsertAt(all, 0);
 
-        }
-
-        private void LoadTonKho()
-        {
-            string sql = @"
-                SELECT
-                    tk.MaTonKho,
-                    sp.MaSP,
-                    sp.TenSP,
-                    dm.MaDM,
-                    bt.SKU,
-                    sz.TenSize AS Size,
-                    ms.TenMau AS Mau,
-                    tk.SLTon,
-                    tk.SLToiThieu,
-                    bt.GiaBan,
-
-                    CASE
-                        WHEN tk.SLTon = 0 THEN N'Hết hàng'
-                        WHEN tk.SLTon <= tk.SLToiThieu THEN N'Sắp hết hàng'
-                        ELSE N'Còn hàng'
-                    END AS TrangThai
-
-                FROM TonKho tk
-
-                INNER JOIN BienTheSanPham bt
-                    ON tk.MaBienThe = bt.MaBienThe
-
-                INNER JOIN SanPham sp
-                    ON bt.MaSP = sp.MaSP
-
-                INNER JOIN DanhMuc dm
-                    ON sp.MaDM = dm.MaDM
-
-                INNER JOIN Size sz
-                    ON bt.MaSize = sz.MaSize
-
-                INNER JOIN MauSac ms
-                    ON bt.MaMau = ms.MaMau
-
-                ORDER BY sp.TenSP;
-            ";
-
-            dtTonKho = kt.GetData(sql);
-
-            dgvTonKho.DataSource = dtTonKho;
-
-            DatTenCot();
-            CauHinhDataGridView();
-            CapNhatThongKe();
-        }
-
-        private void DatTenCot()
-        {
-            if (dgvTonKho.Columns.Count == 0)
-                return;
-
-            dgvTonKho.Columns["MaTonKho"].HeaderText = "Mã tồn";
-            dgvTonKho.Columns["MaSP"].Visible = false;
-            dgvTonKho.Columns["MaDM"].Visible = false;
-
-            dgvTonKho.Columns["TenSP"].HeaderText = "Sản phẩm";
-            dgvTonKho.Columns["SKU"].HeaderText = "SKU";
-            dgvTonKho.Columns["Size"].HeaderText = "Size";
-            dgvTonKho.Columns["Mau"].HeaderText = "Màu";
-            dgvTonKho.Columns["SLTon"].HeaderText = "Tồn kho";
-            dgvTonKho.Columns["SLToiThieu"].HeaderText = "Tối thiểu";
-            dgvTonKho.Columns["GiaBan"].HeaderText = "Giá bán";
-            dgvTonKho.Columns["TrangThai"].HeaderText = "Trạng thái";
-
-            dgvTonKho.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-        }
-
-
-        // =========================================================
-        // 3. CẤU HÌNH DATAGRIDVIEW
-        // =========================================================
-        private void CauHinhDataGridView()
-        {
-            dgvTonKho.AllowUserToAddRows = false;
-            dgvTonKho.AllowUserToDeleteRows = false;
-            dgvTonKho.ReadOnly = true;
-
-            dgvTonKho.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            dgvTonKho.MultiSelect = false;
-
-            dgvTonKho.ColumnHeadersHeightSizeMode =
-                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
-            dgvTonKho.ColumnHeadersHeight = 35;
-
-            dgvTonKho.ScrollBars = ScrollBars.Both;
-
-            dgvTonKho.ColumnHeadersDefaultCellStyle.Alignment =
-    DataGridViewContentAlignment.MiddleCenter;
-
-            dgvTonKho.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Segoe UI", 10, FontStyle.Bold);
+            cmbKho.DataSource = dt;
+            cmbKho.DisplayMember = "TenKho";
+            cmbKho.ValueMember = "MaKho";
+            cmbKho.SelectedIndex = 0;
         }
 
         private void LoadDanhMuc()
@@ -144,286 +48,231 @@ namespace SPORTSHOP._03_QuanLyKho
                 SELECT MaDM, TenDanhMuc
                 FROM DanhMuc
                 WHERE TrangThai = 1
-                ORDER BY TenDanhMuc;
-            ";
-
+                ORDER BY TenDanhMuc;";
             DataTable dt = kt.GetData(sql);
 
-            DataRow row = dt.NewRow();
-
-            row["MaDM"] = 0;
-            row["TenDanhMuc"] = "Tất cả danh mục";
-
-            dt.Rows.InsertAt(row, 0);
+            DataRow all = dt.NewRow();
+            all["MaDM"] = 0;
+            all["TenDanhMuc"] = "Tất cả danh mục";
+            dt.Rows.InsertAt(all, 0);
 
             cmbDanhMuc.DataSource = dt;
             cmbDanhMuc.DisplayMember = "TenDanhMuc";
             cmbDanhMuc.ValueMember = "MaDM";
-
             cmbDanhMuc.SelectedIndex = 0;
         }
-
 
         private void LoadTrangThai()
         {
             cmbTrangThai.Items.Clear();
-
-            cmbTrangThai.Items.Add("Tất cả trạng thái");
-            cmbTrangThai.Items.Add("Còn hàng");
-            cmbTrangThai.Items.Add("Sắp hết hàng");
-            cmbTrangThai.Items.Add("Hết hàng");
-
+            cmbTrangThai.Items.AddRange(new object[] {
+                "Tất cả trạng thái", "Còn hàng", "Sắp hết hàng", "Hết hàng"
+            });
             cmbTrangThai.SelectedIndex = 0;
+        }
+
+        private int GetMaKhoFilter()
+        {
+            int maKho;
+            return cmbKho.SelectedValue != null &&
+                   int.TryParse(cmbKho.SelectedValue.ToString(), out maKho)
+                ? maKho : 0;
+        }
+
+        private int GetMaDMFilter()
+        {
+            int maDM;
+            return cmbDanhMuc.SelectedValue != null &&
+                   int.TryParse(cmbDanhMuc.SelectedValue.ToString(), out maDM)
+                ? maDM : 0;
+        }
+
+        private void LoadTonKho()
+        {
+            string sql = @"
+                SELECT
+                    tk.MaTonKho,
+                    tk.MaKho,
+                    k.TenKho,
+                    sp.MaSP,
+                    sp.TenSP,
+                    dm.MaDM,
+                    bt.SKU,
+                    sz.TenSize AS Size,
+                    ms.TenMau AS Mau,
+                    tk.SLTon,
+                    tk.SLToiThieu,
+                    bt.GiaNhap,
+                    bt.GiaBan,
+                    CASE
+                        WHEN tk.SLTon = 0 THEN N'Hết hàng'
+                        WHEN tk.SLTon <= tk.SLToiThieu THEN N'Sắp hết hàng'
+                        ELSE N'Còn hàng'
+                    END AS TrangThai
+                FROM TonKho tk
+                INNER JOIN Kho k ON k.MaKho = tk.MaKho
+                INNER JOIN BienTheSanPham bt ON bt.MaBienThe = tk.MaBienThe
+                INNER JOIN SanPham sp ON sp.MaSP = bt.MaSP
+                INNER JOIN DanhMuc dm ON dm.MaDM = sp.MaDM
+                INNER JOIN Size sz ON sz.MaSize = bt.MaSize
+                INNER JOIN MauSac ms ON ms.MaMau = bt.MaMau
+                ORDER BY k.TenKho, sp.TenSP, bt.SKU;";
+
+            dtTonKho = kt.GetData(sql);
+            dgvTonKho.DataSource = dtTonKho;
+            DatTenCot();
+            CauHinhDataGridView();
+            CapNhatThongKe();
+        }
+
+        private void DatTenCot()
+        {
+            if (dgvTonKho.Columns.Count == 0) return;
+
+            dgvTonKho.Columns["MaTonKho"].HeaderText = "Mã tồn";
+            dgvTonKho.Columns["MaKho"].Visible = false;
+            dgvTonKho.Columns["MaSP"].Visible = false;
+            dgvTonKho.Columns["MaDM"].Visible = false;
+
+            dgvTonKho.Columns["TenKho"].HeaderText = "Kho";
+            dgvTonKho.Columns["TenSP"].HeaderText = "Sản phẩm";
+            dgvTonKho.Columns["SKU"].HeaderText = "SKU";
+            dgvTonKho.Columns["Size"].HeaderText = "Size";
+            dgvTonKho.Columns["Mau"].HeaderText = "Màu";
+            dgvTonKho.Columns["SLTon"].HeaderText = "Tồn";
+            dgvTonKho.Columns["SLToiThieu"].HeaderText = "Tối thiểu";
+            dgvTonKho.Columns["GiaNhap"].HeaderText = "Giá nhập";
+            dgvTonKho.Columns["GiaBan"].HeaderText = "Giá bán";
+            dgvTonKho.Columns["TrangThai"].HeaderText = "Trạng thái";
+
+            dgvTonKho.Columns["GiaNhap"].DefaultCellStyle.Format = "N0";
+            dgvTonKho.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
+        }
+
+        private void CauHinhDataGridView()
+        {
+            dgvTonKho.AllowUserToAddRows = false;
+            dgvTonKho.AllowUserToDeleteRows = false;
+            dgvTonKho.ReadOnly = true;
+            dgvTonKho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTonKho.MultiSelect = false;
+            dgvTonKho.RowHeadersVisible = false;
+            dgvTonKho.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgvTonKho.ColumnHeadersHeight = 40;
+            dgvTonKho.RowTemplate.Height = 34;
+            dgvTonKho.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvTonKho.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dgvTonKho.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+            dgvTonKho.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            if (dgvTonKho.Columns.Count > 0)
+            {
+                dgvTonKho.Columns["MaTonKho"].Width = 70;
+                dgvTonKho.Columns["TenKho"].Width = 125;
+                dgvTonKho.Columns["TenSP"].Width = 190;
+                dgvTonKho.Columns["SKU"].Width = 125;
+                dgvTonKho.Columns["Size"].Width = 65;
+                dgvTonKho.Columns["Mau"].Width = 85;
+                dgvTonKho.Columns["SLTon"].Width = 75;
+                dgvTonKho.Columns["SLToiThieu"].Width = 85;
+                dgvTonKho.Columns["GiaNhap"].Width = 105;
+                dgvTonKho.Columns["GiaBan"].Width = 105;
+                dgvTonKho.Columns["TrangThai"].Width = 115;
+            }
+        }
+
+        private string EscapeRowFilter(string value)
+        {
+            return value.Replace("'", "''")
+                        .Replace("[", "[[]")
+                        .Replace("%", "[%]")
+                        .Replace("*", "[*]");
         }
 
         private void LocDuLieu()
         {
-            if (dtTonKho == null)
-                return;
+            if (dtTonKho == null) return;
 
-            string tenSP = txtTimKiem.Text.Trim();
+            DataView view = new DataView(dtTonKho);
+            string filter = "";
 
-            int maDM = 0;
+            string ten = EscapeRowFilter(txtTimKiem.Text.Trim());
+            if (!string.IsNullOrWhiteSpace(ten))
+                filter = "TenSP LIKE '%" + ten + "%' OR SKU LIKE '%" + ten + "%'";
 
-            if (cmbDanhMuc.SelectedValue != null)
-            {
-                int.TryParse(
-                    cmbDanhMuc.SelectedValue.ToString(),
-                    out maDM
-                );
-            }
+            int maKho = GetMaKhoFilter();
+            if (maKho > 0)
+                filter = AddAnd(filter, "MaKho = " + maKho);
 
-            string trangThai = "";
+            int maDM = GetMaDMFilter();
+            if (maDM > 0)
+                filter = AddAnd(filter, "MaDM = " + maDM);
 
             if (cmbTrangThai.SelectedIndex > 0)
             {
-                trangThai = cmbTrangThai.SelectedItem.ToString();
+                string tt = EscapeRowFilter(cmbTrangThai.SelectedItem.ToString());
+                filter = AddAnd(filter, "TrangThai = '" + tt + "'");
             }
-
-
-            DataView view = new DataView(dtTonKho);
-
-            string filter = "";
-
-
-            // -------------------------
-            // LỌC TÊN SẢN PHẨM
-            // -------------------------
-            if (!string.IsNullOrEmpty(tenSP))
-            {
-                // Tránh lỗi khi người dùng nhập dấu '
-                tenSP = tenSP.Replace("'", "''");
-
-                filter +=
-                    $"TenSP LIKE '%{tenSP}%'";
-            }
-
-
-            // -------------------------
-            // LỌC DANH MỤC
-            // -------------------------
-            if (maDM > 0)
-            {
-                if (filter != "")
-                    filter += " AND ";
-
-                filter += $"MaDM = {maDM}";
-            }
-
-
-            // -------------------------
-            // LỌC TRẠNG THÁI
-            // -------------------------
-            if (!string.IsNullOrEmpty(trangThai))
-            {
-                if (filter != "")
-                    filter += " AND ";
-
-                trangThai = trangThai.Replace("'", "''");
-
-                filter +=
-                    $"TrangThai = '{trangThai}'";
-            }
-
 
             view.RowFilter = filter;
-
             dgvTonKho.DataSource = view;
-
             DatTenCot();
         }
 
-
-        // =========================================================
-        // 7. TÌM KIẾM
-        // =========================================================
-        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        private string AddAnd(string current, string next)
         {
-            LocDuLieu();
+            if (string.IsNullOrEmpty(current)) return next;
+            if (current.Contains(" OR ")) return "(" + current + ") AND " + next;
+            return current + " AND " + next;
         }
 
-
-        // =========================================================
-        // 8. LỌC DANH MỤC
-        // =========================================================
-        private void cmbDanhMuc_SelectedIndexChanged(
-            object sender,
-            EventArgs e)
-        {
-            LocDuLieu();
-        }
-
-
-        // =========================================================
-        // 9. LỌC TRẠNG THÁI
-        // =========================================================
-        private void cmbTrangThai_SelectedIndexChanged(
-            object sender,
-            EventArgs e)
-        {
-            LocDuLieu();
-        }
-
-
-        // =========================================================
-        // 10. TÍNH THỐNG KÊ
-        // =========================================================
         private void CapNhatThongKe()
         {
             string sql = @"
-        SELECT
-            COUNT(DISTINCT bt.MaSP) AS TongSanPham,
+                SELECT
+                    COUNT(*) AS TongBienThe,
+                    SUM(CASE WHEN tk.SLTon > 0 AND tk.SLTon <= tk.SLToiThieu THEN 1 ELSE 0 END) AS SapHet,
+                    SUM(CASE WHEN tk.SLTon = 0 THEN 1 ELSE 0 END) AS Het,
+                    ISNULL(SUM(tk.SLTon * bt.GiaNhap), 0) AS GiaTri
+                FROM TonKho tk
+                INNER JOIN BienTheSanPham bt ON bt.MaBienThe = tk.MaBienThe
+                WHERE (@MaKho = 0 OR tk.MaKho = @MaKho);";
 
-            SUM(
-                CASE
-                    WHEN tk.SLTon > 0
-                         AND tk.SLTon <= tk.SLToiThieu
-                    THEN 1
-                    ELSE 0
-                END
-            ) AS SapHetHang,
+            DataTable dt = kt.GetData(
+            sql,
+            new SqlParameter[]
+            {
+                new SqlParameter("@MaKho", GetMaKhoFilter())
+            }
+                );
 
-            SUM(
-                CASE
-                    WHEN tk.SLTon = 0
-                    THEN 1
-                    ELSE 0
-                END
-            ) AS HetHang,
+            DataRow r = dt.Rows[0];
+            int tong = r["TongBienThe"] == DBNull.Value ? 0 : Convert.ToInt32(r["TongBienThe"]);
+            int sap = r["SapHet"] == DBNull.Value ? 0 : Convert.ToInt32(r["SapHet"]);
+            int het = r["Het"] == DBNull.Value ? 0 : Convert.ToInt32(r["Het"]);
+            decimal giaTri = r["GiaTri"] == DBNull.Value ? 0 : Convert.ToDecimal(r["GiaTri"]);
 
-            ISNULL(
-                SUM(tk.SLTon * bt.GiaNhap),
-                0
-            ) AS GiaTriTonKho
-
-        FROM TonKho tk
-        INNER JOIN BienTheSanPham bt
-            ON tk.MaBienThe = bt.MaBienThe;
-    ";
-
-            DataTable dt = kt.GetData(sql);
-
-            if (dt.Rows.Count == 0)
-                return;
-
-            DataRow row = dt.Rows[0];
-
-            int tongSanPham = Convert.ToInt32(row["TongSanPham"]);
-
-            int sapHetHang = row["SapHetHang"] == DBNull.Value
-                ? 0
-                : Convert.ToInt32(row["SapHetHang"]);
-
-            int hetHang = row["HetHang"] == DBNull.Value
-                ? 0
-                : Convert.ToInt32(row["HetHang"]);
-
-            decimal giaTriTonKho = row["GiaTriTonKho"] == DBNull.Value
-                ? 0
-                : Convert.ToDecimal(row["GiaTriTonKho"]);
-
-
-            // =========================
-            // HIỂN THỊ
-            // =========================
-
-            btnTongSanPham.Text =
-                "Tổng sản phẩm\n" +
-                tongSanPham.ToString("N0");
-
-            btnSapHetHang.Text =
-                "Sắp hết hàng\n" +
-                sapHetHang.ToString("N0");
-
-            btnHetHang.Text =
-                "Hết hàng\n" +
-                hetHang.ToString("N0");
-
-            btnGiaTriTonKho.Text =
-                "Giá trị tồn kho\n" +
-                FormatTien(giaTriTonKho);
+            btnTongSanPham.Text = "📦 Tổng biến thể\n" + tong.ToString("N0");
+            btnSapHetHang.Text = "⚠ Sắp hết hàng\n" + sap.ToString("N0");
+            btnHetHang.Text = "⛔ Hết hàng\n" + het.ToString("N0");
+            btnGiaTriTonKho.Text = "💰 Giá trị vốn tồn\n" + FormatTien(giaTri);
         }
 
         private string FormatTien(decimal tien)
         {
-            if (tien >= 1000000000)
-                return (tien / 1000000000m).ToString("0.##") + " tỷ đ";
-
-            if (tien >= 1000000)
-                return (tien / 1000000m).ToString("0.##") + " triệu đ";
-
-            if (tien >= 1000)
-                return (tien / 1000m).ToString("0.##") + " nghìn đ";
-
+            if (tien >= 1000000000m) return (tien / 1000000000m).ToString("0.##") + " tỷ đ";
+            if (tien >= 1000000m) return (tien / 1000000m).ToString("0.##") + " triệu đ";
+            if (tien >= 1000m) return (tien / 1000m).ToString("0.##") + " nghìn đ";
             return tien.ToString("N0") + " đ";
         }
 
-
-        // =========================================================
-        // 11. NÚT LÀM MỚI - NẾU M CÓ NÚT THÌ GẮN HÀM NÀY
-        // =========================================================
-        private void LamMoi()
+        private void btnLamMoi_Click(object sender, EventArgs e)
         {
             txtTimKiem.Clear();
-
-            if (cmbDanhMuc.Items.Count > 0)
-                cmbDanhMuc.SelectedIndex = 0;
-
-            if (cmbTrangThai.Items.Count > 0)
-                cmbTrangThai.SelectedIndex = 0;
-
+            cmbKho.SelectedIndex = 0;
+            cmbDanhMuc.SelectedIndex = 0;
+            cmbTrangThai.SelectedIndex = 0;
             LoadTonKho();
-        }
-
-        private void CauHinhDataGridView1()
-        {
-            dgvTonKho.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.None;
-
-            dgvTonKho.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.None;
-
-            dgvTonKho.AllowUserToAddRows = false;
-            dgvTonKho.AllowUserToDeleteRows = false;
-            dgvTonKho.ReadOnly = true;
-
-            dgvTonKho.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            dgvTonKho.MultiSelect = false;
-
-            dgvTonKho.ScrollBars = ScrollBars.Both;
-
-
-            dgvTonKho.Columns["MaTonKho"].Width = 70;
-            dgvTonKho.Columns["TenSP"].Width = 180;
-            dgvTonKho.Columns["SKU"].Width = 130;
-            dgvTonKho.Columns["Size"].Width = 70;
-            dgvTonKho.Columns["Mau"].Width = 80;
-            dgvTonKho.Columns["SLTon"].Width = 80;
-            dgvTonKho.Columns["SLToiThieu"].Width = 90;
-            dgvTonKho.Columns["GiaBan"].Width = 110;
-            dgvTonKho.Columns["TrangThai"].Width = 110;
         }
     }
 }
