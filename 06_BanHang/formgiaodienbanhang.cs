@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.Generic;
 using SPORTSHOP._06_BanHang;
 using SPORTSHOP._07_KhachHang;
 using System;
@@ -117,126 +118,258 @@ namespace SPORTSHOP
 
         private void GanSuKienSanPham()
         {
-            GanClickCard(
-                giay1pnl,
-                1,
-                "Giày thể thao Nike",
-                1949000,
-                2000000,
-                pictureBox5,
-                "Nike",
-                "Đen",
-                "Giày thể thao Nike");
+            // Không còn lấy tên/giá sản phẩm từ code.
+            // Card vẫn giữ nguyên giao diện trong Designer,
+            // nhưng dữ liệu được nạp trực tiếp từ SQL Server.
+            try
+            {
+                List<SanPhamDB> danhSach = LayDanhSachSanPham();
 
-            GanClickCard(
-                giay2pnl,
-                2,
-                "Giày thể thao Adidas",
-                745000,
-                1000000,
-                pictureBox6,
-                "Adidas",
-                "Trắng",
-                "Giày thể thao Adidas");
+                Panel[] cards =
+                {
+                    giay1pnl, giay2pnl, giay3pnl, giay4pnl,
+                    giay5pnl, giay6pnl, giay7pnl, giay8pnl,
+                    giay9pnl, giay10pnl, giay11pnl
+                };
 
-            GanClickCard(
-                giay3pnl,
-                3,
-                "Giày Nike Air Zoom",
-                2790000,
-                3000000,
-                pictureBox7,
-                "Nike",
-                "Cam",
-                "Giày Nike Air Zoom");
+                for (int i = 0; i < cards.Length; i++)
+                {
+                    if (i < danhSach.Count)
+                    {
+                        cards[i].Visible = true;
+                        GanDuLieuVaoCard(cards[i], danhSach[i]);
+                    }
+                    else
+                    {
+                        cards[i].Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể tải sản phẩm từ CSDL.\n\n" + ex.Message,
+                    "SPORTSHOP - CSDL",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
 
-            GanClickCard(
-                giay4pnl,
-                4,
-                "Giày thể thao",
-                3900000,
-                0,
-                pictureBox8,
-                "Nike",
-                "Đen",
-                "Giày thể thao");
+        private List<SanPhamDB> LayDanhSachSanPham()
+        {
+            string sql = @"
+                SELECT TOP 11
+                    sp.MaSP,
+                    sp.TenSP,
+                    ISNULL(th.TenThuongHieu, N'') AS TenThuongHieu,
+                    ISNULL(dm.TenDanhMuc, N'') AS TenDanhMuc,
+                    ISNULL(MIN(bt.GiaBan), 0) AS GiaBan,
+                    ISNULL(SUM(ISNULL(tk.SLTon, 0)), 0) AS SLTon
+                FROM SanPham sp
+                LEFT JOIN DanhMuc dm
+                    ON dm.MaDM = sp.MaDM
+                LEFT JOIN ThuongHieu th
+                    ON th.MaTH = sp.MaTH
+                LEFT JOIN BienTheSanPham bt
+                    ON bt.MaSP = sp.MaSP
+                LEFT JOIN TonKho tk
+                    ON tk.MaBienThe = bt.MaBienThe
+                WHERE sp.TrangThai = 1
+                GROUP BY
+                    sp.MaSP,
+                    sp.TenSP,
+                    th.TenThuongHieu,
+                    dm.TenDanhMuc
+                ORDER BY sp.MaSP;";
 
-            GanClickCard(
-                giay5pnl,
-                5,
-                "Nike Tiempo Ligera Pro Heritage",
-                3000000,
-                3500000,
-                pictureBox15,
-                "Nike",
-                "Hồng",
-                "Nike Tiempo Ligera Pro Heritage");
+            DataTable dt = kt.GetData(sql);
 
-            GanClickCard(
-                giay6pnl,
-                6,
-                "Adidas F50 Hyperfast League TF Jr",
-                3950000,
-                4739000,
-                pictureBox14,
-                "Adidas",
-                "Đen",
-                "Adidas F50 Hyperfast League TF Jr");
+            List<SanPhamDB> result = new List<SanPhamDB>();
 
-            GanClickCard(
-                giay7pnl,
-                7,
-                "Jogarbola Kumo TF màu hồng",
-                450000,
-                550000,
-                pictureBox13,
-                "Jogarbola",
-                "Hồng",
-                "Jogarbola Kumo TF");
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(new SanPhamDB
+                {
+                    MaSP = Convert.ToInt32(row["MaSP"]),
+                    TenSP = row["TenSP"]?.ToString() ?? "",
+                    ThuongHieu = row["TenThuongHieu"]?.ToString() ?? "",
+                    DanhMuc = row["TenDanhMuc"]?.ToString() ?? "",
+                    GiaBan = row["GiaBan"] == DBNull.Value
+                        ? 0
+                        : Convert.ToDecimal(row["GiaBan"]),
+                    SLTon = row["SLTon"] == DBNull.Value
+                        ? 0
+                        : Convert.ToInt32(row["SLTon"])
+                });
+            }
 
-            GanClickCard(
-                giay8pnl,
-                8,
-                "Giày Nike Air Zoom Fly 6",
-                2790000,
-                3000000,
-                pictureBox12,
-                "Nike",
-                "Đỏ",
-                "Giày Nike Air Zoom Fly 6");
+            return result;
+        }
 
-            GanClickCard(
-                giay9pnl,
-                9,
-                "NMS Maestri 1.0 FG",
-                800000,
-                1142000,
-                pictureBox11,
-                "Adidas",
-                "Trắng",
-                "NMS Maestri 1.0 FG");
+        private void GanDuLieuVaoCard(
+            Panel card,
+            SanPhamDB data)
+        {
+            PictureBox pictureBox = TimPictureBox(card);
 
-            GanClickCard(
-                giay10pnl,
-                10,
-                "Nike Tiempo Ligera Pro FG",
-                4400000,
-                4750000,
-                pictureBox10,
-                "Nike",
-                "Hồng",
-                "Nike Tiempo Ligera Pro FG");
+            Image anhMacDinh = pictureBox?.Image ?? pictureBox?.BackgroundImage;
+            Image anhDB = LayAnhChinhTheoMaSP(data.MaSP, anhMacDinh);
 
-            GanClickCard(
-                giay11pnl,
-                11,
-                "Nike Tiempo Maestro Academy",
-                8900000,
-                9300000,
-                pictureBox9,
-                "Nike",
-                "Hồng",
-                "Nike Tiempo Maestro Academy");
+            if (pictureBox != null && anhDB != null)
+            {
+                pictureBox.Image = anhDB;
+                pictureBox.BackgroundImage = null;
+                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+
+            // Ẩn text hard-code trong Designer.
+            foreach (Control control in card.Controls)
+            {
+                if (control is Label label &&
+                    !label.Name.StartsWith("lblDB_"))
+                {
+                    label.Visible = false;
+                }
+            }
+
+            Label lblTen = LayHoacTaoLabel(
+                card,
+                "lblDB_Ten",
+                new Font("Segoe UI", 8.5F, FontStyle.Bold));
+
+            Label lblGia = LayHoacTaoLabel(
+                card,
+                "lblDB_Gia",
+                new Font("Segoe UI", 10F, FontStyle.Bold));
+
+            Label lblTon = LayHoacTaoLabel(
+                card,
+                "lblDB_Ton",
+                new Font("Segoe UI", 7.5F, FontStyle.Regular));
+
+            int topTen = card.Width <= 120 ? 98 : 92;
+            int topGia = card.Width <= 120 ? 132 : 142;
+            int topTon = card.Width <= 120 ? 154 : 169;
+
+            lblTen.Location = new Point(5, topTen);
+            lblTen.Size = new Size(card.Width - 10, 34);
+            lblTen.Text = RutGonTen(data.TenSP, card.Width <= 120 ? 28 : 42);
+            lblTen.TextAlign = ContentAlignment.TopCenter;
+            lblTen.ForeColor = Color.White;
+            lblTen.Visible = true;
+
+            lblGia.Location = new Point(5, topGia);
+            lblGia.Size = new Size(card.Width - 10, 22);
+            lblGia.Text = data.GiaBan > 0
+                ? data.GiaBan.ToString("N0") + " Đ"
+                : "Liên hệ";
+            lblGia.TextAlign = ContentAlignment.TopCenter;
+            lblGia.ForeColor = data.GiaBan > 0
+                ? Color.FromArgb(255, 70, 70)
+                : Color.White;
+            lblGia.Visible = true;
+
+            lblTon.Location = new Point(5, topTon);
+            lblTon.Size = new Size(card.Width - 10, 18);
+            lblTon.Text = data.SLTon > 0
+                ? "Còn " + data.SLTon.ToString("N0")
+                : "HẾT HÀNG";
+            lblTon.TextAlign = ContentAlignment.TopCenter;
+            lblTon.ForeColor = data.SLTon > 0
+                ? Color.FromArgb(180, 255, 180)
+                : Color.FromArgb(255, 100, 100);
+            lblTon.Visible = true;
+
+            SanPhamTam sanPham = new SanPhamTam
+            {
+                MaSP = data.MaSP,
+                TenSP = data.TenSP,
+                Gia = data.GiaBan,
+                GiaCu = 0,
+                Anh = anhDB ?? anhMacDinh,
+                ThuongHieu = data.ThuongHieu,
+                MauSac = "",
+                MoTa = data.TenSP
+            };
+
+            // Gán lại Tag/click để mọi thành phần của card dùng đúng dữ liệu DB.
+            card.Tag = sanPham;
+            card.Cursor = Cursors.Hand;
+            card.Click += SanPham_Click;
+
+            GanClickControlCon(card, sanPham);
+        }
+
+        private PictureBox TimPictureBox(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                if (control is PictureBox pictureBox)
+                    return pictureBox;
+
+                if (control.HasChildren)
+                {
+                    PictureBox nested = TimPictureBox(control);
+                    if (nested != null)
+                        return nested;
+                }
+            }
+
+            return null;
+        }
+
+        private Label LayHoacTaoLabel(
+            Panel card,
+            string name,
+            Font font)
+        {
+            Label label = card.Controls[name] as Label;
+
+            if (label == null)
+            {
+                label = new Label
+                {
+                    Name = name,
+                    BackColor = Color.Transparent,
+                    ForeColor = Color.White,
+                    Font = font,
+                    AutoEllipsis = true,
+                    AutoSize = false
+                };
+
+                card.Controls.Add(label);
+                label.BringToFront();
+            }
+
+            label.Font = font;
+            label.BackColor = Color.Transparent;
+            label.AutoSize = false;
+            label.AutoEllipsis = true;
+
+            return label;
+        }
+
+        private string RutGonTen(string ten, int maxLength)
+        {
+            if (string.IsNullOrWhiteSpace(ten))
+                return "Sản phẩm";
+
+            ten = ten.Trim();
+
+            if (ten.Length <= maxLength)
+                return ten;
+
+            return ten.Substring(0, Math.Max(1, maxLength - 3)) + "...";
+        }
+
+        private sealed class SanPhamDB
+        {
+            public int MaSP { get; set; }
+            public string TenSP { get; set; }
+            public string ThuongHieu { get; set; }
+            public string DanhMuc { get; set; }
+            public decimal GiaBan { get; set; }
+            public int SLTon { get; set; }
         }
 
         private void GanClickCard(

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -47,6 +48,7 @@ namespace SPORTSHOP
 
             LoadThongKe();
             LoadDanhSachSanPham();
+            TaoMenuKhuyenMaiDemo();
         }
 
         private void FormQuanLy_Load(object sender, EventArgs e)
@@ -676,5 +678,57 @@ namespace SPORTSHOP
                     MessageBoxIcon.Error);
             }
         }
+        // =========================================================
+        // MENU KHUYẾN MÃI / VOUCHER
+        // =========================================================
+        private void TaoMenuKhuyenMaiDemo()
+        {
+            PanelMenuBanHang.Height = 280;
+
+            ThemNutMenuKhuyenMai(
+                PanelMenuBanHang,
+                "🎟  Quản lý khuyến mãi",
+                156,
+                (s, e) => MoFormTrongPanel(new FormQuanLyKhuyenMai()));
+
+            ThemNutMenuKhuyenMai(
+                PanelMenuBanHang,
+                "🎫  Thêm Voucher",
+                207,
+                (s, e) =>
+                {
+                    using (Form f = new SPORTSHOP._06_BanHang.themcoupon())
+                    {
+                        if (f.ShowDialog(this) == DialogResult.OK)
+                            MessageBox.Show("Voucher đã được thêm vào CSDL.", "SPORTSHOP",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                });
+        }
+
+        private void ThemNutMenuKhuyenMai(
+            Control parent,
+            string text,
+            int y,
+            EventHandler click)
+        {
+            var btn = new Guna.UI2.WinForms.Guna2Button();
+            btn.BorderRadius = 10;
+            btn.FillColor = Color.Transparent;
+            btn.FocusedColor = Color.Transparent;
+            btn.Font = new Font("Segoe UI", 11F);
+            btn.ForeColor = Color.White;
+            btn.HoverState.FillColor = Color.FromArgb(40, 52, 70);
+            btn.HoverState.ForeColor = Color.White;
+            btn.Location = new Point(1, y);
+            btn.Size = new Size(220, 45);
+            btn.Text = text;
+            btn.TextAlign = HorizontalAlignment.Left;
+            btn.TextOffset = new Point(10, 0);
+            btn.Click += click;
+            parent.Controls.Add(btn);
+            btn.BringToFront();
+        }
+
     }
 }

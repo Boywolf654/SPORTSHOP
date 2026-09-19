@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
@@ -16,263 +15,144 @@ namespace SPORTSHOP
         {
             InitializeComponent();
             maCTKM = 0;
-            CauHinhGiaoDien();
-            LoadSanPham();
-            CapNhatPreview();
-            dgvSanPham.CellValueChanged += dgvSanPham_CellValueChanged;
-            dgvSanPham.CurrentCellDirtyStateChanged += dgvSanPham_CurrentCellDirtyStateChanged;
         }
 
         public FormTaoKhuyenMai(int maCTKM)
         {
             InitializeComponent();
             this.maCTKM = maCTKM;
-            CauHinhGiaoDien();
-            LoadSanPham();
+        }
+
+        private void FormTaoKhuyenMai_Load(object sender, EventArgs e)
+        {
+            cboLoai.Items.Clear();
+            cboLoai.Items.Add("PhanTram");
+            cboLoai.Items.Add("TienMat");
+            cboLoai.SelectedIndex = 0;
+
+            dtpBatDau.Value = DateTime.Today;
+            dtpKetThuc.Value = DateTime.Today.AddDays(7);
+            nudGiaTri.Maximum = 100;
+            nudSoLuong.Minimum = 1;
+            nudSoLuong.Value = 1;
+
+            TaiSanPham();
 
             if (maCTKM > 0)
-                LoadKhuyenMai(maCTKM);
-
-            CapNhatPreview();
-        }
-        private void dgvSanPham_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-                CapNhatSoLuongDaChon();
-        }
-
-        private void dgvSanPham_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (dgvSanPham.IsCurrentCellDirty)
-                dgvSanPham.CommitEdit(DataGridViewDataErrorContexts.Commit);
-        }
-        private void CauHinhGiaoDien()
-        {
-            cmbLoai.Items.Clear();
-            cmbLoai.Items.Add("PhanTram");
-            cmbLoai.Items.Add("TienMat");
-            if (cmbLoai.SelectedIndex < 0)
-                cmbLoai.SelectedIndex = 0;
-
-            txtGiaTri.TextChanged += (s, e) => CapNhatPreview();
-            txtSoLuongToiThieu.TextChanged += (s, e) => CapNhatPreview();
-            cmbLoai.SelectedIndexChanged += (s, e) =>
             {
-                lblDonVi.Text = cmbLoai.Text == "PhanTram" ? "%" : "đ";
-                CapNhatPreview();
-            };
-            dtpBatDau.ValueChanged += (s, e) => CapNhatPreview();
-            dtpKetThuc.ValueChanged += (s, e) => CapNhatPreview();
-            txtTimSanPham.TextChanged += (s, e) => LocSanPham();
-            chkChonTatCa.CheckedChanged += (s, e) => ChonTatCaTheoLoc(chkChonTatCa.Checked);
-            btnHuy.Click += btnHuy_Click;
-            btnLuu.Click += btnLuu_Click;
-        }
-
-        private void LoadSanPham()
-        {
-            try
-            {
-                string sql = @"
-                    SELECT
-                        sp.MaSP,
-                        sp.TenSP,
-                        ISNULL(dm.TenDanhMuc, N'') AS TenDanhMuc,
-                        ISNULL(th.TenThuongHieu, N'') AS TenThuongHieu
-                    FROM SanPham sp
-                    LEFT JOIN DanhMuc dm ON dm.MaDM = sp.MaDM
-                    LEFT JOIN ThuongHieu th ON th.MaTH = sp.MaTH
-                    WHERE sp.TrangThai = 1
-                    ORDER BY sp.MaSP DESC";
-
-                DataTable dt = kt.GetData(sql, new SqlParameter[] { });
-
-                dgvSanPham.DataSource = dt;
-
-                if (dgvSanPham.Columns.Contains("MaSP"))
-                    dgvSanPham.Columns["MaSP"].HeaderText = "Mã SP";
-                if (dgvSanPham.Columns.Contains("TenSP"))
-                    dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
-                if (dgvSanPham.Columns.Contains("TenDanhMuc"))
-                    dgvSanPham.Columns["TenDanhMuc"].HeaderText = "Danh mục";
-                if (dgvSanPham.Columns.Contains("TenThuongHieu"))
-                    dgvSanPham.Columns["TenThuongHieu"].HeaderText = "Thương hiệu";
-
-                if (dgvSanPham.Columns.Contains("MaSP"))
-                    dgvSanPham.Columns["MaSP"].Visible = false;
-
-                dgvSanPham.ClearSelection();
-                CapNhatSoLuongDaChon();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Không tải được danh sách sản phẩm:\n" + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblTieuDe.Text = "✏  SỬA CHƯƠNG TRÌNH KHUYẾN MÃI";
+                Text = "Sửa chương trình khuyến mãi";
+                TaiDuLieu();
             }
         }
 
-        private void LoadKhuyenMai(int ma)
+        private void TaiSanPham()
         {
-            try
+            DataTable dt = kt.GetData(@"SELECT MaSP, TenSP
+                                        FROM SanPham
+                                        WHERE TrangThai = 1
+                                        ORDER BY MaSP");
+
+            clbSanPham.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
             {
-                string sql = @"
-                    SELECT MaCTKM, TenChuongTrinh, MoTa, LoaiKhuyenMai,
-                           GiaTri, SoLuongToiThieu, NgayBatDau, NgayKetThuc
-                    FROM ChuongTrinhKhuyenMai
-                    WHERE MaCTKM = @MaCTKM";
-
-                DataTable dt = kt.GetData(sql, new SqlParameter[]
+                clbSanPham.Items.Add(new SanPhamItem
                 {
-                    new SqlParameter("@MaCTKM", ma)
-                });
+                    MaSP = Convert.ToInt32(row["MaSP"]),
+                    TenSP = Convert.ToString(row["TenSP"])
+                }, false);
+            }
+        }
 
-                if (dt.Rows.Count == 0)
-                    return;
+        private void TaiDuLieu()
+        {
+            DataTable dt = kt.GetData(@"
+                SELECT TenChuongTrinh, MoTa, LoaiKhuyenMai, GiaTri,
+                       SoLuongToiThieu, NgayBatDau, NgayKetThuc
+                FROM ChuongTrinhKhuyenMai
+                WHERE MaCTKM = @MaCTKM",
+                new SqlParameter[] { new SqlParameter("@MaCTKM", maCTKM) });
 
-                DataRow r = dt.Rows[0];
-                txtTen.Text = Convert.ToString(r["TenChuongTrinh"]);
-                txtMoTa.Text = Convert.ToString(r["MoTa"]);
-                cmbLoai.Text = Convert.ToString(r["LoaiKhuyenMai"]);
-                txtGiaTri.Text = Convert.ToDecimal(r["GiaTri"]).ToString("0.##");
-                txtSoLuongToiThieu.Text = Convert.ToInt32(r["SoLuongToiThieu"]).ToString();
-                dtpBatDau.Value = Convert.ToDateTime(r["NgayBatDau"]);
-                dtpKetThuc.Value = Convert.ToDateTime(r["NgayKetThuc"]);
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy chương trình.", "Khuyến mãi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult = DialogResult.Cancel;
+                Close();
+                return;
+            }
 
-                string sqlCT = "SELECT MaSP FROM ChiTietCTKM WHERE MaCTKM = @MaCTKM";
-                DataTable ds = kt.GetData(sqlCT, new SqlParameter[]
+            DataRow r = dt.Rows[0];
+
+            txtTen.Text = Convert.ToString(r["TenChuongTrinh"]);
+            txtMoTa.Text = r["MoTa"] == DBNull.Value ? "" : Convert.ToString(r["MoTa"]);
+            cboLoai.SelectedItem = Convert.ToString(r["LoaiKhuyenMai"]);
+            nudGiaTri.Value = Convert.ToDecimal(r["GiaTri"]);
+            nudSoLuong.Value = Math.Max(1, Convert.ToDecimal(r["SoLuongToiThieu"]));
+            dtpBatDau.Value = Convert.ToDateTime(r["NgayBatDau"]);
+            dtpKetThuc.Value = Convert.ToDateTime(r["NgayKetThuc"]);
+
+            DataTable sp = kt.GetData(
+                "SELECT MaSP FROM ChiTietCTKM WHERE MaCTKM = @MaCTKM",
+                new SqlParameter[] { new SqlParameter("@MaCTKM", maCTKM) });
+
+            foreach (DataRow row in sp.Rows)
+            {
+                int maSP = Convert.ToInt32(row["MaSP"]);
+
+                for (int i = 0; i < clbSanPham.Items.Count; i++)
                 {
-                    new SqlParameter("@MaCTKM", ma)
-                });
+                    SanPhamItem item = clbSanPham.Items[i] as SanPhamItem;
 
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
-                {
-                    if (row.IsNewRow) continue;
-                    int maSP = Convert.ToInt32(row.Cells["MaSP"].Value);
-                    row.Cells["Chon"].Value = ds.AsEnumerable()
-                        .Any(x => Convert.ToInt32(x["MaSP"]) == maSP);
+                    if (item != null && item.MaSP == maSP)
+                    {
+                        clbSanPham.SetItemChecked(i, true);
+                        break;
+                    }
                 }
-
-                CapNhatSoLuongDaChon();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Không tải được chương trình khuyến mãi:\n" + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LocSanPham()
+        private void cboLoai_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string keyword = txtTimSanPham.Text.Trim().Replace("'", "''");
-
-            foreach (DataGridViewRow row in dgvSanPham.Rows)
-            {
-                if (row.IsNewRow) continue;
-
-                string ten = Convert.ToString(row.Cells["TenSP"].Value);
-                string dm = Convert.ToString(row.Cells["TenDanhMuc"].Value);
-                string th = Convert.ToString(row.Cells["TenThuongHieu"].Value);
-
-                row.Visible = keyword.Length == 0 ||
-                              ten.IndexOf(keyword.Replace("''", "'"), StringComparison.OrdinalIgnoreCase) >= 0 ||
-                              dm.IndexOf(keyword.Replace("''", "'"), StringComparison.OrdinalIgnoreCase) >= 0 ||
-                              th.IndexOf(keyword.Replace("''", "'"), StringComparison.OrdinalIgnoreCase) >= 0;
-            }
+            nudGiaTri.Maximum =
+                cboLoai.SelectedItem != null &&
+                cboLoai.SelectedItem.ToString() == "PhanTram"
+                ? 100 : 1000000000;
         }
 
-        private void ChonTatCaTheoLoc(bool chon)
+        private bool KiemTra(out string loi)
         {
-            foreach (DataGridViewRow row in dgvSanPham.Rows)
-            {
-                if (!row.IsNewRow && row.Visible)
-                    row.Cells["Chon"].Value = chon;
-            }
-            CapNhatSoLuongDaChon();
-        }
-
-        private int DemSanPhamDaChon()
-        {
-            int count = 0;
-            foreach (DataGridViewRow row in dgvSanPham.Rows)
-            {
-                if (!row.IsNewRow && Convert.ToBoolean(row.Cells["Chon"].Value ?? false))
-                    count++;
-            }
-            return count;
-        }
-
-        private void CapNhatSoLuongDaChon()
-        {
-            lblDaChon.Text = "Đã chọn: " + DemSanPhamDaChon() + " sản phẩm";
-        }
-
-        private void CapNhatPreview()
-        {
-            decimal giaTri;
-            int soLuong;
-
-            decimal.TryParse(txtGiaTri.Text, out giaTri);
-            int.TryParse(txtSoLuongToiThieu.Text, out soLuong);
-
-            if (soLuong < 1) soLuong = 1;
-
-            string donVi = cmbLoai.Text == "TienMat" ? "đ" : "%";
-            string giaTriText = cmbLoai.Text == "TienMat"
-                ? giaTri.ToString("#,##0") + "đ"
-                : giaTri.ToString("0.##") + "%";
-
-            lblPreview.Text =
-                "💡 Xem trước: Mua tối thiểu " + soLuong +
-                " sản phẩm → giảm " + giaTriText;
-
-            lblThoiGian.Text =
-                "📅 " + dtpBatDau.Value.ToString("dd/MM/yyyy") +
-                "  →  " + dtpKetThuc.Value.ToString("dd/MM/yyyy");
-        }
-
-        private bool KiemTraDuLieu(out decimal giaTri, out int soLuong)
-        {
-            giaTri = 0;
-            soLuong = 0;
+            loi = "";
 
             if (string.IsNullOrWhiteSpace(txtTen.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên chương trình.");
-                txtTen.Focus();
+                loi = "Chưa nhập tên chương trình.";
                 return false;
             }
 
-            if (!decimal.TryParse(txtGiaTri.Text, out giaTri) || giaTri <= 0)
+            if (cboLoai.SelectedIndex < 0)
             {
-                MessageBox.Show("Giá trị khuyến mãi phải lớn hơn 0.");
-                txtGiaTri.Focus();
+                loi = "Chưa chọn loại khuyến mãi.";
                 return false;
             }
 
-            if (cmbLoai.Text == "PhanTram" && giaTri > 100)
+            if (nudGiaTri.Value <= 0)
             {
-                MessageBox.Show("Giảm theo phần trăm không được vượt quá 100%.");
-                txtGiaTri.Focus();
-                return false;
-            }
-
-            if (!int.TryParse(txtSoLuongToiThieu.Text, out soLuong) || soLuong < 1)
-            {
-                MessageBox.Show("Số lượng tối thiểu phải từ 1 trở lên.");
-                txtSoLuongToiThieu.Focus();
+                loi = "Giá trị khuyến mãi phải lớn hơn 0.";
                 return false;
             }
 
             if (dtpKetThuc.Value.Date < dtpBatDau.Value.Date)
             {
-                MessageBox.Show("Ngày kết thúc không được trước ngày bắt đầu.");
-                dtpKetThuc.Focus();
+                loi = "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.";
                 return false;
             }
 
-            if (DemSanPhamDaChon() == 0)
+            if (clbSanPham.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm áp dụng.");
+                loi = "Hãy chọn ít nhất một sản phẩm áp dụng.";
                 return false;
             }
 
@@ -281,104 +161,123 @@ namespace SPORTSHOP
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            try
+            if (!KiemTra(out string loi))
             {
-                decimal giaTri;
-                int soLuong;
-                if (!KiemTraDuLieu(out giaTri, out soLuong))
-                    return;
+                MessageBox.Show(loi, "Khuyến mãi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                string sqlCT = "";
-                int maMoi = maCTKM;
-
-                if (maCTKM <= 0)
+            using (SqlConnection cn = kt.GetConnection())
+            {
+                cn.Open();
+                using (SqlTransaction tran = cn.BeginTransaction())
                 {
-                    string sql = @"
-                        INSERT INTO ChuongTrinhKhuyenMai
-                        (TenChuongTrinh, MoTa, LoaiKhuyenMai, GiaTri,
-                         SoLuongToiThieu, NgayBatDau, NgayKetThuc, TrangThai)
-                        VALUES
-                        (@Ten, @MoTa, @Loai, @GiaTri,
-                         @SoLuong, @BatDau, @KetThuc, 1);
-                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-                    maMoi = Convert.ToInt32(kt.ExecuteScalar(sql, new SqlParameter[]
+                    try
                     {
-                        new SqlParameter("@Ten", txtTen.Text.Trim()),
-                        new SqlParameter("@MoTa", txtMoTa.Text.Trim()),
-                        new SqlParameter("@Loai", cmbLoai.Text),
-                        new SqlParameter("@GiaTri", giaTri),
-                        new SqlParameter("@SoLuong", soLuong),
-                        new SqlParameter("@BatDau", dtpBatDau.Value),
-                        new SqlParameter("@KetThuc", dtpKetThuc.Value)
-                    }));
-                }
-                else
-                {
-                    string sql = @"
-                        UPDATE ChuongTrinhKhuyenMai
-                        SET TenChuongTrinh=@Ten,
-                            MoTa=@MoTa,
-                            LoaiKhuyenMai=@Loai,
-                            GiaTri=@GiaTri,
-                            SoLuongToiThieu=@SoLuong,
-                            NgayBatDau=@BatDau,
-                            NgayKetThuc=@KetThuc
-                        WHERE MaCTKM=@MaCTKM";
+                        int ma;
 
-                    kt.Execute(sql, new SqlParameter[]
-                    {
-                        new SqlParameter("@Ten", txtTen.Text.Trim()),
-                        new SqlParameter("@MoTa", txtMoTa.Text.Trim()),
-                        new SqlParameter("@Loai", cmbLoai.Text),
-                        new SqlParameter("@GiaTri", giaTri),
-                        new SqlParameter("@SoLuong", soLuong),
-                        new SqlParameter("@BatDau", dtpBatDau.Value),
-                        new SqlParameter("@KetThuc", dtpKetThuc.Value),
-                        new SqlParameter("@MaCTKM", maCTKM)
-                    });
-
-                    kt.Execute("DELETE FROM ChiTietCTKM WHERE MaCTKM=@MaCTKM",
-                        new SqlParameter[] { new SqlParameter("@MaCTKM", maCTKM) });
-                }
-
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
-                {
-                    if (row.IsNewRow || !Convert.ToBoolean(row.Cells["Chon"].Value ?? false))
-                        continue;
-
-                    int maSP = Convert.ToInt32(row.Cells["MaSP"].Value);
-
-                    kt.Execute(@"
-                        INSERT INTO ChiTietCTKM(MaCTKM, MaSP)
-                        VALUES(@MaCTKM, @MaSP)",
-                        new SqlParameter[]
+                        if (maCTKM == 0)
                         {
-                            new SqlParameter("@MaCTKM", maMoi),
-                            new SqlParameter("@MaSP", maSP)
-                        });
+                            using (SqlCommand cmd = new SqlCommand(@"
+                                INSERT INTO ChuongTrinhKhuyenMai
+                                (TenChuongTrinh, MoTa, LoaiKhuyenMai, GiaTri,
+                                 SoLuongToiThieu, NgayBatDau, NgayKetThuc, TrangThai)
+                                OUTPUT INSERTED.MaCTKM
+                                VALUES
+                                (@Ten,@MoTa,@Loai,@GiaTri,@SoLuong,@BatDau,@KetThuc,1)",
+                                cn, tran))
+                            {
+                                GanParameter(cmd);
+                                ma = Convert.ToInt32(cmd.ExecuteScalar());
+                            }
+                        }
+                        else
+                        {
+                            ma = maCTKM;
+
+                            using (SqlCommand cmd = new SqlCommand(@"
+                                UPDATE ChuongTrinhKhuyenMai
+                                SET TenChuongTrinh=@Ten, MoTa=@MoTa,
+                                    LoaiKhuyenMai=@Loai, GiaTri=@GiaTri,
+                                    SoLuongToiThieu=@SoLuong,
+                                    NgayBatDau=@BatDau, NgayKetThuc=@KetThuc
+                                WHERE MaCTKM=@MaCTKM", cn, tran))
+                            {
+                                GanParameter(cmd);
+                                cmd.Parameters.AddWithValue("@MaCTKM", ma);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            using (SqlCommand cmd = new SqlCommand(
+                                "DELETE FROM ChiTietCTKM WHERE MaCTKM=@MaCTKM", cn, tran))
+                            {
+                                cmd.Parameters.AddWithValue("@MaCTKM", ma);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        foreach (object obj in clbSanPham.CheckedItems)
+                        {
+                            SanPhamItem item = obj as SanPhamItem;
+                            if (item == null) continue;
+
+                            using (SqlCommand cmd = new SqlCommand(@"
+                                INSERT INTO ChiTietCTKM(MaCTKM, MaSP)
+                                VALUES(@MaCTKM,@MaSP)", cn, tran))
+                            {
+                                cmd.Parameters.AddWithValue("@MaCTKM", ma);
+                                cmd.Parameters.AddWithValue("@MaSP", item.MaSP);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        tran.Commit();
+
+                        MessageBox.Show("Đã lưu chương trình khuyến mãi.",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        try { tran.Rollback(); } catch { }
+
+                        MessageBox.Show("Không thể lưu chương trình.\n\n" + ex.Message,
+                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-
-                MessageBox.Show(
-                    maCTKM > 0 ? "Đã cập nhật chương trình khuyến mãi." : "Đã tạo chương trình khuyến mãi.",
-                    "Thành công",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                DialogResult = DialogResult.OK;
-                Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Không thể lưu chương trình khuyến mãi:\n" + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+        }
+
+        private void GanParameter(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@Ten", txtTen.Text.Trim());
+            cmd.Parameters.AddWithValue("@MoTa",
+                string.IsNullOrWhiteSpace(txtMoTa.Text)
+                ? (object)DBNull.Value : txtMoTa.Text.Trim());
+            cmd.Parameters.AddWithValue("@Loai", cboLoai.SelectedItem.ToString());
+            cmd.Parameters.AddWithValue("@GiaTri", nudGiaTri.Value);
+            cmd.Parameters.AddWithValue("@SoLuong", Convert.ToInt32(nudSoLuong.Value));
+            cmd.Parameters.AddWithValue("@BatDau", dtpBatDau.Value.Date);
+            cmd.Parameters.AddWithValue("@KetThuc", dtpKetThuc.Value.Date);
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private sealed class SanPhamItem
+        {
+            public int MaSP { get; set; }
+            public string TenSP { get; set; }
+
+            public override string ToString()
+            {
+                return MaSP.ToString("D3") + "  •  " + TenSP;
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -47,6 +48,7 @@ namespace SPORTSHOP
 
             LoadThongKe();
             LoadDanhSachTonKho();
+            TaoNutChamCong();
         }
 
         private void FormNVKho_Load(object sender, EventArgs e)
@@ -68,8 +70,10 @@ namespace SPORTSHOP
                 + " sản phẩm";
 
             lbSapHet.Text =
-                DocSo("SELECT COUNT(*) FROM TonKho WHERE SLTon <= "
-                      + NGUONG_SAP_HET)
+                DocSo(@"SELECT COUNT(*)
+                        FROM TonKho
+                        WHERE SLTon > 0
+                          AND SLTon <= SLToiThieu")
                 + " mục";
 
             lbTongNCC.Text =
@@ -113,11 +117,13 @@ namespace SPORTSHOP
                     sp.TenSP,
                     dm.TenDanhMuc,
                     th.TenThuongHieu,
-                    (
-                        SELECT ISNULL(SUM(t.SLTon), 0)
+                    ISNULL((
+                        SELECT SUM(t.SLTon)
                         FROM TonKho t
-                        WHERE t.MaSP = sp.MaSP
-                    ) AS SLTon,
+                        INNER JOIN BienTheSanPham bt
+                            ON bt.MaBienThe = t.MaBienThe
+                        WHERE bt.MaSP = sp.MaSP
+                    ), 0) AS SLTon,
                     CASE
                         WHEN sp.TrangThai = 1 THEN N'Đang hoạt động'
                         ELSE N'Ngừng hoạt động'
@@ -447,5 +453,34 @@ namespace SPORTSHOP
                     MessageBoxIcon.Error);
             }
         }
+        // =========================================================
+        // CHẤM CÔNG NHÂN VIÊN KHO
+        // =========================================================
+        private void TaoNutChamCong()
+        {
+            var btn = new Guna.UI2.WinForms.Guna2Button();
+            btn.BorderRadius = 10;
+            btn.FillColor = Color.Transparent;
+            btn.FocusedColor = Color.Transparent;
+            btn.Font = new Font("Segoe UI", 12F);
+            btn.ForeColor = Color.White;
+            btn.HoverState.FillColor = Color.FromArgb(40, 52, 70);
+            btn.HoverState.ForeColor = Color.White;
+            btn.Location = new Point(1, 306);
+            btn.Size = new Size(217, 45);
+            btn.Text = "🕐 CHẤM CÔNG";
+            btn.TextAlign = HorizontalAlignment.Left;
+            btn.TextOffset = new Point(10, 0);
+            btn.Click += (s, e) =>
+            {
+                using (Form f = new D(true))
+                {
+                    f.ShowDialog(this);
+                }
+            };
+            panelSidebar.Controls.Add(btn);
+            btn.BringToFront();
+        }
+
     }
 }

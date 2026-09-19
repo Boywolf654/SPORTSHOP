@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SPORTSHOP;
+using SPORTSHOP._06_BanHang;
 
 namespace SPORTSHOP
 {
@@ -26,6 +27,7 @@ namespace SPORTSHOP
         {
             InitializeComponent();
             this.tk = tk;
+
 
             // Tất cả các nút đã được gắn sự kiện Click trong Designer.cs (InitializeComponent).
             // KHÔNG gắn lại ở đây nữa để tránh bị gọi 2 lần (double-fire) khi click.
@@ -588,7 +590,7 @@ namespace SPORTSHOP
 
         private void FormChiTietNCC_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btn_BaoCaoCHamCong_Click(object sender, EventArgs e)
