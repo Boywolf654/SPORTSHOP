@@ -185,6 +185,12 @@
     <Compile Include="06_BanHang\Giohang.Designer.cs">
       <DependentUpon>Giohang.cs</DependentUpon>
     </Compile>
+    <Compile Include="06_BanHang\lichsugiaodich.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="06_BanHang\lichsugiaodich.Designer.cs">
+      <DependentUpon>lichsugiaodich.cs</DependentUpon>
+    </Compile>
     <Compile Include="06_BanHang\thanhtoan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,6 +268,12 @@
     </Compile>
     <Compile Include="07_KhachHang\formhoivien.Designer.cs">
       <DependentUpon>formhoivien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="07_KhachHang\tichdiem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="07_KhachHang\tichdiem.Designer.cs">
+      <DependentUpon>tichdiem.cs</DependentUpon>
     </Compile>
     <Compile Include="form_hóa_đơn_bán_hàng.cs">
       <SubType>Form</SubType>
@@ -403,8 +415,14 @@
     <EmbeddedResource Include="05_NhaCungCap\FormThemNhaCungCap.resx">
       <DependentUpon>FormThemNhaCungCap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="06_BanHang\lichsugiaodich.resx">
+      <DependentUpon>lichsugiaodich.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="07_KhachHang\formhoivien.resx">
       <DependentUpon>formhoivien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="07_KhachHang\tichdiem.resx">
+      <DependentUpon>tichdiem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form_hóa_đơn_bán_hàng.resx">
       <DependentUpon>form_hóa_đơn_bán_hàng.cs</DependentUpon>
