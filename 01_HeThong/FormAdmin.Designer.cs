@@ -35,6 +35,11 @@
             this.btn_dangxuat = new Guna.UI2.WinForms.Guna2Button();
             this.btn_nhacungcap = new Guna.UI2.WinForms.Guna2Button();
             this.btn_baocao1 = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_uuDai = new Guna.UI2.WinForms.Guna2Button();
+            this.panelMenuUuDai = new Guna.UI2.WinForms.Guna2Panel();
+            this.btn_khuyenmai = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_voucher = new Guna.UI2.WinForms.Guna2Button();
+            this.btn_hoivien = new Guna.UI2.WinForms.Guna2Button();
             this.btn_banhangcha = new Guna.UI2.WinForms.Guna2Button();
             this.btn_danhmuc = new Guna.UI2.WinForms.Guna2Button();
             this.btn_sanpham = new Guna.UI2.WinForms.Guna2Button();
@@ -107,6 +112,7 @@
             this.PanelMenuBanHang.SuspendLayout();
             this.panelMenuBaoCao.SuspendLayout();
             this.PanelMenuNCC.SuspendLayout();
+            this.panelMenuUuDai.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelSidebar
@@ -117,6 +123,7 @@
             this.panelSidebar.Controls.Add(this.btn_dangxuat);
             this.panelSidebar.Controls.Add(this.btn_nhacungcap);
             this.panelSidebar.Controls.Add(this.btn_baocao1);
+            this.panelSidebar.Controls.Add(this.btn_uuDai);
             this.panelSidebar.Controls.Add(this.btn_banhangcha);
             this.panelSidebar.Controls.Add(this.btn_danhmuc);
             this.panelSidebar.Controls.Add(this.btn_sanpham);
@@ -375,6 +382,28 @@
             this.btn_nhaphang.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_nhaphang.TextOffset = new System.Drawing.Point(10, 0);
             this.btn_nhaphang.Click += new System.EventHandler(this.ButtonNhapHang);
+            // 
+            // btn_uuDai
+            // 
+            this.btn_uuDai.BorderColor = System.Drawing.Color.White;
+            this.btn_uuDai.BorderRadius = 10;
+            this.btn_uuDai.FillColor = System.Drawing.Color.Transparent;
+            this.btn_uuDai.FocusedColor = System.Drawing.Color.Transparent;
+            this.btn_uuDai.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_uuDai.ForeColor = System.Drawing.Color.White;
+            this.btn_uuDai.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.btn_uuDai.HoverState.ForeColor = System.Drawing.Color.White;
+            this.btn_uuDai.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_uuDai.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btn_uuDai.Location = new System.Drawing.Point(1, 510);
+            this.btn_uuDai.Name = "btn_uuDai";
+            this.btn_uuDai.Size = new System.Drawing.Size(220, 45);
+            this.btn_uuDai.TabIndex = 0;
+            this.btn_uuDai.Text = "  🎁 ƯU ĐÃI";
+            this.btn_uuDai.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_uuDai.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_uuDai.Click += new System.EventHandler(this.btn_uuDai_Click);
+            // 
             // 
             // panel1
             // 
@@ -967,10 +996,86 @@
             this.btn_phieunhap.Name = "btn_phieunhap";
             this.btn_phieunhap.Size = new System.Drawing.Size(220, 45);
             this.btn_phieunhap.TabIndex = 0;
-            this.btn_phieunhap.Text = "Phiếu Nhập";
+            this.btn_phieunhap.Text = "📋 Phiếu Duyệt";
             this.btn_phieunhap.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_phieunhap.TextOffset = new System.Drawing.Point(10, 0);
             this.btn_phieunhap.Click += new System.EventHandler(this.btn_phieunhap_Click);
+            // 
+            // panelMenuUuDai
+            // 
+            this.panelMenuUuDai.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            this.panelMenuUuDai.Controls.Add(this.btn_hoivien);
+            this.panelMenuUuDai.Controls.Add(this.btn_voucher);
+            this.panelMenuUuDai.Controls.Add(this.btn_khuyenmai);
+            this.panelMenuUuDai.Location = new System.Drawing.Point(218, 510);
+            this.panelMenuUuDai.Name = "panelMenuUuDai";
+            this.panelMenuUuDai.Size = new System.Drawing.Size(222, 177);
+            this.panelMenuUuDai.TabIndex = 3;
+            this.panelMenuUuDai.Visible = false;
+            // 
+            // btn_hoivien
+            // 
+            this.btn_hoivien.BorderColor = System.Drawing.Color.White;
+            this.btn_hoivien.BorderRadius = 10;
+            this.btn_hoivien.FillColor = System.Drawing.Color.Transparent;
+            this.btn_hoivien.FocusedColor = System.Drawing.Color.Transparent;
+            this.btn_hoivien.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btn_hoivien.ForeColor = System.Drawing.Color.White;
+            this.btn_hoivien.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.btn_hoivien.HoverState.ForeColor = System.Drawing.Color.White;
+            this.btn_hoivien.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_hoivien.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btn_hoivien.Location = new System.Drawing.Point(-1, 111);
+            this.btn_hoivien.Name = "btn_hoivien";
+            this.btn_hoivien.Size = new System.Drawing.Size(220, 45);
+            this.btn_hoivien.TabIndex = 2;
+            this.btn_hoivien.Text = "  ⭐ Hội Viên";
+            this.btn_hoivien.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_hoivien.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_hoivien.Click += new System.EventHandler(this.btn_hoivien_Click);
+            // 
+            // btn_voucher
+            // 
+            this.btn_voucher.BorderColor = System.Drawing.Color.White;
+            this.btn_voucher.BorderRadius = 10;
+            this.btn_voucher.FillColor = System.Drawing.Color.Transparent;
+            this.btn_voucher.FocusedColor = System.Drawing.Color.Transparent;
+            this.btn_voucher.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btn_voucher.ForeColor = System.Drawing.Color.White;
+            this.btn_voucher.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.btn_voucher.HoverState.ForeColor = System.Drawing.Color.White;
+            this.btn_voucher.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_voucher.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btn_voucher.Location = new System.Drawing.Point(-1, 57);
+            this.btn_voucher.Name = "btn_voucher";
+            this.btn_voucher.Size = new System.Drawing.Size(220, 45);
+            this.btn_voucher.TabIndex = 1;
+            this.btn_voucher.Text = "  🎟 Voucher / Coupon";
+            this.btn_voucher.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_voucher.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_voucher.Click += new System.EventHandler(this.btn_voucher_Click);
+            // 
+            // btn_khuyenmai
+            // 
+            this.btn_khuyenmai.BorderColor = System.Drawing.Color.White;
+            this.btn_khuyenmai.BorderRadius = 10;
+            this.btn_khuyenmai.FillColor = System.Drawing.Color.Transparent;
+            this.btn_khuyenmai.FocusedColor = System.Drawing.Color.Transparent;
+            this.btn_khuyenmai.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btn_khuyenmai.ForeColor = System.Drawing.Color.White;
+            this.btn_khuyenmai.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.btn_khuyenmai.HoverState.ForeColor = System.Drawing.Color.White;
+            this.btn_khuyenmai.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_khuyenmai.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btn_khuyenmai.Location = new System.Drawing.Point(-1, 3);
+            this.btn_khuyenmai.Name = "btn_khuyenmai";
+            this.btn_khuyenmai.Size = new System.Drawing.Size(220, 45);
+            this.btn_khuyenmai.TabIndex = 0;
+            this.btn_khuyenmai.Text = "  🎁 Khuyến Mãi";
+            this.btn_khuyenmai.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btn_khuyenmai.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_khuyenmai.Click += new System.EventHandler(this.btn_khuyenmai_Click);
+            // 
             // 
             // PanelMenuBanHang
             // 
@@ -1007,6 +1112,7 @@
             this.btn_khachhang.Text = "Khách Hàng";
             this.btn_khachhang.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_khachhang.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_khachhang.Click += new System.EventHandler(this.btn_khachhang_Click);
             // 
             // btn_donhang
             // 
@@ -1031,6 +1137,7 @@
             this.btn_donhang.Text = "Đơn Hàng";
             this.btn_donhang.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_donhang.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_donhang.Click += new System.EventHandler(this.btn_donhang_Click);
             // 
             // btn_banhang
             // 
@@ -1055,6 +1162,7 @@
             this.btn_banhang.Text = "Bán Hàng";
             this.btn_banhang.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_banhang.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_banhang.Click += new System.EventHandler(this.btn_banhang_Click);
             // 
             // panelMenuBaoCao
             // 
@@ -1063,7 +1171,7 @@
             this.panelMenuBaoCao.Controls.Add(this.btn_BaoCaoCHamCong);
             this.panelMenuBaoCao.Location = new System.Drawing.Point(218, 459);
             this.panelMenuBaoCao.Name = "panelMenuBaoCao";
-            this.panelMenuBaoCao.Size = new System.Drawing.Size(222, 62);
+            this.panelMenuBaoCao.Size = new System.Drawing.Size(222, 105);
             this.panelMenuBaoCao.TabIndex = 3;
             this.panelMenuBaoCao.Visible = false;
             // 
@@ -1090,6 +1198,7 @@
             this.btn_doanhthu.Text = "Doanh Thu";
             this.btn_doanhthu.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btn_doanhthu.TextOffset = new System.Drawing.Point(10, 0);
+            this.btn_doanhthu.Click += new System.EventHandler(this.btn_doanhthu_Click);
             // 
             // PanelMenuNCC
             // 
@@ -1190,6 +1299,7 @@
             this.Controls.Add(this.PanelMenuBanHang);
             this.Controls.Add(this.panelMenuBaoCao);
             this.Controls.Add(this.PanelMenuNCC);
+            this.Controls.Add(this.panelMenuUuDai);
             this.Name = "FormAdmin";
             this.Text = "FormAdmin";
             this.Load += new System.EventHandler(this.FormAdmin_Load);
@@ -1217,6 +1327,7 @@
             this.PanelMenuBanHang.ResumeLayout(false);
             this.panelMenuBaoCao.ResumeLayout(false);
             this.PanelMenuNCC.ResumeLayout(false);
+            this.panelMenuUuDai.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1230,6 +1341,11 @@
         private Guna.UI2.WinForms.Guna2Button btn_sanpham;
         private Guna.UI2.WinForms.Guna2Button btn_taikhoan;
         private Guna.UI2.WinForms.Guna2Button btn_baocao1;
+        private Guna.UI2.WinForms.Guna2Button btn_uuDai;
+        private Guna.UI2.WinForms.Guna2Panel panelMenuUuDai;
+        private Guna.UI2.WinForms.Guna2Button btn_khuyenmai;
+        private Guna.UI2.WinForms.Guna2Button btn_voucher;
+        private Guna.UI2.WinForms.Guna2Button btn_hoivien;
         private Guna.UI2.WinForms.Guna2Button btn_dangxuat;
         private Guna.UI2.WinForms.Guna2Button btn_nhaphang;
         private Guna.UI2.WinForms.Guna2Button btn_nhacungcap;

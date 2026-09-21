@@ -8,7 +8,9 @@
         public static string TenVaiTro { get; set; }
 
         public static int MaNV { get; set; }
+        public static int MaCa { get; set; }
 
+        public static decimal DoanhThuCa { get; set; }
         public static void DangXuat()
         {
             MaTK = 0;
@@ -16,6 +18,8 @@
             MaVaiTro = 0;
             TenVaiTro = null;
             MaNV = 0;
+            MaCa = 0;
+            DoanhThuCa = 0;
         }
     }
 }

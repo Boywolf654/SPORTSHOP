@@ -430,7 +430,24 @@ namespace SPORTSHOP
 
                     Session.MaNV = maNV;
 
+                    if (Session.MaNV > 0)
+                    {
+                        try
+                        {
+                            QuanLyCa.KhoiTaoCaHienTai();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(
+                                "Không thể khởi tạo ca làm việc.\n\n" +
+                                ex.Message,
+                                "SPORTSHOP",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
 
+                            return;
+                        }
+                    }
                 }
                 else
                 {

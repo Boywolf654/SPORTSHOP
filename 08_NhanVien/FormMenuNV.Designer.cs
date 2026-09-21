@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMenuNV));
             this.btn_chuyenca = new Guna.UI2.WinForms.Guna2Button();
             this.btn_moket = new Guna.UI2.WinForms.Guna2Button();
             this.btn_khoamanhinh = new Guna.UI2.WinForms.Guna2Button();
@@ -59,6 +60,7 @@
             this.btn_chuyenca.Size = new System.Drawing.Size(135, 64);
             this.btn_chuyenca.TabIndex = 0;
             this.btn_chuyenca.Text = "🔄 CHUYỂN CA ";
+            this.btn_chuyenca.Click += new System.EventHandler(this.btn_chuyenca_Click);
             // 
             // btn_moket
             // 
@@ -138,6 +140,7 @@
             this.btn_chamcong.Size = new System.Drawing.Size(135, 64);
             this.btn_chamcong.TabIndex = 0;
             this.btn_chamcong.Text = "📋 CHẤM CÔNG ";
+            this.btn_chamcong.Click += new System.EventHandler(this.btn_chamcong_Click);
             // 
             // btn_giaodich
             // 
@@ -156,7 +159,8 @@
             this.btn_giaodich.PressedColor = System.Drawing.Color.Gray;
             this.btn_giaodich.Size = new System.Drawing.Size(135, 64);
             this.btn_giaodich.TabIndex = 0;
-            this.btn_giaodich.Text = " 🧾 LỊCH SỬ GIAO DỊCH";
+            this.btn_giaodich.Text = " 🧾 LỊCH SỬ HÓA ĐƠN";
+            this.btn_giaodich.Click += new System.EventHandler(this.btn_giaodich_Click);
             // 
             // btn_hoadon
             // 
@@ -170,12 +174,14 @@
             this.btn_hoadon.FillColor = System.Drawing.Color.Transparent;
             this.btn_hoadon.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_hoadon.ForeColor = System.Drawing.Color.Turquoise;
-            this.btn_hoadon.Location = new System.Drawing.Point(387, 130);
+            this.btn_hoadon.Location = new System.Drawing.Point(37, 223);
             this.btn_hoadon.Name = "btn_hoadon";
             this.btn_hoadon.PressedColor = System.Drawing.Color.Gray;
             this.btn_hoadon.Size = new System.Drawing.Size(135, 64);
             this.btn_hoadon.TabIndex = 0;
-            this.btn_hoadon.Text = "🛒 HÓA ĐƠN";
+            this.btn_hoadon.Text = "🧾 HÓA ĐƠN";
+            this.btn_hoadon.Visible = false;
+            this.btn_hoadon.Click += new System.EventHandler(this.btn_hoadon_Click);
             // 
             // btn_tracuu
             // 
@@ -189,7 +195,7 @@
             this.btn_tracuu.FillColor = System.Drawing.Color.Transparent;
             this.btn_tracuu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_tracuu.ForeColor = System.Drawing.Color.Turquoise;
-            this.btn_tracuu.Location = new System.Drawing.Point(557, 130);
+            this.btn_tracuu.Location = new System.Drawing.Point(387, 130);
             this.btn_tracuu.Name = "btn_tracuu";
             this.btn_tracuu.PressedColor = System.Drawing.Color.Gray;
             this.btn_tracuu.Size = new System.Drawing.Size(135, 64);
@@ -208,7 +214,7 @@
             this.btn_timSPP.FillColor = System.Drawing.Color.Transparent;
             this.btn_timSPP.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_timSPP.ForeColor = System.Drawing.Color.Turquoise;
-            this.btn_timSPP.Location = new System.Drawing.Point(37, 237);
+            this.btn_timSPP.Location = new System.Drawing.Point(557, 130);
             this.btn_timSPP.Name = "btn_timSPP";
             this.btn_timSPP.PressedColor = System.Drawing.Color.Gray;
             this.btn_timSPP.Size = new System.Drawing.Size(135, 64);
@@ -227,12 +233,13 @@
             this.btn_dangxuat.FillColor = System.Drawing.Color.Transparent;
             this.btn_dangxuat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btn_dangxuat.ForeColor = System.Drawing.Color.Turquoise;
-            this.btn_dangxuat.Location = new System.Drawing.Point(214, 237);
+            this.btn_dangxuat.Location = new System.Drawing.Point(214, 223);
             this.btn_dangxuat.Name = "btn_dangxuat";
             this.btn_dangxuat.PressedColor = System.Drawing.Color.Gray;
             this.btn_dangxuat.Size = new System.Drawing.Size(135, 64);
             this.btn_dangxuat.TabIndex = 0;
             this.btn_dangxuat.Text = "🚪 ĐĂNG XUẤT ";
+            this.btn_dangxuat.Click += new System.EventHandler(this.btn_dangxuat_Click);
             // 
             // btn_thoat
             // 
@@ -250,13 +257,14 @@
             this.btn_thoat.Size = new System.Drawing.Size(97, 81);
             this.btn_thoat.TabIndex = 0;
             this.btn_thoat.Text = "X";
+            this.btn_thoat.Click += new System.EventHandler(this.btn_thoat_Click);
             // 
             // FormMenuNV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
-            this.BackgroundImage = global::SPORTSHOP.Properties.Resources._0efc2f0c_b840_4b95_958c_66408152fd60;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(939, 503);
             this.Controls.Add(this.btn_thoat);
             this.Controls.Add(this.btn_dangxuat);
@@ -271,6 +279,7 @@
             this.Controls.Add(this.btn_chuyenca);
             this.Name = "FormMenuNV";
             this.Text = "FormMenuNV";
+            this.Load += new System.EventHandler(this.FormMenuNV_Load);
             this.ResumeLayout(false);
 
         }

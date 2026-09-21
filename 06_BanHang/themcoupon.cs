@@ -131,5 +131,10 @@ namespace SPORTSHOP._06_BanHang
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void themcoupon_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

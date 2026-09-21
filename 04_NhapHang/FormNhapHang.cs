@@ -336,29 +336,39 @@ namespace SPORTSHOP
         {
             dgv_SanPham.DataSource = null;
             dgv_SanPham.AutoGenerateColumns = true;
-
             dgv_SanPham.AllowUserToAddRows = false;
             dgv_SanPham.AllowUserToDeleteRows = false;
-
             dgv_SanPham.ReadOnly = true;
-
-            dgv_SanPham.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
+            dgv_SanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_SanPham.MultiSelect = false;
-
             dgv_SanPham.RowHeadersVisible = false;
+            dgv_SanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv_SanPham.RowTemplate.Height = 32;
+            dgv_SanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgv_SanPham.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.None;
+            dgv_SanPham.ColumnHeadersVisible = true;
+            dgv_SanPham.ColumnHeadersHeight = 38;
+            dgv_SanPham.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(67, 87, 115);
 
-            dgv_SanPham.RowTemplate.Height = 30;
-
-            dgv_SanPham.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgv_SanPham.Cursor =
-                Cursors.Hand;
+            dgv_SanPham.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv_SanPham.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgv_SanPham.DefaultCellStyle.BackColor = Color.White;
+            dgv_SanPham.DefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(224, 231, 255);
+            dgv_SanPham.DefaultCellStyle.SelectionForeColor =
+                Color.FromArgb(31, 41, 55);
+            dgv_SanPham.AlternatingRowsDefaultCellStyle.BackColor =
+                Color.FromArgb(248, 250, 252);
+            dgv_SanPham.GridColor = Color.FromArgb(226, 232, 240);
+            dgv_SanPham.Cursor = Cursors.Hand;
         }
 
         // =========================================================
@@ -771,6 +781,29 @@ namespace SPORTSHOP
 
             dgv_chitietSP.Columns.Add(
                 colThanhTien);
+
+            dgv_chitietSP.ColumnHeadersVisible = true;
+            dgv_chitietSP.ColumnHeadersHeight = 38;
+            dgv_chitietSP.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(67, 87, 115);
+
+            dgv_chitietSP.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv_chitietSP.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgv_chitietSP.DefaultCellStyle.BackColor = Color.White;
+            dgv_chitietSP.DefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(224, 231, 255);
+            dgv_chitietSP.DefaultCellStyle.SelectionForeColor =
+                Color.FromArgb(31, 41, 55);
+            dgv_chitietSP.AlternatingRowsDefaultCellStyle.BackColor =
+                Color.FromArgb(248, 250, 252);
+            dgv_chitietSP.GridColor = Color.FromArgb(226, 232, 240);
         }
 
         // =========================================================

@@ -27,9 +27,6 @@ namespace SPORTSHOP
 
         private DataTable bangTonKho = null;
 
-        // Ngưỡng cảnh báo sắp hết hàng
-        private const int NGUONG_SAP_HET = 10;
-
         public FormNVKho(TaiKhoan tk)
         {
             InitializeComponent();
@@ -49,6 +46,7 @@ namespace SPORTSHOP
             LoadThongKe();
             LoadDanhSachTonKho();
             TaoNutChamCong();
+            TaoNutChucNangKhoMoi();
         }
 
         private void FormNVKho_Load(object sender, EventArgs e)
@@ -480,6 +478,91 @@ namespace SPORTSHOP
             };
             panelSidebar.Controls.Add(btn);
             btn.BringToFront();
+        }
+
+        // =========================================================
+        // 3 CHỨC NĂNG KHO MỚI - TẠO ĐỘNG
+        // Không đặt trong Designer để tránh Visual Studio Designer
+        // lỗi khi khởi tạo Guna2Button.
+        // =========================================================
+        private void TaoNutChucNangKhoMoi()
+        {
+            if (panelMenuKho == null)
+                return;
+
+            // Mở rộng menu kho từ 6 lên 9 chức năng.
+            panelMenuKho.Height = 473;
+
+            Guna.UI2.WinForms.Guna2Button btnCanhBao =
+                TaoButtonMenuKho(
+                    "⚠ Cảnh báo kho",
+                    309,
+                    btn_canhbao_Click);
+
+            Guna.UI2.WinForms.Guna2Button btnDieuChuyen =
+                TaoButtonMenuKho(
+                    "↔ Điều chuyển kho",
+                    360,
+                    btn_dieuchuyen_Click);
+
+            Guna.UI2.WinForms.Guna2Button btnPhieuXuat =
+                TaoButtonMenuKho(
+                    "📤 Phiếu xuất kho",
+                    411,
+                    btn_phieuxuat_Click);
+
+            // Giữ reference bằng Controls của panel.
+            panelMenuKho.Controls.Add(btnCanhBao);
+            panelMenuKho.Controls.Add(btnDieuChuyen);
+            panelMenuKho.Controls.Add(btnPhieuXuat);
+        }
+
+        private Guna.UI2.WinForms.Guna2Button TaoButtonMenuKho(
+            string text,
+            int y,
+            EventHandler click)
+        {
+            var btn = new Guna.UI2.WinForms.Guna2Button();
+
+            btn.BorderRadius = 10;
+            btn.FillColor = Color.Transparent;
+            btn.FocusedColor = Color.Transparent;
+            btn.Font = new Font("Segoe UI", 12F);
+            btn.ForeColor = Color.White;
+            btn.HoverState.FillColor = Color.FromArgb(40, 52, 70);
+            btn.HoverState.ForeColor = Color.White;
+            btn.Location = new Point(1, y);
+            btn.Size = new Size(220, 45);
+            btn.Text = text;
+            btn.TextAlign = HorizontalAlignment.Left;
+            btn.TextOffset = new Point(10, 0);
+            btn.Click += click;
+
+            return btn;
+        }
+
+        // =========================================================
+        // CẢNH BÁO KHO
+        // =========================================================
+        private void btn_canhbao_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new CanhBaoKho());
+        }
+
+        // =========================================================
+        // ĐIỀU CHUYỂN KHO
+        // =========================================================
+        private void btn_dieuchuyen_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new DieuChuyenKho());
+        }
+
+        // =========================================================
+        // PHIẾU XUẤT KHO
+        // =========================================================
+        private void btn_phieuxuat_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new PhieuXuatKho());
         }
 
     }

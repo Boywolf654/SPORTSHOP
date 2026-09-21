@@ -29,7 +29,431 @@ namespace SPORTSHOP
         {
             InitializeComponent();
 
+            this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.DoubleBuffered = true;
+
+            // Panel tài khoản được tạo bằng code runtime để không làm hỏng Designer.
+            TaoPanelTaiKhoan();
+        }
+
+        // =========================================================
+        // PANEL TÀI KHOẢN KHÁCH HÀNG
+        // =========================================================
+
+        private Panel panelTaiKhoan;
+        private Panel panelTaiKhoanNoiDung;
+        private Label lblTaiKhoanHeader;
+        private Label lblTaiKhoanThongTin;
+        private bool panelTaiKhoanDangMo = false;
+
+        private void TaoPanelTaiKhoan()
+        {
+            panelTaiKhoan = new Panel
+            {
+                Name = "panelTaiKhoan",
+                Width = 350,
+                BackColor = Color.FromArgb(25, 25, 27),
+                BorderStyle = BorderStyle.FixedSingle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right,
+                Visible = false
+            };
+
+            panelTaiKhoan.Height = this.ClientSize.Height;
+            panelTaiKhoan.Left = this.ClientSize.Width - panelTaiKhoan.Width;
+            panelTaiKhoan.Top = menuStrip1.Height;
+
+            lblTaiKhoanHeader = new Label
+            {
+                Text = "👤  TÀI KHOẢN KHÁCH HÀNG",
+                Dock = DockStyle.Top,
+                Height = 58,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = MauDo
+            };
+
+            lblTaiKhoanThongTin = new Label
+            {
+                Text = "Đang tải thông tin...",
+                Dock = DockStyle.Top,
+                Height = 72,
+                Padding = new Padding(18, 10, 18, 5),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                ForeColor = Color.Gainsboro,
+                BackColor = Color.FromArgb(35, 35, 38)
+            };
+
+            panelTaiKhoanNoiDung = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.FromArgb(25, 25, 27),
+                Padding = new Padding(15, 12, 15, 12),
+                AutoScroll = true
+            };
+
+            panelTaiKhoan.Controls.Add(panelTaiKhoanNoiDung);
+            panelTaiKhoan.Controls.Add(lblTaiKhoanThongTin);
+            panelTaiKhoan.Controls.Add(lblTaiKhoanHeader);
+
+            this.Controls.Add(panelTaiKhoan);
+            panelTaiKhoan.BringToFront();
+
+            // Tài khoản trên MenuStrip vẫn được giữ nguyên.
+            tàiKhoảnToolStripMenuItem.Click += (s, e) => TogglePanelTaiKhoan();
+
+            ThemNutTaiKhoan("👤  Thông tin khách hàng", MoThongTinKhachHang);
+            ThemNutTaiKhoan("⭐  Hội viên", MoHoiVien);
+            ThemNutTaiKhoan("💰  Ví điện tử", MoViDienTu);
+            ThemNutTaiKhoan("🎟  Coupon / Voucher", MoCoupon);
+            ThemNutTaiKhoan("📍  Địa chỉ nhận hàng", MoDiaChi);
+            ThemNutTaiKhoan("🧾  Đơn hàng của tôi", MoGioHang);
+            ThemNutTaiKhoan("🧾  Lịch sử giao dịch", MoLichSuGiaoDich);
+
+            Panel dong = new Panel
+            {
+                Height = 1,
+                Dock = DockStyle.Top,
+                BackColor = Color.FromArgb(70, 70, 70)
+            };
+            panelTaiKhoanNoiDung.Controls.Add(dong);
+            dong.BringToFront();
+
+            Button btnDangXuat = TaoNutTaiKhoan("🚪  Đăng xuất", true);
+            btnDangXuat.Click += DangXuat;
+            panelTaiKhoanNoiDung.Controls.Add(btnDangXuat);
+            btnDangXuat.BringToFront();
+
+            this.Resize += (s, e) =>
+            {
+                if (panelTaiKhoan != null)
+                {
+                    panelTaiKhoan.Height = this.ClientSize.Height - menuStrip1.Height;
+                    panelTaiKhoan.Top = menuStrip1.Height;
+                }
+            };
+        }
+
+        private void ThemNutTaiKhoan(string text, EventHandler click)
+        {
+            Button btn = TaoNutTaiKhoan(text, false);
+            btn.Click += click;
+            panelTaiKhoanNoiDung.Controls.Add(btn);
+            btn.BringToFront();
+        }
+
+        private Button TaoNutTaiKhoan(string text, bool dangXuat)
+        {
+            Button btn = new Button
+            {
+                Text = text,
+                Dock = DockStyle.Top,
+                Height = 48,
+                FlatStyle = FlatStyle.Flat,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(15, 0, 8, 0),
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = dangXuat
+                    ? Color.FromArgb(150, 30, 40)
+                    : Color.FromArgb(40, 40, 43),
+                Cursor = Cursors.Hand,
+                FlatAppearance = { BorderSize = 0 }
+            };
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.BackColor = dangXuat
+                    ? Color.FromArgb(190, 35, 48)
+                    : MauDo;
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.BackColor = dangXuat
+                    ? Color.FromArgb(150, 30, 40)
+                    : Color.FromArgb(40, 40, 43);
+            };
+
+            return btn;
+        }
+
+        private void TogglePanelTaiKhoan()
+        {
+            panelTaiKhoanDangMo = !panelTaiKhoanDangMo;
+
+            if (panelTaiKhoanDangMo)
+            {
+                LoadTomTatTaiKhoan();
+                panelTaiKhoan.Visible = true;
+                panelTaiKhoan.BringToFront();
+            }
+            else
+            {
+                panelTaiKhoan.Visible = false;
+            }
+        }
+
+        private void LoadTomTatTaiKhoan()
+        {
+            try
+            {
+                if (Session.MaTK <= 0)
+                {
+                    lblTaiKhoanThongTin.Text =
+                        "Chưa xác định tài khoản khách hàng.";
+                    return;
+                }
+
+                string sql = @"
+                    SELECT TOP 1
+                        kh.HoTen,
+                        ISNULL(kh.DiemTichLuy, 0) AS DiemTichLuy,
+                        ISNULL(kh.HangThanhVien, N'Đồng') AS HangThanhVien,
+                        ISNULL(vd.SoDu, 0) AS SoDu
+                    FROM KhachHang kh
+                    LEFT JOIN ViDienTu vd ON vd.MaKH = kh.MaKH
+                    WHERE kh.MaTK = @MaTK";
+
+                DataTable dt = kt.GetData(
+                    sql,
+                    new SqlParameter[]
+                    {
+                        new SqlParameter("@MaTK", Session.MaTK)
+                    });
+
+                if (dt.Rows.Count == 0)
+                {
+                    lblTaiKhoanThongTin.Text =
+                        "Tài khoản chưa có hồ sơ khách hàng.";
+                    return;
+                }
+
+                DataRow r = dt.Rows[0];
+
+                string ten = r["HoTen"] == DBNull.Value
+                    ? "Khách hàng"
+                    : r["HoTen"].ToString();
+
+                int diem = r["DiemTichLuy"] == DBNull.Value
+                    ? 0
+                    : Convert.ToInt32(r["DiemTichLuy"]);
+
+                string hang = r["HangThanhVien"] == DBNull.Value
+                    ? "Đồng"
+                    : r["HangThanhVien"].ToString();
+
+                decimal soDu = r["SoDu"] == DBNull.Value
+                    ? 0
+                    : Convert.ToDecimal(r["SoDu"]);
+
+                lblTaiKhoanThongTin.Text =
+                    "Xin chào, " + ten +
+                    "\r\n⭐ " + hang + "  •  " + diem.ToString("N0") + " điểm" +
+                    "\r\n💰 Số dư ví: " + soDu.ToString("N0") + " Đ";
+            }
+            catch
+            {
+                lblTaiKhoanThongTin.Text =
+                    "Không tải được thông tin tài khoản.";
+            }
+        }
+
+        private int LayMaKHTrongTaiKhoan()
+        {
+            if (Session.MaTK <= 0)
+                return 0;
+
+            object result = kt.ExecuteScalar(
+                @"SELECT TOP 1 MaKH
+                  FROM KhachHang
+                  WHERE MaTK = @MaTK",
+                new SqlParameter[]
+                {
+                    new SqlParameter("@MaTK", Session.MaTK)
+                });
+
+            if (result == null || result == DBNull.Value)
+                return 0;
+
+            return Convert.ToInt32(result);
+        }
+
+        private void MoThongTinKhachHang(object sender, EventArgs e)
+        {
+            try
+            {
+                using (FormThongTinKhachHang frm =
+                    new FormThongTinKhachHang())
+                {
+                    frm.ShowDialog(this);
+                }
+
+                LoadTomTatTaiKhoan();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở thông tin khách hàng.\r\n\r\n" + ex.Message,
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoHoiVien(object sender, EventArgs e)
+        {
+            try
+            {
+                using (FormHoiVien frm = new FormHoiVien())
+                {
+                    frm.ShowDialog(this);
+                }
+
+                LoadTomTatTaiKhoan();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở phần hội viên.\r\n\r\n" + ex.Message,
+                    "Hội viên",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoViDienTu(object sender, EventArgs e)
+        {
+            try
+            {
+                using (FormViDienTu frm = new FormViDienTu())
+                {
+                    frm.ShowDialog(this);
+                }
+
+                LoadTomTatTaiKhoan();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở Ví điện tử.\r\n\r\n" + ex.Message,
+                    "Ví điện tử",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoCoupon(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal tongTien = GioHangManager.TongTien();
+
+                using (SPORTSHOP._06_BanHang.coupon frm =
+                    new SPORTSHOP._06_BanHang.coupon(tongTien))
+                {
+                    frm.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở Coupon / Voucher.\r\n\r\n" + ex.Message,
+                    "Coupon",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoDiaChi(object sender, EventArgs e)
+        {
+            try
+            {
+                int maKH = LayMaKHTrongTaiKhoan();
+
+                if (maKH <= 0)
+                {
+                    MessageBox.Show(
+                        "Không xác định được khách hàng.",
+                        "Địa chỉ",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (FormQuanLyDiaChi frm =
+                    new FormQuanLyDiaChi(maKH))
+                {
+                    frm.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở quản lý địa chỉ.\r\n\r\n" + ex.Message,
+                    "Địa chỉ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoGioHang(object sender, EventArgs e)
+        {
+            try
+            {
+                using (Giohang frm = new Giohang())
+                {
+                    frm.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở giỏ hàng.\r\n\r\n" + ex.Message,
+                    "Giỏ hàng",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoLichSuGiaoDich(object sender, EventArgs e)
+        {
+            try
+            {
+                // Form tự khóa truy vấn theo Session.MaTK.
+                // Khách không được chọn MaKH hay xem lịch sử của người khác.
+                using (FormLichSuGiaoDichKhachHang frm =
+                    new FormLichSuGiaoDichKhachHang())
+                {
+                    frm.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở lịch sử giao dịch.\r\n\r\n" +
+                    ex.Message,
+                    "Lịch sử giao dịch",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void DangXuat(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc muốn đăng xuất?",
+                "SPORTSHOP",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            Session.MaTK = 0;
+            this.Close();
         }
 
         // =========================================================
@@ -985,8 +1409,7 @@ namespace SPORTSHOP
 
         private void thôngTinKháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormThongTinKhachHang form = new FormThongTinKhachHang();
-            form.Show();
+            TogglePanelTaiKhoan();
         }
         // =========================================================
         // ĐỒNG BỘ CARD CLONE VỚI CSDL

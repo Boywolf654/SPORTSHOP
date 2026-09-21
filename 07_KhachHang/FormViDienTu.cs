@@ -287,35 +287,5 @@ VALUES
         private void btn2Tr_Click(object s, EventArgs e) { txtSoTien.Text = "2000000"; }
         private void btnLichSu_Click(object s, EventArgs e) { LoadLichSu(); }
 
-        // Helper UI: để ngoài Designer để Visual Studio Designer không báo "Method ... not found".
-        private void SetupPanel(
-            Guna.UI2.WinForms.Guna2Panel p,
-            int x,
-            int y,
-            int w,
-            int h)
-        {
-            p.FillColor = System.Drawing.Color.White;
-            p.BorderRadius = 16;
-            p.Location = new System.Drawing.Point(x, y);
-            p.Size = new System.Drawing.Size(w, h);
-        }
-
-        private void SetupQuick(
-            Guna.UI2.WinForms.Guna2Button b,
-            string text,
-            int x)
-        {
-            b.Text = text;
-            b.BorderRadius = 8;
-            b.Size = new System.Drawing.Size(90, 40);
-            b.Location = new System.Drawing.Point(x, 84);
-
-            if (b == btn100) b.Click += btn100_Click;
-            if (b == btn200) b.Click += btn200_Click;
-            if (b == btn500) b.Click += btn500_Click;
-            if (b == btn1Tr) b.Click += btn1Tr_Click;
-            if (b == btn2Tr) b.Click += btn2Tr_Click;
-        }
     }
 }

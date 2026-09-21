@@ -30,6 +30,7 @@ namespace SPORTSHOP._06_BanHang
 
             rdoThe.CheckedChanged += PhuongThucThanhToan_CheckedChanged;
             rdoChuyenKhoan.CheckedChanged += PhuongThucThanhToan_CheckedChanged;
+            rdoViDienTu.CheckedChanged += PhuongThucThanhToan_CheckedChanged;
 
             GanHoverButton(btn_thanhtoan, Color.FromArgb(37, 166, 76), Color.FromArgb(27, 142, 62));
             GanHoverButton(btn_xoa, Color.FromArgb(225, 66, 66), Color.FromArgb(198, 52, 52));
@@ -42,6 +43,7 @@ namespace SPORTSHOP._06_BanHang
             CauHinhGioHang();
             LoadGioHang();
             LoadDiaChiMacDinh();
+            CapNhatThongTinVi();
             CapNhatTrangThaiNut();
         }
 
@@ -147,7 +149,7 @@ namespace SPORTSHOP._06_BanHang
 
             label4.Text = "Giá gốc: " + giaGoc.ToString("N0") + " Đ";
             label5.Text = "Giảm giá: -" + giamGia.ToString("N0") + " Đ";
-            label6.Text = "Vận chuyển: " + phiVanChuyen.ToString("N0") + " Đ";
+            lblPhiVanChuyen.Text = "Vận chuyển: " + phiVanChuyen.ToString("N0") + " Đ";
             label7.Text = "TỔNG: " + tong.ToString("N0") + " Đ";
         }
 
@@ -266,32 +268,105 @@ namespace SPORTSHOP._06_BanHang
                     "SPORTSHOP",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
                 return;
             }
 
-            decimal tongTien = GioHangManager.TongTien();
+            string ma = cmb_giamgia.Text.Trim().ToUpper();
 
-            using (coupon frm = new coupon(tongTien))
+            if (string.IsNullOrWhiteSpace(ma))
             {
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    maVoucherDangApDung = frm.MaVoucherDuocChon;
-                    giamGia = frm.SoTienGiam;
+                MessageBox.Show(
+                    "Vui lòng nhập mã giảm giá.",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                cmb_giamgia.Focus();
+                return;
+            }
 
+            try
+            {
+                string sql = @"
+                    SELECT TOP 1
+                        MaVoucher,
+                        GiaTri,
+                        LoaiGiam,
+                        GiaTriDonToiThieu,
+                        SoLuongToiDa,
+                        DaSuDung
+                    FROM Voucher
+                    WHERE UPPER(MaCode) = @MaCode
+                      AND TrangThai = 1
+                      AND NgayBatDau <= CAST(GETDATE() AS DATE)
+                      AND (NgayHetHan IS NULL OR NgayHetHan >= CAST(GETDATE() AS DATE))
+                      AND DaSuDung < SoLuongToiDa";
+
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@MaCode", ma)
+                };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                if (dt.Rows.Count == 0)
+                {
+                    maVoucherDangApDung = 0;
+                    giamGia = 0;
                     CapNhatTongTien();
 
-                    // Hiển thị mã đã chọn trên ComboBox
-                    cmb_giamgia.Text = frm.MaCodeDuocChon;
-
                     MessageBox.Show(
-                        "Đã áp dụng mã giảm giá!\n\n" +
-                        "Mã: " + frm.MaCodeDuocChon + "\n" +
-                        "Số tiền giảm: " + giamGia.ToString("N0") + " Đ",
+                        "Mã giảm giá không tồn tại, đã hết hạn hoặc đã hết lượt sử dụng.",
                         "Voucher",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                        MessageBoxIcon.Warning);
+                    return;
                 }
+
+                DataRow row = dt.Rows[0];
+                decimal giaGoc = GioHangManager.TongTien();
+                decimal toiThieu = Convert.ToDecimal(row["GiaTriDonToiThieu"]);
+
+                if (giaGoc < toiThieu)
+                {
+                    MessageBox.Show(
+                        "Đơn hàng chưa đạt giá trị tối thiểu " +
+                        toiThieu.ToString("N0") + " Đ.",
+                        "Voucher",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                decimal giaTri = Convert.ToDecimal(row["GiaTri"]);
+                string loai = row["LoaiGiam"].ToString();
+
+                if (loai.Equals("PhanTram", StringComparison.OrdinalIgnoreCase))
+                    giamGia = giaGoc * giaTri / 100m;
+                else
+                    giamGia = giaTri;
+
+                if (giamGia > giaGoc)
+                    giamGia = giaGoc;
+
+                maVoucherDangApDung = Convert.ToInt32(row["MaVoucher"]);
+
+                CapNhatTongTien();
+
+                MessageBox.Show(
+                    "Áp dụng voucher thành công!\n" +
+                    "Mã: " + ma +
+                    "\nGiảm: " + giamGia.ToString("N0") + " Đ",
+                    "Voucher",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể áp dụng voucher.\n\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -335,6 +410,47 @@ namespace SPORTSHOP._06_BanHang
                 lblPhuongThuc.Text = "PHƯƠNG THỨC THANH TOÁN  •  THẺ";
             else if (rdoChuyenKhoan.Checked)
                 lblPhuongThuc.Text = "PHƯƠNG THỨC THANH TOÁN  •  CHUYỂN KHOẢN";
+            else if (rdoViDienTu.Checked)
+                lblPhuongThuc.Text = "PHƯƠNG THỨC THANH TOÁN  •  VÍ ĐIỆN TỬ";
+        }
+
+        private void CapNhatThongTinVi()
+        {
+            if (Session.MaTK <= 0)
+            {
+                lblViInfo.Text = "Ví điện tử: Chưa đăng nhập";
+                return;
+            }
+
+            try
+            {
+                int maKH = LayMaKH();
+
+                if (maKH <= 0)
+                {
+                    lblViInfo.Text = "Ví điện tử: Chưa xác định KH";
+                    return;
+                }
+
+                object result = kt.ExecuteScalar(
+                    @"SELECT TOP 1 SoDu
+                      FROM ViDienTu
+                      WHERE MaKH=@MaKH",
+                    new SqlParameter[]
+                    {
+                        new SqlParameter("@MaKH", maKH)
+                    });
+
+                if (result == null || result == DBNull.Value)
+                    lblViInfo.Text = "Ví điện tử: Chưa tạo ví";
+                else
+                    lblViInfo.Text =
+                        "Ví điện tử: " + Convert.ToDecimal(result).ToString("N0") + " Đ";
+            }
+            catch
+            {
+                lblViInfo.Text = "Ví điện tử: Không tải được số dư";
+            }
         }
 
         private void LoadDiaChiMacDinh()
@@ -428,6 +544,137 @@ namespace SPORTSHOP._06_BanHang
             return tong < 0 ? 0 : tong;
         }
 
+        /// <summary>
+        /// Kiểm tra giá hiện tại của toàn bộ biến thể trong giỏ trước khi thanh toán.
+        /// Nếu giá đã thay đổi so với giá đang hiển thị trong giỏ, cập nhật lại giá
+        /// trên GioHangItem, làm mới giao diện và yêu cầu khách xác nhận lại.
+        /// </summary>
+        private bool KiemTraVaCapNhatGiaHienTai()
+        {
+            if (GioHangManager.DanhSach.Count == 0)
+                return true;
+
+            bool coThayDoi = false;
+            string thongBao = "";
+
+            try
+            {
+                foreach (GioHangItem item in GioHangManager.DanhSach)
+                {
+                    if (item == null || item.SanPham == null)
+                        continue;
+
+                    string sqlGia;
+                    if (item.MaBienThe > 0)
+                    {
+                        sqlGia = @"
+                            SELECT TOP 1 GiaBan
+                            FROM BienTheSanPham
+                            WHERE MaBienThe=@MaBienThe
+                              AND MaSP=@MaSP
+                              AND TrangThai=1";
+                    }
+                    else
+                    {
+                        sqlGia = @"
+                            SELECT TOP 1 bt.GiaBan
+                            FROM BienTheSanPham bt
+                            INNER JOIN Size s ON s.MaSize=bt.MaSize
+                            LEFT JOIN MauSac m ON m.MaMau=bt.MaMau
+                            WHERE bt.MaSP=@MaSP
+                              AND s.TenSize=@Size
+                              AND bt.TrangThai=1
+                              AND (
+                                    (@Mau<>'' AND ISNULL(m.TenMau,'')=@Mau)
+                                    OR
+                                    (@Mau='' AND (m.MaMau IS NULL OR ISNULL(m.TenMau,'')=''))
+                                  )
+                            ORDER BY bt.MaBienThe";
+                    }
+
+                    SqlParameter[] parameters;
+                    if (item.MaBienThe > 0)
+                    {
+                        parameters = new[]
+                        {
+                            new SqlParameter("@MaBienThe", item.MaBienThe),
+                            new SqlParameter("@MaSP", item.SanPham.MaSP)
+                        };
+                    }
+                    else
+                    {
+                        parameters = new[]
+                        {
+                            new SqlParameter("@MaSP", item.SanPham.MaSP),
+                            new SqlParameter("@Size", item.Size ?? ""),
+                            new SqlParameter("@Mau", (item.MauSac ?? "").Trim())
+                        };
+                    }
+
+                    object result = kt.ExecuteScalar(sqlGia, parameters);
+
+                    if (result == null || result == DBNull.Value)
+                    {
+                        throw new Exception(
+                            "Không tìm thấy biến thể đang có trong giỏ: " +
+                            item.SanPham.TenSP +
+                            " / Size " + item.Size +
+                            " / Màu " + item.MauSac);
+                    }
+
+                    decimal giaMoi = Convert.ToDecimal(result);
+                    decimal giaCu = item.SanPham.Gia;
+
+                    if (giaMoi != giaCu)
+                    {
+                        coThayDoi = true;
+
+                        thongBao +=
+                            "• " + item.SanPham.TenSP +
+                            (string.IsNullOrWhiteSpace(item.Size) ? "" : " / Size " + item.Size) +
+                            (string.IsNullOrWhiteSpace(item.MauSac) ? "" : " / Màu " + item.MauSac) +
+                            "\n  Giá cũ: " + giaCu.ToString("N0") + " Đ" +
+                            " → Giá mới: " + giaMoi.ToString("N0") + " Đ\n";
+
+                        // Cập nhật trực tiếp giá của item trong giỏ.
+                        item.SanPham.Gia = giaMoi;
+                    }
+                }
+
+                if (!coThayDoi)
+                    return true;
+
+                // Giá đơn đã thay đổi nên voucher cũ phải được kiểm tra lại.
+                // Không giữ nguyên mức giảm được tính theo giá cũ.
+                giamGia = 0;
+                maVoucherDangApDung = 0;
+
+                // Refresh toàn bộ DataGridView + tổng tiền theo giá mới.
+                LoadGioHang();
+
+                MessageBox.Show(
+                    "GIÁ SẢN PHẨM ĐÃ THAY ĐỔI\n\n" +
+                    thongBao +
+                    "\nGiỏ hàng đã được tự động cập nhật theo giá mới.\n" +
+                    "Voucher/giảm giá cũ đã được bỏ để tính lại theo giá mới.\n\n" +
+                    "Vui lòng kiểm tra lại đơn hàng và bấm Thanh toán một lần nữa.",
+                    "Giá sản phẩm thay đổi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể kiểm tra giá sản phẩm hiện tại.\n\n" + ex.Message,
+                    "Không thể thanh toán",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
         private void btn_thanhtoan_Click(object sender, EventArgs e)
         {
             if (GioHangManager.DanhSach.Count == 0)
@@ -464,7 +711,7 @@ namespace SPORTSHOP._06_BanHang
                 return;
             }
 
-            if (!rdoThe.Checked && !rdoChuyenKhoan.Checked)
+            if (!rdoThe.Checked && !rdoChuyenKhoan.Checked && !rdoViDienTu.Checked)
             {
                 MessageBox.Show(
                     "Vui lòng chọn phương thức thanh toán.",
@@ -474,11 +721,19 @@ namespace SPORTSHOP._06_BanHang
                 return;
             }
 
+            // Kiểm tra giá DB ngay trước khi hiện hộp xác nhận.
+            // Nếu giá thay đổi, hàm sẽ tự refresh giỏ và dừng lần thanh toán này.
+            // Khách phải kiểm tra giá mới và bấm Thanh toán lại.
+            if (!KiemTraVaCapNhatGiaHienTai())
+                return;
+
             decimal giaGoc = GioHangManager.TongTien();
             decimal tong = LayTongThanhToan();
 
             string phuongThuc =
-                rdoThe.Checked ? "Thẻ" : "Chuyển khoản";
+                rdoThe.Checked
+                    ? "Thẻ"
+                    : (rdoChuyenKhoan.Checked ? "Chuyển khoản" : "Ví điện tử");
 
             DialogResult confirm = MessageBox.Show(
                 "XÁC NHẬN THANH TOÁN\n\n" +
@@ -519,6 +774,7 @@ namespace SPORTSHOP._06_BanHang
                 maVoucherDangApDung = 0;
 
                 LoadGioHang();
+                CapNhatThongTinVi();
             }
             catch (Exception ex)
             {
@@ -599,30 +855,69 @@ namespace SPORTSHOP._06_BanHang
 
                         foreach (GioHangItem item in GioHangManager.DanhSach)
                         {
-                            string sqlBienThe = @"
-                                SELECT TOP 1
-                                    bt.MaBienThe,
-                                    bt.GiaBan,
-                                    bt.SoLuong
-                                FROM BienTheSanPham bt
-                                INNER JOIN Size s
-                                    ON s.MaSize = bt.MaSize
-                                INNER JOIN MauSac m
-                                    ON m.MaMau = bt.MaMau
-                                WHERE bt.MaSP = @MaSP
-                                  AND s.TenSize = @Size
-                                  AND m.TenMau = @Mau
-                                  AND bt.TrangThai = 1";
+                            string sqlBienThe;
+
+                            if (item.MaBienThe > 0)
+                            {
+                                // Item mới: dùng thẳng MaBienThe đã lưu trong giỏ.
+                                sqlBienThe = @"
+                                    SELECT TOP 1
+                                        bt.MaBienThe,
+                                        bt.GiaBan,
+                                        bt.SoLuong
+                                    FROM BienTheSanPham bt
+                                    WHERE bt.MaBienThe = @MaBienThe
+                                      AND bt.MaSP = @MaSP
+                                      AND bt.TrangThai = 1";
+                            }
+                            else
+                            {
+                                // Fallback cho item cũ được thêm trước bản sửa.
+                                sqlBienThe = @"
+                                    SELECT TOP 1
+                                        bt.MaBienThe,
+                                        bt.GiaBan,
+                                        bt.SoLuong
+                                    FROM BienTheSanPham bt
+                                    INNER JOIN Size s
+                                        ON s.MaSize = bt.MaSize
+                                    LEFT JOIN MauSac m
+                                        ON m.MaMau = bt.MaMau
+                                    WHERE bt.MaSP = @MaSP
+                                      AND s.TenSize = @Size
+                                      AND bt.TrangThai = 1
+                                      AND (
+                                            (@Mau <> '' AND ISNULL(m.TenMau,'') = @Mau)
+                                            OR
+                                            (@Mau = '' AND (m.MaMau IS NULL OR ISNULL(m.TenMau,'') = ''))
+                                          )
+                                    ORDER BY
+                                        CASE
+                                            WHEN @Mau <> '' AND ISNULL(m.TenMau,'') = @Mau THEN 0
+                                            WHEN @Mau = '' AND m.MaMau IS NULL THEN 0
+                                            ELSE 1
+                                        END,
+                                        bt.MaBienThe";
+                            }
 
                             using (SqlCommand cmd = new SqlCommand(
                                 sqlBienThe, conn, tran))
                             {
                                 cmd.Parameters.AddWithValue(
                                     "@MaSP", item.SanPham.MaSP);
-                                cmd.Parameters.AddWithValue(
-                                    "@Size", item.Size ?? "");
-                                cmd.Parameters.AddWithValue(
-                                    "@Mau", item.MauSac ?? "");
+
+                                if (item.MaBienThe > 0)
+                                {
+                                    cmd.Parameters.AddWithValue(
+                                        "@MaBienThe", item.MaBienThe);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue(
+                                        "@Size", item.Size ?? "");
+                                    cmd.Parameters.AddWithValue(
+                                        "@Mau", (item.MauSac ?? "").Trim());
+                                }
 
                                 using (SqlDataReader reader = cmd.ExecuteReader())
                                 {
@@ -673,7 +968,105 @@ namespace SPORTSHOP._06_BanHang
                         }
 
                         // -----------------------------------------------------
-                        // 3. Tạo DonOnline
+                        // 3. Thanh toán bằng ví điện tử (nếu được chọn)
+                        //    Cùng transaction với việc tạo đơn:
+                        //    lock số dư -> kiểm tra -> trừ tiền -> ghi lịch sử.
+                        //    Nếu bước tạo đơn phía sau lỗi thì toàn bộ sẽ rollback.
+                        // -----------------------------------------------------
+                        if (phuongThuc == "Ví điện tử")
+                        {
+                            int maVi = 0;
+                            decimal soDuTruoc;
+
+                            using (SqlCommand cmd = new SqlCommand(
+                                @"SELECT TOP 1 MaVi, SoDu
+                                  FROM ViDienTu WITH (UPDLOCK, ROWLOCK)
+                                  WHERE MaKH=@MaKH",
+                                conn, tran))
+                            {
+                                cmd.Parameters.AddWithValue("@MaKH", maKH);
+
+                                using (SqlDataReader reader = cmd.ExecuteReader())
+                                {
+                                    if (!reader.Read())
+                                    {
+                                        throw new Exception(
+                                            "Khách hàng chưa có ví điện tử. " +
+                                            "Vui lòng mở ví trước khi thanh toán bằng ví.");
+                                    }
+
+                                    maVi = Convert.ToInt32(reader["MaVi"]);
+                                    soDuTruoc = Convert.ToDecimal(reader["SoDu"]);
+                                }
+                            }
+
+                            if (soDuTruoc < tongThanhToan)
+                            {
+                                decimal thieu = tongThanhToan - soDuTruoc;
+
+                                throw new Exception(
+                                    "Số dư ví không đủ để thanh toán.\n\n" +
+                                    "Số dư hiện tại: " + soDuTruoc.ToString("N0") + " Đ\n" +
+                                    "Cần thanh toán: " + tongThanhToan.ToString("N0") + " Đ\n" +
+                                    "Còn thiếu: " + thieu.ToString("N0") + " Đ");
+                            }
+
+                            decimal soDuSau = soDuTruoc - tongThanhToan;
+
+                            using (SqlCommand cmd = new SqlCommand(
+                                @"UPDATE ViDienTu
+                                  SET SoDu=@SoDuSau,
+                                      NgayCapNhat=GETDATE()
+                                  WHERE MaVi=@MaVi
+                                    AND SoDu >= @SoTien",
+                                conn, tran))
+                            {
+                                cmd.Parameters.AddWithValue("@MaVi", maVi);
+                                AddDecimalParameter(cmd, "@SoTien", tongThanhToan);
+                                AddDecimalParameter(cmd, "@SoDuSau", soDuSau);
+
+                                if (cmd.ExecuteNonQuery() != 1)
+                                    throw new Exception(
+                                        "Không thể trừ số dư ví. Vui lòng thử lại.");
+                            }
+
+                            using (SqlCommand cmd = new SqlCommand(
+                                @"INSERT INTO GiaoDichVi
+                                  (
+                                      MaVi,
+                                      LoaiGD,
+                                      SoTien,
+                                      SoDuTruoc,
+                                      SoDuSau,
+                                      NoiDung
+                                  )
+                                  VALUES
+                                  (
+                                      @MaVi,
+                                      N'Thanh toán',
+                                      @SoTien,
+                                      @SoDuTruoc,
+                                      @SoDuSau,
+                                      @NoiDung
+                                  )",
+                                conn, tran))
+                            {
+                                cmd.Parameters.AddWithValue("@MaVi", maVi);
+                                AddDecimalParameter(cmd, "@SoTien", tongThanhToan);
+                                AddDecimalParameter(cmd, "@SoDuTruoc", soDuTruoc);
+                                AddDecimalParameter(cmd, "@SoDuSau", soDuSau);
+                                cmd.Parameters.Add(
+                                    "@NoiDung",
+                                    SqlDbType.NVarChar,
+                                    500).Value =
+                                    "Thanh toán đơn online";
+
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // -----------------------------------------------------
+                        // 4. Tạo DonOnline
                         // -----------------------------------------------------
                         string sqlDon = @"
                             INSERT INTO DonOnline
@@ -742,7 +1135,7 @@ namespace SPORTSHOP._06_BanHang
                         }
 
                         // -----------------------------------------------------
-                        // 4. Tạo ChiTietDonOnline
+                        // 5. Tạo ChiTietDonOnline
                         // -----------------------------------------------------
                         string sqlChiTiet = @"
                             INSERT INTO ChiTietDonOnline
@@ -786,7 +1179,7 @@ namespace SPORTSHOP._06_BanHang
                         }
 
                         // -----------------------------------------------------
-                        // 5. Ghi nhận voucher đã sử dụng
+                        // 6. Ghi nhận voucher đã sử dụng
                         // -----------------------------------------------------
                         if (maVoucherDangApDung > 0)
                         {
@@ -813,7 +1206,7 @@ namespace SPORTSHOP._06_BanHang
                         }
 
                         // -----------------------------------------------------
-                        // 6. COMMIT
+                        // 7. COMMIT
                         // -----------------------------------------------------
                         tran.Commit();
                     }

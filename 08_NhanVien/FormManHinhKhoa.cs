@@ -15,6 +15,10 @@ namespace SPORTSHOP
         {
             InitializeComponent();
 
+            WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
+            StartPosition = FormStartPosition.CenterScreen;
+
             // Designer hiện tại chưa nối các event này nên phải nối tại đây.
             lnkDangNhapID.LinkClicked += lnkDangNhapID_LinkClicked;
             lnkChamCong.LinkClicked += lnkChamCong_LinkClicked;

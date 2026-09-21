@@ -39,6 +39,7 @@
             this.guna2Button9 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button7 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.btnChiTietPhieu = new Guna.UI2.WinForms.Guna2Button();
             this.guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.dgvDanhSachPhieu = new Guna.UI2.WinForms.Guna2DataGridView();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
@@ -79,6 +80,7 @@
             this.flowLayoutPanel1.Controls.Add(this.guna2Button9);
             this.flowLayoutPanel1.Controls.Add(this.guna2Button7);
             this.flowLayoutPanel1.Controls.Add(this.guna2Button1);
+            this.flowLayoutPanel1.Controls.Add(this.btnChiTietPhieu);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -145,6 +147,20 @@
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(40, 32);
             this.guna2Button1.TabIndex = 0;
+            // 
+            // btnChiTietPhieu
+            // 
+            this.btnChiTietPhieu.Animated = true;
+            this.btnChiTietPhieu.BorderRadius = 8;
+            this.btnChiTietPhieu.FillColor = System.Drawing.Color.FromArgb(100, 88, 255);
+            this.btnChiTietPhieu.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnChiTietPhieu.ForeColor = System.Drawing.Color.White;
+            this.btnChiTietPhieu.Location = new System.Drawing.Point(141, 3);
+            this.btnChiTietPhieu.Name = "btnChiTietPhieu";
+            this.btnChiTietPhieu.Size = new System.Drawing.Size(125, 32);
+            this.btnChiTietPhieu.TabIndex = 2;
+            this.btnChiTietPhieu.Text = "📄 Chi tiết phiếu";
+            this.btnChiTietPhieu.Cursor = System.Windows.Forms.Cursors.Hand;
             // 
             // guna2GroupBox1
             // 
@@ -249,7 +265,7 @@
             // 
             // grpChiTietPhieu
             // 
-            this.grpChiTietPhieu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpChiTietPhieu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpChiTietPhieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.grpChiTietPhieu.Controls.Add(this.dgvDanhSachSP);
@@ -600,6 +616,7 @@
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private Guna.UI2.WinForms.Guna2Button guna2Button7;
         private Guna.UI2.WinForms.Guna2Button guna2Button9;
+        private Guna.UI2.WinForms.Guna2Button btnChiTietPhieu;
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private System.Windows.Forms.Label lblSoPhieu;

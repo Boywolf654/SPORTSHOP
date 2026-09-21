@@ -1,87 +1,568 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SPORTSHOP._06_BanHang;
+using SPORTSHOP._07_KhachHang;
+using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.VisualBasic;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SPORTSHOP
 {
     public partial class form_hóa_đơn_bán_hàng : Form
     {
+        private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
+
+        private int maHoaDonHienTai = 0;
+        private int maKhachHangHienTai = 0;
+        private int maNhanVienHienTai = 0;
+        private int maCaHienTai = 0;
+        private decimal tongTienHang = 0;
+        private decimal giamGia = 0;
+        private decimal tongThanhToan = 0;
+
         public form_hóa_đơn_bán_hàng()
         {
             InitializeComponent();
+            CauHinhForm();
+        }
 
-            // Hóa đơn bán hàng là màn hình chính của nhân viên bán hàng.
+        public form_hóa_đơn_bán_hàng(int maKH)
+        {
+            InitializeComponent();
+            CauHinhForm();
+            maKhachHangHienTai = maKH;
+        }
+
+        private void CauHinhForm()
+        {
+            this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
 
+            cmb_PhuongThuc.SelectedIndex = 0;
+
+            dgv_ChiTietHoaDon.CellContentClick += dgv_ChiTietHoaDon_CellContentClick;
+            btn_TimKhachHang.Click += btn_TimKhachHang_Click;
+            btn_ThemSanPham.Click += btn_ThemSanPham_Click;
+            btn_XoaSanPham.Click += btn_XoaSanPham_Click;
+            btn_SuaSoLuong.Click += btn_SuaSoLuong_Click;
+            btn_TaoHoaDon.Click += btn_TaoHoaDon_Click;
+            btn_ThanhToan.Click += btn_ThanhToan_Click;
+            btn_InHoaDon.Click += btn_InHoaDon_Click;
             btn_menu.Click += btn_menu_Click;
-            // Cấu hình nút Sửa và Xóa trong DataGridView
-            if (dgv_ChiTietHoaDon.Columns.Count >= 8)
+            btn_Voucher.Click += btn_Voucher_Click;
+            cmb_PhuongThuc.SelectedIndexChanged += cmb_PhuongThuc_SelectedIndexChanged;
+        }
+
+        private void form_hóa_đơn_bán_hàng_Load(object sender, EventArgs e)
+        {
+            try
             {
-                DataGridViewButtonColumn btnSua =
-                    dgv_ChiTietHoaDon.Columns[6] as DataGridViewButtonColumn;
+                dtp_NgayLap.Value = DateTime.Now;
+                txt_MaHoaDon.Text = "Tự động tạo";
+                HienThiNhanVienDangNhapVaCa();
+                CapNhatTongTien();
 
-                DataGridViewButtonColumn btnXoa =
-                    dgv_ChiTietHoaDon.Columns[7] as DataGridViewButtonColumn;
+                if (maKhachHangHienTai > 0)
+                    LoadKhachHang(maKhachHangHienTai);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể khởi tạo hóa đơn.\n\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
-                if (btnSua != null)
+        private void HienThiNhanVienDangNhapVaCa()
+        {
+            try
+            {
+                if (Session.MaNV <= 0)
                 {
-                    btnSua.Text = "✎";
-                    btnSua.UseColumnTextForButtonValue = true;
+                    maNhanVienHienTai = 0;
+                    maCaHienTai = 0;
+                    txt_NhanVien.Text = "Chưa đăng nhập";
+                    txt_Ca.Text = "Chưa vào ca";
+                    return;
                 }
 
-                if (btnXoa != null)
+                maNhanVienHienTai = Session.MaNV;
+
+                string sql = @"
+SELECT TOP 1
+    nv.MaNV,
+    nv.HoTen,
+    c.MaCa,
+    c.GioBatDau,
+    c.GioKetThuc,
+    c.DoanhThu,
+    c.SoHoaDon,
+    c.TrangThai
+FROM NhanVien nv
+LEFT JOIN CaLamViec c
+    ON c.MaNV = nv.MaNV
+    AND c.TrangThai = N'Đang làm'
+    AND c.GioKetThuc IS NULL
+WHERE nv.MaNV = @MaNV
+ORDER BY c.MaCa DESC;";
+
+                DataTable dt = kt.GetData(sql, new SqlParameter[]
                 {
-                    btnXoa.Text = "🗑";
-                    btnXoa.UseColumnTextForButtonValue = true;
+                    new SqlParameter("@MaNV", maNhanVienHienTai)
+                });
+
+                if (dt.Rows.Count == 0)
+                {
+                    txt_NhanVien.Text = maNhanVienHienTai + " - Không tìm thấy";
+                    txt_Ca.Text = "Chưa vào ca";
+                    maCaHienTai = 0;
+                    return;
+                }
+
+                DataRow r = dt.Rows[0];
+
+                string hoTen = r["HoTen"] == DBNull.Value
+                    ? "Nhân viên"
+                    : r["HoTen"].ToString();
+
+                txt_NhanVien.Text = maNhanVienHienTai + " - " + hoTen;
+
+                if (r["MaCa"] == DBNull.Value)
+                {
+                    maCaHienTai = 0;
+                    txt_Ca.Text = "CHƯA VÀO CA";
+                }
+                else
+                {
+                    maCaHienTai = Convert.ToInt32(r["MaCa"]);
+
+                    DateTime batDau = r["GioBatDau"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : Convert.ToDateTime(r["GioBatDau"]);
+
+                    txt_Ca.Text = batDau == DateTime.MinValue
+                        ? "CA #" + maCaHienTai + " - ĐANG LÀM"
+                        : "CA #" + maCaHienTai + " - " + batDau.ToString("HH:mm");
                 }
             }
+            catch (Exception ex)
+            {
+                maCaHienTai = 0;
+                txt_NhanVien.Text = Session.MaNV > 0
+                    ? Session.MaNV.ToString()
+                    : "Chưa đăng nhập";
+                txt_Ca.Text = "Không xác định";
 
-            //Thêm sản phẩm mẫu
-            dgv_ChiTietHoaDon.Rows.Add(
-                "SP001",
-                "Giày bóng đá Nike",
-                1,
-                1500000,
-                "0%",
-                1500000
-            );
-
-            dgv_ChiTietHoaDon.Rows.Add(
-                "SP005",
-                "Áo bóng chuyền Mizuno",
-                2,
-                450000,
-                "10%",
-                810000
-            );
-
-            dgv_ChiTietHoaDon.Rows.Add(
-                "SP012",
-                "Bóng chuyền Molten",
-                1,
-                650000,
-                "0%",
-                650000
-            );
-
-            TinhTongTien();
+                MessageBox.Show(
+                    "Không thể kiểm tra ca làm việc.\n\n" + ex.Message,
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
         }
+
+        private void LoadKhachHang(int maKH)
+        {
+            try
+            {
+                string sql = @"
+SELECT TOP 1 MaKH, HoTen, SDT
+FROM KhachHang
+WHERE MaKH=@MaKH";
+
+                DataTable dt = kt.GetData(sql,
+                    new SqlParameter[] { new SqlParameter("@MaKH", maKH) });
+
+                if (dt.Rows.Count == 0)
+                    return;
+
+                DataRow r = dt.Rows[0];
+                maKhachHangHienTai = Convert.ToInt32(r["MaKH"]);
+                txt_KhachHang.Text = r["HoTen"] == DBNull.Value ? "" : r["HoTen"].ToString();
+                txt_SDT.Text = r["SDT"] == DBNull.Value ? "" : r["SDT"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không tải được khách hàng.\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_TimKhachHang_Click(object sender, EventArgs e)
+        {
+            string sdt = txt_SDT.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(sdt))
+            {
+                MessageBox.Show("Nhập số điện thoại khách hàng để tìm.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txt_SDT.Focus();
+                return;
+            }
+
+            try
+            {
+                string sql = @"
+SELECT TOP 1 MaKH, HoTen, SDT
+FROM KhachHang
+WHERE SDT=@SDT
+ORDER BY MaKH";
+
+                DataTable dt = kt.GetData(sql,
+                    new SqlParameter[] { new SqlParameter("@SDT", sdt) });
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Không tìm thấy khách hàng với số điện thoại này.",
+                        "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                DataRow r = dt.Rows[0];
+                maKhachHangHienTai = Convert.ToInt32(r["MaKH"]);
+                txt_KhachHang.Text = r["HoTen"] == DBNull.Value ? "" : r["HoTen"].ToString();
+                txt_SDT.Text = r["SDT"] == DBNull.Value ? "" : r["SDT"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tìm khách hàng.\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_ThemSanPham_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Hãy chọn sản phẩm từ giao diện bán hàng rồi thêm vào giỏ.\n\n" +
+                "Form hóa đơn này giữ vai trò kiểm tra và hoàn tất đơn bán.",
+                "SPORTSHOP",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private void btn_XoaSanPham_Click(object sender, EventArgs e)
+        {
+            if (dgv_ChiTietHoaDon.CurrentRow == null)
+                return;
+
+            if (dgv_ChiTietHoaDon.CurrentRow.IsNewRow)
+                return;
+
+            DialogResult dr = MessageBox.Show(
+                "Bạn có chắc muốn xóa sản phẩm khỏi hóa đơn?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (dr != DialogResult.Yes)
+                return;
+
+            dgv_ChiTietHoaDon.Rows.Remove(dgv_ChiTietHoaDon.CurrentRow);
+            CapNhatTongTien();
+        }
+
+        private void btn_SuaSoLuong_Click(object sender, EventArgs e)
+        {
+            if (dgv_ChiTietHoaDon.CurrentRow == null)
+                return;
+
+            int row = dgv_ChiTietHoaDon.CurrentRow.Index;
+            if (row < 0 || row >= dgv_ChiTietHoaDon.Rows.Count)
+                return;
+
+            string oldValue = Convert.ToString(dgv_ChiTietHoaDon.Rows[row].Cells["SoLuong"].Value);
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Nhập số lượng mới:",
+                "Sửa số lượng",
+                oldValue);
+
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            int sl;
+            if (!int.TryParse(input, out sl) || sl <= 0)
+            {
+                MessageBox.Show("Số lượng phải là số nguyên lớn hơn 0.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            dgv_ChiTietHoaDon.Rows[row].Cells["SoLuong"].Value = sl;
+
+            decimal donGia = LayDecimal(row, "DonGia");
+            decimal giam = LayDecimal(row, "GiamGia");
+            dgv_ChiTietHoaDon.Rows[row].Cells["ThanhTien"].Value =
+                ((donGia * sl) - giam).ToString("N0");
+
+            CapNhatTongTien();
+        }
+
+        private void dgv_ChiTietHoaDon_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex == dgv_ChiTietHoaDon.Columns["Sua"].Index)
+                btn_SuaSoLuong_Click(sender, EventArgs.Empty);
+            else if (e.ColumnIndex == dgv_ChiTietHoaDon.Columns["Xoa"].Index)
+                btn_XoaSanPham_Click(sender, EventArgs.Empty);
+        }
+
+        private decimal LayDecimal(int row, string column)
+        {
+            object value = dgv_ChiTietHoaDon.Rows[row].Cells[column].Value;
+            decimal result;
+            return decimal.TryParse(Convert.ToString(value), out result) ? result : 0;
+        }
+
+        private void CapNhatTongTien()
+        {
+            tongTienHang = 0;
+
+            foreach (DataGridViewRow r in dgv_ChiTietHoaDon.Rows)
+            {
+                if (r.IsNewRow)
+                    continue;
+
+                int sl = 0;
+                int.TryParse(Convert.ToString(r.Cells["SoLuong"].Value), out sl);
+
+                decimal gia = LayDecimal(r.Index, "DonGia");
+                decimal giam = LayDecimal(r.Index, "GiamGia");
+
+                decimal thanhTien = gia * sl - giam;
+                if (thanhTien < 0)
+                    thanhTien = 0;
+
+                r.Cells["ThanhTien"].Value = thanhTien.ToString("N0");
+                tongTienHang += thanhTien;
+            }
+
+            if (giamGia > tongTienHang)
+                giamGia = tongTienHang;
+
+            tongThanhToan = tongTienHang - giamGia;
+
+            lb_TongTienHang.Text = tongTienHang.ToString("N0") + " VNĐ";
+            lb_GiamGia.Text = giamGia.ToString("N0") + " VNĐ";
+            lb_ThanhToan.Text = tongThanhToan.ToString("N0") + " VNĐ";
+        }
+
+        private void cmb_PhuongThuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_PhuongThuc.SelectedItem != null)
+                lb_PhuongThuc.Text = "💰 Thanh toán: " + cmb_PhuongThuc.SelectedItem.ToString();
+        }
+
+        private void btn_Voucher_Click(object sender, EventArgs e)
+        {
+            using (FormQuanLyVoucher f = new FormQuanLyVoucher())
+            {
+                f.ShowDialog(this);
+            }
+        }
+
+
+        private void btn_TaoHoaDon_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuHoaDon())
+                return;
+
+            try
+            {
+                maHoaDonHienTai = TaoHoaDon(false);
+                txt_MaHoaDon.Text = maHoaDonHienTai.ToString();
+
+                MessageBox.Show(
+                    "Đã tạo hóa đơn #" + maHoaDonHienTai + ".",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể tạo hóa đơn.\n\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_ThanhToan_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuHoaDon())
+                return;
+
+            try
+            {
+                if (maHoaDonHienTai <= 0)
+                    maHoaDonHienTai = TaoHoaDon(false);
+
+                // Form thanh toán online riêng sẽ xử lý DonOnline.
+                // Hóa đơn bán tại quầy được ghi nhận tại đây.
+                GhiNhanThanhToan();
+
+                MessageBox.Show(
+                    "Thanh toán thành công!\nMã hóa đơn: #" + maHoaDonHienTai +
+                    "\nTổng tiền: " + tongThanhToan.ToString("N0") + " VNĐ",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Thanh toán không thành công.\n\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool KiemTraDuLieuHoaDon()
+        {
+            // Nhân viên phải đăng nhập và đang có ca Đang làm.
+            HienThiNhanVienDangNhapVaCa();
+
+            if (maNhanVienHienTai <= 0 || maCaHienTai <= 0)
+            {
+                MessageBox.Show(
+                    "Nhân viên chưa vào ca hoặc ca đã kết thúc.\nKhông thể lập/thanh toán hóa đơn.",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (maKhachHangHienTai <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (dgv_ChiTietHoaDon.Rows.Count == 0)
+            {
+                MessageBox.Show("Hóa đơn chưa có sản phẩm.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (tongThanhToan <= 0)
+            {
+                MessageBox.Show("Tổng thanh toán phải lớn hơn 0.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private int TaoHoaDon(bool daThanhToan)
+        {
+            // Tạo hóa đơn tối thiểu theo các trường đang dùng trong project.
+            // Nếu database có thêm cột bắt buộc, SQL Server sẽ trả thông báo cụ thể.
+            string sql = @"
+INSERT INTO HoaDon(MaKH, MaNV, NgayLap, TongTien)
+OUTPUT INSERTED.MaHD
+VALUES(@MaKH, @MaNV, @NgayLap, @TongTien);";
+
+            int maNV = maNhanVienHienTai;
+
+            if (maNV <= 0)
+                throw new Exception("Nhân viên chưa đăng nhập.");
+
+            DataTable dt = kt.GetData(sql, new SqlParameter[]
+            {
+                new SqlParameter("@MaKH", maKhachHangHienTai),
+                new SqlParameter("@MaNV", maNV),
+                new SqlParameter("@NgayLap", dtp_NgayLap.Value),
+                new SqlParameter("@TongTien", tongThanhToan)
+            });
+
+            if (dt.Rows.Count == 0)
+                throw new Exception("Không nhận được mã hóa đơn mới.");
+
+            int maHD = Convert.ToInt32(dt.Rows[0]["MaHD"]);
+            txt_MaHoaDon.Text = maHD.ToString();
+
+            LuuChiTietHoaDon(maHD);
+
+            return maHD;
+        }
+
+        private void LuuChiTietHoaDon(int maHD)
+        {
+            foreach (DataGridViewRow r in dgv_ChiTietHoaDon.Rows)
+            {
+                if (r.IsNewRow)
+                    continue;
+
+                int maSP;
+                int sl;
+
+                if (!int.TryParse(Convert.ToString(r.Cells["MaSP"].Value), out maSP))
+                    continue;
+
+                if (!int.TryParse(Convert.ToString(r.Cells["SoLuong"].Value), out sl) || sl <= 0)
+                    continue;
+
+                decimal gia = LayDecimal(r.Index, "DonGia");
+                decimal giam = LayDecimal(r.Index, "GiamGia");
+
+                string sql = @"
+INSERT INTO ChiTietHoaDon(MaHD, MaSP, SoLuong, DonGia, GiamGia)
+VALUES(@MaHD, @MaSP, @SoLuong, @DonGia, @GiamGia);";
+
+                kt.Execute(sql, new SqlParameter[]
+                {
+                    new SqlParameter("@MaHD", maHD),
+                    new SqlParameter("@MaSP", maSP),
+                    new SqlParameter("@SoLuong", sl),
+                    new SqlParameter("@DonGia", gia),
+                    new SqlParameter("@GiamGia", giam)
+                });
+            }
+        }
+
+        private void GhiNhanThanhToan()
+        {
+            string phuongThuc = cmb_PhuongThuc.SelectedItem == null
+                ? "Tiền mặt"
+                : cmb_PhuongThuc.SelectedItem.ToString();
+
+            // Không tạo bản ghi thanh toán trùng nếu nút được bấm lại.
+            string checkSql = "SELECT COUNT(*) FROM ThanhToan WHERE MaHD=@MaHD";
+            DataTable check = kt.GetData(checkSql,
+                new SqlParameter[] { new SqlParameter("@MaHD", maHoaDonHienTai) });
+
+            int daCo = check.Rows.Count > 0 ? Convert.ToInt32(check.Rows[0][0]) : 0;
+
+            if (daCo == 0)
+            {
+                string sql = @"
+INSERT INTO ThanhToan(MaHD, PhuongThucThanhToan, SoTien, NgayThanhToan)
+VALUES(@MaHD, @PhuongThuc, @SoTien, GETDATE());";
+
+                kt.Execute(sql, new SqlParameter[]
+                {
+                    new SqlParameter("@MaHD", maHoaDonHienTai),
+                    new SqlParameter("@PhuongThuc", phuongThuc),
+                    new SqlParameter("@SoTien", tongThanhToan)
+                });
+            }
+        }
+
         private void btn_menu_Click(object sender, EventArgs e)
         {
             using (FormMenuNV menu = new FormMenuNV())
             {
                 if (menu.ShowDialog(this) == DialogResult.OK)
                 {
+                    if (menu.YeuCauDangXuat)
+                    {
+                        // Đóng màn hình bán hàng để quay về màn hình đăng nhập/main.
+                        this.Close();
+                        return;
+                    }
+
                     if (menu.YeuCauKhoaManHinh)
                     {
                         MoManHinhKhoa();
@@ -92,361 +573,63 @@ namespace SPORTSHOP
 
         private void MoManHinhKhoa()
         {
+            // Giữ form bán hàng ẩn trong lúc khóa để không có cửa sổ bán hàng
+            // nằm phía sau màn hình khóa. Sau khi đăng nhập ID thành công,
+            // mở một phiên Form Hóa Đơn mới với trạng thái full màn hình.
             this.Hide();
 
+            DialogResult ketQua;
             using (FormManHinhKhoa frm = new FormManHinhKhoa(this))
             {
-                frm.ShowDialog();
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.WindowState = FormWindowState.Maximized;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                ketQua = frm.ShowDialog();
             }
 
-            // Sau khi đăng nhập ID thành công
-            // màn hình khóa đóng -> quay lại hóa đơn
-            if (!this.IsDisposed)
+            if (ketQua == DialogResult.OK)
             {
-                this.Show();
-                this.WindowState = FormWindowState.Maximized;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.Activate();
-            }
-        }
-        private void TinhTongTien()
-        {
-            decimal tongTienHang = 0;
-            decimal tongGiamGia = 0;
-
-            foreach (DataGridViewRow row in dgv_ChiTietHoaDon.Rows)
-            {
-                if (row.IsNewRow)
-                    continue;
-
-                decimal donGia = 0;
-                decimal giamGia = 0;
-                int soLuong = 0;
-
-                // Lấy đơn giá
-                decimal.TryParse(
-                    row.Cells["DonGia"].Value?.ToString(),
-                    out donGia);
-
-                // Lấy số lượng
-                int.TryParse(
-                    row.Cells["SoLuong"].Value?.ToString(),
-                    out soLuong);
-
-                // Lấy % giảm giá
-                decimal.TryParse(
-                    row.Cells["GiamGia"].Value?.ToString()
-                        ?.Replace("%", ""),
-                    out giamGia);
-
-                // Tiền hàng trước giảm
-                decimal tienGoc = donGia * soLuong;
-
-                // Tiền giảm
-                decimal tienGiam = tienGoc * giamGia / 100;
-
-                // Thành tiền sau giảm
-                decimal thanhTien = tienGoc - tienGiam;
-
-                // Cộng tổng
-                tongTienHang += tienGoc;
-                tongGiamGia += tienGiam;
-
-                // Cập nhật thành tiền trên DataGridView
-                row.Cells["ThanhTien"].Value =
-                    thanhTien.ToString("N0");
-            }
-
-            // Tiền thực tế phải thanh toán
-            decimal thanhToan = tongTienHang - tongGiamGia;
-
-            // Hiển thị
-            lb_TongTienHang.Text =
-                tongTienHang.ToString("N0") + " VNĐ";
-
-            lb_GiamGia.Text =
-                tongGiamGia.ToString("N0") + " VNĐ";
-
-            lb_ThanhToan.Text =
-                thanhToan.ToString("N0") + " VNĐ";
-        }
-        private void form_hóa_đơn_bán_hàng_Load(object sender, EventArgs e)
-        {
-            //TỰ ĐỘNG SINH MÃ HÓA ĐƠN
-            txt_MaHoaDon.Text = "HD" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-            dtp_NgayLap.Value = DateTime.Now;
-
-            cmb_NhanVien.Items.Add("Lê Văn Nam");
-            cmb_NhanVien.Items.Add("Nguyễn Văn Bình");
-            cmb_NhanVien.Items.Add("Trần Văn Minh");
-
-            if (cmb_NhanVien.Items.Count > 0)
-                cmb_NhanVien.SelectedIndex = 0;
-        }
-
-        private void btn_XoaSanPham_Click(object sender, EventArgs e)
-        {
-            if (dgv_ChiTietHoaDon.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Vui lòng chọn sản phẩm cần xóa!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            DialogResult result = MessageBox.Show(
-                "Bạn có chắc muốn xóa sản phẩm này?",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                dgv_ChiTietHoaDon.Rows.RemoveAt(
-                    dgv_ChiTietHoaDon.SelectedRows[0].Index);
-
-                TinhTongTien();
-            }
-        }
-
-        private void btn_SuaSoLuong_Click(object sender, EventArgs e)
-        {
-            if (dgv_ChiTietHoaDon.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Vui lòng chọn sản phẩm!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            int index = dgv_ChiTietHoaDon.SelectedRows[0].Index;
-
-            string soLuongCu =
-                dgv_ChiTietHoaDon.Rows[index]
-                .Cells["SoLuong"]
-                .Value?.ToString();
-
-            string input = Interaction.InputBox(
-                "Nhập số lượng mới:",
-                "Sửa số lượng",
-                soLuongCu);
-
-            // Người dùng bấm Cancel
-            if (string.IsNullOrWhiteSpace(input))
-                return;
-
-            if (!int.TryParse(input, out int soLuong))
-            {
-                MessageBox.Show(
-                    "Số lượng phải là số nguyên!",
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                return;
-            }
-
-            if (soLuong <= 0)
-            {
-                MessageBox.Show(
-                    "Số lượng phải lớn hơn 0!",
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // Cập nhật số lượng
-            dgv_ChiTietHoaDon.Rows[index]
-                .Cells["SoLuong"]
-                .Value = soLuong;
-
-            // Tính lại toàn bộ tiền
-            TinhTongTien();
-        }
-
-        private void btn_TaoHoaDon_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txt_KhachHang.Text))
-            {
-                MessageBox.Show(
-                    "Vui lòng chọn khách hàng!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            if (dgv_ChiTietHoaDon.Rows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Hóa đơn chưa có sản phẩm!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            MessageBox.Show(
-                "Tạo hóa đơn thành công!",
-                "Thông báo",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-        }
-
-        private void btn_ThanhToan_Click(object sender, EventArgs e)
-        {
-            // =====================================================
-            // 1. Kiểm tra hóa đơn có sản phẩm
-            // =====================================================
-            if (dgv_ChiTietHoaDon.Rows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Chưa có sản phẩm trong hóa đơn!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // =====================================================
-            // 2. Kiểm tra nhân viên
-            // =====================================================
-            if (Session.MaNV <= 0)
-            {
-                MessageBox.Show(
-                    "Không xác định được nhân viên đang đăng nhập.",
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                return;
-            }
-
-            // =====================================================
-            // 3. Kiểm tra nhân viên đã VÀO CA chưa
-            // =====================================================
-            try
-            {
-                string sql = @"
-            SELECT TOP 1
-                GioVao,
-                GioRa
-            FROM ChamCong
-            WHERE MaNV = @MaNV
-              AND NgayLam = CAST(GETDATE() AS DATE)
-            ORDER BY MaChamCong DESC";
-
-                KetNoiDuLieu kt = new KetNoiDuLieu();
-
-                SqlParameter[] parameters =
+                using (form_hóa_đơn_bán_hàng formMoi = new form_hóa_đơn_bán_hàng())
                 {
-            new SqlParameter("@MaNV", Session.MaNV)
-        };
-
-                DataTable dt = kt.GetData(sql, parameters);
-
-                // Chưa có bản ghi chấm công hôm nay
-                if (dt.Rows.Count == 0)
-                {
-                    MessageBox.Show(
-                        "Bạn chưa chấm công vào ca hôm nay.\n\n" +
-                        "Vui lòng mở Menu → Chấm công → Vào ca trước khi thanh toán.",
-                        "Chưa vào ca",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
+                    formMoi.WindowState = FormWindowState.Maximized;
+                    formMoi.FormBorderStyle = FormBorderStyle.None;
+                    formMoi.ShowDialog();
                 }
 
-                DataRow row = dt.Rows[0];
-
-                bool coGioVao =
-                    row["GioVao"] != DBNull.Value &&
-                    row["GioVao"] != null;
-
-                bool coGioRa =
-                    row["GioRa"] != DBNull.Value &&
-                    row["GioRa"] != null;
-
-                // Chưa vào ca
-                if (!coGioVao)
-                {
-                    MessageBox.Show(
-                        "Bạn chưa chấm công vào ca hôm nay.\n\n" +
-                        "Vui lòng vào Menu → Chấm công → Vào ca.",
-                        "Chưa vào ca",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-                // Đã ra ca
-                if (coGioRa)
-                {
-                    MessageBox.Show(
-                        "Bạn đã ra ca hôm nay nên không thể tiếp tục thanh toán.",
-                        "Đã ra ca",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-                // =================================================
-                // 4. Đang trong ca → cho thanh toán
-                // =================================================
-                DialogResult result = MessageBox.Show(
-                    "Xác nhận thanh toán hóa đơn?\n\n" +
-                    "Số tiền: " + lb_ThanhToan.Text,
-                    "Thanh toán",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (result != DialogResult.Yes)
-                    return;
-
-                MessageBox.Show(
-                    "Thanh toán thành công!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                // Phiên cũ không dùng lại nữa.
+                Close();
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Lỗi kiểm tra chấm công:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+
+            // Nếu đóng màn hình khóa mà chưa đăng nhập thì quay lại phiên bán hàng.
+            Show();
+            WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
+            Activate();
         }
 
         private void btn_InHoaDon_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng in hóa đơn đang được phát triển!", "Thông báo",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-        }
-
-        private void btn_ThemSanPham_Click(object sender, EventArgs e)
-        {
-            using (FormThemSPKH f = new FormThemSPKH())
+            if (maHoaDonHienTai <= 0)
             {
-                f.ShowDialog();
+                MessageBox.Show("Chưa có hóa đơn để in.",
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (FormChiTietHoaDon f = new FormChiTietHoaDon(maHoaDonHienTai))
+                {
+                    f.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể mở chi tiết hóa đơn.\n" + ex.Message,
+                    "SPORTSHOP", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
     }
 }

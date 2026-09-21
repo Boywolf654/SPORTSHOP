@@ -33,11 +33,12 @@ namespace SPORTSHOP
             btnDuyet.Click += btnDuyet_Click;
             btnTuChoi.Click += btnTuChoi_Click;
             btnDong.Click += btnDong_Click;
+            btnChiTietPhieu.Click += btnChiTietPhieu_Click;
 
             this.Load += FrmPhieuNhap_Load;
         }
 
-     
+
 
         // =========================================================
         // LOAD FORM
@@ -139,6 +140,30 @@ namespace SPORTSHOP
 
         private void DinhDangDanhSachPhieu()
         {
+            dgvDanhSachPhieu.AutoGenerateColumns = true;
+            dgvDanhSachPhieu.AllowUserToAddRows = false;
+            dgvDanhSachPhieu.AllowUserToDeleteRows = false;
+            dgvDanhSachPhieu.ReadOnly = true;
+            dgvDanhSachPhieu.RowHeadersVisible = false;
+            dgvDanhSachPhieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDanhSachPhieu.MultiSelect = false;
+            dgvDanhSachPhieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDanhSachPhieu.RowTemplate.Height = 32;
+            dgvDanhSachPhieu.ColumnHeadersVisible = true;
+            dgvDanhSachPhieu.ColumnHeadersHeight = 38;
+            dgvDanhSachPhieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(67, 87, 115);
+            dgvDanhSachPhieu.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgvDanhSachPhieu.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgvDanhSachPhieu.DefaultCellStyle.BackColor = Color.White;
+            dgvDanhSachPhieu.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
+            dgvDanhSachPhieu.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            dgvDanhSachPhieu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
+            dgvDanhSachPhieu.GridColor = Color.FromArgb(226, 232, 240);
+
             if (dgvDanhSachPhieu.Columns["MaPN"] != null)
                 dgvDanhSachPhieu.Columns["MaPN"].HeaderText = "Mã phiếu";
 
@@ -212,7 +237,7 @@ namespace SPORTSHOP
 
                 txtNhaCungCap.Text =
                     row.Cells["TenNCC"].Value?.ToString() ?? "";
-                
+
                 txtKho.Text =
                     row.Cells["TenKho"].Value?.ToString() ?? "";
 
@@ -252,7 +277,7 @@ namespace SPORTSHOP
         // =========================================================
         private void LoadChiTietPhieu(int maPN)
         {
-                    string sql = @"
+            string sql = @"
                 SELECT
                 ct.MaBienThe,
                 bt.SKU,
@@ -289,6 +314,30 @@ namespace SPORTSHOP
 
         private void DinhDangChiTiet()
         {
+            dgvDanhSachSP.AutoGenerateColumns = true;
+            dgvDanhSachSP.AllowUserToAddRows = false;
+            dgvDanhSachSP.AllowUserToDeleteRows = false;
+            dgvDanhSachSP.ReadOnly = true;
+            dgvDanhSachSP.RowHeadersVisible = false;
+            dgvDanhSachSP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDanhSachSP.MultiSelect = false;
+            dgvDanhSachSP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDanhSachSP.RowTemplate.Height = 30;
+            dgvDanhSachSP.ColumnHeadersVisible = true;
+            dgvDanhSachSP.ColumnHeadersHeight = 36;
+            dgvDanhSachSP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(67, 87, 115);
+            dgvDanhSachSP.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgvDanhSachSP.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgvDanhSachSP.DefaultCellStyle.BackColor = Color.White;
+            dgvDanhSachSP.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
+            dgvDanhSachSP.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            dgvDanhSachSP.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
+            dgvDanhSachSP.GridColor = Color.FromArgb(226, 232, 240);
+
             if (dgvDanhSachSP.Columns["SKU"] != null)
             {
                 dgvDanhSachSP.Columns["SKU"].HeaderText =
@@ -356,6 +405,27 @@ namespace SPORTSHOP
 
             lblTongCong.Text =
                 "Tổng cộng: " + tongTien.ToString("N0") + " VNĐ";
+        }
+
+        // =========================================================
+        // XEM CHI TIẾT PHIẾU
+        // =========================================================
+        private void btnChiTietPhieu_Click(object sender, EventArgs e)
+        {
+            if (maPNDangChon == null)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn một phiếu nhập trước.",
+                    "Chưa chọn phiếu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (ChiTietPhieuNhap frm = new ChiTietPhieuNhap(maPNDangChon.Value))
+            {
+                frm.ShowDialog(this);
+            }
         }
 
         // =========================================================
@@ -589,7 +659,7 @@ namespace SPORTSHOP
             dgvDanhSachSP.DataSource = null;
 
             lblTongCong.Text = "Tổng cộng: 0 VNĐ";
-            
+
 
             btnDuyet.Enabled = false;
             btnTuChoi.Enabled = false;

@@ -1,549 +1,599 @@
-﻿using SPORTSHOP._06_BanHang;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace SPORTSHOP._07_KhachHang
 {
     public partial class FormHoiVien : Form
     {
-        private KetNoiDuLieu kt = new KetNoiDuLieu();
+        private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
 
-        // Mã hội viên đang được chọn trên lưới
-        private int maKHDangChon = 0;
-
-        private bool trangThaiDangChon = true;
-
-        // =========================================================
-        // NGƯỠNG ĐIỂM XÉT HẠNG
-        // Chỉnh lại các mốc này nếu chính sách cửa hàng khác đi.
-        // =========================================================
-        private const int NGUONG_BAC = 1000;
-        private const int NGUONG_VANG = 3000;
-        private const int NGUONG_KIM_CUONG = 7000;
+        private int maKH;
+        private int diemHienTai;
+        private int maHangHienTai;
+        private string tenHangHienTai = "Đồng";
+        private decimal tyLeUuDaiHienTai = 0;
 
         public FormHoiVien()
         {
             InitializeComponent();
-
-            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
-            cboHang.SelectedIndexChanged += cboHang_SelectedIndexChanged;
-
-            dgvHoiVien.SelectionChanged += dgvHoiVien_SelectionChanged;
-            dgvHoiVien.CellFormatting += dgvHoiVien_CellFormatting;
-
-            btnCongDiem.Click += btnCongDiem_Click;
-            btnTinhLaiHang.Click += btnTinhLaiHang_Click;
-            btnDoiTrangThai.Click += btnDoiTrangThai_Click;
         }
-
-        // =========================================================
-        // LOAD FORM
-        // =========================================================
 
         private void FormHoiVien_Load(object sender, EventArgs e)
         {
-            cboHang.SelectedIndex = 0;
-
-            CapNhatTrangThaiNut();
-
-            LoadDanhSach();
-            LoadThongKe();
+            LoadDuLieuHoiVien();
         }
 
-        // =========================================================
-        // DANH SÁCH HỘI VIÊN
-        // =========================================================
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            LoadDuLieuHoiVien();
+        }
 
-        private void LoadDanhSach()
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void LoadDuLieuHoiVien()
         {
             try
             {
-                string tuKhoa = txtTimKiem.Text.Trim();
-
-                string hang =
-                    cboHang.SelectedItem == null
-                        ? "Tất cả hạng"
-                        : cboHang.SelectedItem.ToString();
-
-                string sql = @"
-                    SELECT
-                        MaKH,
-                        HoTen,
-                        SDT,
-                        Email,
-                        ISNULL(DiemTichLuy, 0)          AS DiemTichLuy,
-                        ISNULL(HangThanhVien, N'Thường') AS HangThanhVien,
-                        CASE WHEN ISNULL(TrangThai, 1) = 1
-                             THEN N'Đang hoạt động'
-                             ELSE N'Ngừng giao dịch'
-                        END                             AS TrangThai,
-                        ISNULL(TrangThai, 1)            AS TrangThaiGoc
-                    FROM KhachHang
-                    WHERE
-                        (
-                            @TuKhoa = ''
-                            OR HoTen LIKE '%' + @TuKhoa + '%'
-                            OR ISNULL(SDT, '') LIKE '%' + @TuKhoa + '%'
-                            OR ISNULL(Email, '') LIKE '%' + @TuKhoa + '%'
-                        )
-                        AND
-                        (
-                            @Hang = N'Tất cả hạng'
-                            OR ISNULL(HangThanhVien, N'Thường') = @Hang
-                        )
-                    ORDER BY ISNULL(DiemTichLuy, 0) DESC, HoTen ASC";
-
-                DataTable dt = kt.GetData(
-                    sql,
-                    new SqlParameter[]
-                    {
-                        new SqlParameter("@TuKhoa", tuKhoa),
-                        new SqlParameter("@Hang", hang)
-                    });
-
-                dgvHoiVien.DataSource = dt;
-
-                DinhDangCotLuoi();
-
-                maKHDangChon = 0;
-
-                lbHoiVienDangChon.Text =
-                    dt.Rows.Count == 0
-                        ? "Không có hội viên nào phù hợp."
-                        : "Chưa chọn hội viên nào.";
-
-                CapNhatTrangThaiNut();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Không thể tải danh sách hội viên.\n\n"
-                    + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
-        private void DinhDangCotLuoi()
-        {
-            if (dgvHoiVien.Columns.Count == 0 ||
-                !dgvHoiVien.Columns.Contains("MaKH"))
-                return;
-
-            dgvHoiVien.Columns["MaKH"].HeaderText = "Mã KH";
-            dgvHoiVien.Columns["HoTen"].HeaderText = "Họ và tên";
-            dgvHoiVien.Columns["SDT"].HeaderText = "Số điện thoại";
-            dgvHoiVien.Columns["Email"].HeaderText = "Email";
-            dgvHoiVien.Columns["DiemTichLuy"].HeaderText = "Điểm tích lũy";
-            dgvHoiVien.Columns["HangThanhVien"].HeaderText = "Hạng thành viên";
-            dgvHoiVien.Columns["TrangThai"].HeaderText = "Trạng thái";
-
-            dgvHoiVien.Columns["MaKH"].FillWeight = 60;
-            dgvHoiVien.Columns["HoTen"].FillWeight = 150;
-            dgvHoiVien.Columns["SDT"].FillWeight = 100;
-            dgvHoiVien.Columns["Email"].FillWeight = 160;
-            dgvHoiVien.Columns["DiemTichLuy"].FillWeight = 100;
-            dgvHoiVien.Columns["HangThanhVien"].FillWeight = 110;
-            dgvHoiVien.Columns["TrangThai"].FillWeight = 110;
-
-            dgvHoiVien.Columns["DiemTichLuy"].DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleRight;
-
-            dgvHoiVien.Columns["DiemTichLuy"].DefaultCellStyle.Format = "N0";
-
-            dgvHoiVien.Columns["MaKH"].DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
-            dgvHoiVien.Columns["HangThanhVien"].DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
-            dgvHoiVien.Columns["TrangThai"].DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
-            dgvHoiVien.Columns["TrangThaiGoc"].Visible = false;
-
-            dgvHoiVien.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-        }
-
-        // Tô màu hạng thành viên và trạng thái cho dễ nhìn
-        private void dgvHoiVien_CellFormatting(
-            object sender,
-            DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-
-            string tenCot = dgvHoiVien.Columns[e.ColumnIndex].Name;
-
-            if (tenCot == "HangThanhVien" && e.Value != null)
-            {
-                e.CellStyle.ForeColor =
-                    LayMauTheoHang(e.Value.ToString());
-
-                e.CellStyle.Font = new Font(
-                    "Segoe UI Semibold",
-                    9.75F);
-            }
-
-            if (tenCot == "TrangThai" && e.Value != null)
-            {
-                bool con = e.Value.ToString().Contains("Đang");
-
-                e.CellStyle.ForeColor = con
-                    ? Color.FromArgb(16, 185, 129)
-                    : Color.FromArgb(220, 38, 38);
-
-                e.CellStyle.Font = new Font(
-                    "Segoe UI Semibold",
-                    9.75F);
-            }
-        }
-
-        private Color LayMauTheoHang(string hang)
-        {
-            string h = (hang ?? "").Trim().ToLower();
-
-            if (h.Contains("kim cương"))
-                return Color.FromArgb(14, 165, 233);
-
-            if (h.Contains("vàng"))
-                return Color.FromArgb(217, 119, 6);
-
-            if (h.Contains("bạc"))
-                return Color.FromArgb(100, 116, 139);
-
-            if (h.Contains("đồng"))
-                return Color.FromArgb(180, 83, 9);
-
-            return Color.FromArgb(90, 96, 108);
-        }
-
-        // =========================================================
-        // THỐNG KÊ
-        // =========================================================
-
-        private void LoadThongKe()
-        {
-            try
-            {
-                string sql = @"
-                    SELECT
-                        COUNT(*) AS TongHoiVien,
-
-                        SUM(CASE WHEN ISNULL(TrangThai, 1) = 1
-                                 THEN 1 ELSE 0 END) AS DangHoatDong,
-
-                        SUM(ISNULL(DiemTichLuy, 0)) AS TongDiem,
-
-                        SUM(CASE WHEN ISNULL(HangThanhVien, N'Thường')
-                                      IN (N'Vàng', N'Kim cương')
-                                 THEN 1 ELSE 0 END) AS HangCao
-                    FROM KhachHang";
-
-                DataTable dt = kt.GetData(
-                    sql,
-                    new SqlParameter[] { });
-
-                if (dt.Rows.Count == 0)
+                if (Session.MaTK <= 0)
+                {
+                    HienThiChuaDangNhap();
                     return;
+                }
 
-                DataRow r = dt.Rows[0];
+                maKH = LayMaKH();
+                if (maKH <= 0)
+                {
+                    HienThiChuaCoHoSo();
+                    return;
+                }
 
-                lbTongHoiVien.Text = DocSo(r["TongHoiVien"]).ToString("N0");
-                lbDangHoatDong.Text = DocSo(r["DangHoatDong"]).ToString("N0");
-                lbTongDiem.Text = DocSo(r["TongDiem"]).ToString("N0");
-                lbHangCao.Text = DocSo(r["HangCao"]).ToString("N0");
+                LoadThongTinTongQuan();
+                LoadDanhSachHang();
+                TinhTienDoHang();
+                LoadLichSuDiem();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Không thể tải số liệu thống kê.\n\n"
-                    + ex.Message,
-                    "Lỗi",
+                    "Không thể tải thông tin hội viên.\r\n\r\n" + ex.Message,
+                    "SPORTSHOP - Hội viên",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
-        private long DocSo(object giaTri)
+        private int LayMaKH()
         {
-            if (giaTri == null || giaTri == DBNull.Value)
+            object result = kt.ExecuteScalar(
+                @"SELECT TOP 1 MaKH
+                  FROM KhachHang
+                  WHERE MaTK = @MaTK",
+                new SqlParameter[]
+                {
+                    new SqlParameter("@MaTK", Session.MaTK)
+                });
+
+            if (result == null || result == DBNull.Value)
                 return 0;
 
-            return Convert.ToInt64(giaTri);
+            return Convert.ToInt32(result);
         }
 
-        // =========================================================
-        // TÌM KIẾM & LỌC
-        // =========================================================
-
-        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        private void LoadThongTinTongQuan()
         {
-            LoadDanhSach();
-        }
+            string sql = @"
+                SELECT TOP 1
+                    kh.MaKH,
+                    ISNULL(kh.HoTen, N'Khách hàng') AS HoTen,
+                    ISNULL(kh.DiemHoiVien, 0) AS DiemHoiVien,
+                    ISNULL(kh.MaHangHoiVien, 0) AS MaHangHoiVien,
+                    ISNULL(hv.TenHang, ISNULL(kh.HangThanhVien, N'Đồng')) AS TenHang,
+                    ISNULL(hv.TyLeUuDai, 0) AS TyLeUuDai
+                FROM KhachHang kh
+                LEFT JOIN HangHoiVien hv
+                    ON hv.MaHangHoiVien = kh.MaHangHoiVien
+                WHERE kh.MaKH = @MaKH";
 
-        private void cboHang_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LoadDanhSach();
-        }
+            DataTable dt = kt.GetData(
+                sql,
+                new SqlParameter[]
+                {
+                    new SqlParameter("@MaKH", maKH)
+                });
 
-        // =========================================================
-        // CHỌN HỘI VIÊN TRÊN LƯỚI
-        // =========================================================
-
-        private void dgvHoiVien_SelectionChanged(object sender, EventArgs e)
-        {
-            // Lưới có thể chưa có cột khi DataSource vừa được gán
-            if (!dgvHoiVien.Columns.Contains("MaKH") ||
-                !dgvHoiVien.Columns.Contains("TrangThaiGoc"))
+            if (dt.Rows.Count == 0)
             {
+                HienThiChuaCoHoSo();
                 return;
             }
 
-            if (dgvHoiVien.CurrentRow == null ||
-                dgvHoiVien.CurrentRow.Index < 0)
-            {
-                maKHDangChon = 0;
-                CapNhatTrangThaiNut();
-                return;
-            }
+            DataRow r = dt.Rows[0];
 
-            DataGridViewRow dong = dgvHoiVien.CurrentRow;
+            string hoTen = r["HoTen"] == DBNull.Value
+                ? "Khách hàng"
+                : r["HoTen"].ToString();
 
-            if (dong.Cells["MaKH"].Value == null)
-                return;
+            diemHienTai = r["DiemHoiVien"] == DBNull.Value
+                ? 0
+                : Convert.ToInt32(r["DiemHoiVien"]);
 
-            maKHDangChon =
-                Convert.ToInt32(dong.Cells["MaKH"].Value);
+            maHangHienTai = r["MaHangHoiVien"] == DBNull.Value
+                ? 0
+                : Convert.ToInt32(r["MaHangHoiVien"]);
 
-            string hoTen =
-                dong.Cells["HoTen"].Value == null
-                    ? ""
-                    : dong.Cells["HoTen"].Value.ToString();
+            tenHangHienTai = r["TenHang"] == DBNull.Value
+                ? "Đồng"
+                : r["TenHang"].ToString();
 
-            int diem =
-                dong.Cells["DiemTichLuy"].Value == null
-                    ? 0
-                    : Convert.ToInt32(dong.Cells["DiemTichLuy"].Value);
+            tyLeUuDaiHienTai = r["TyLeUuDai"] == DBNull.Value
+                ? 0
+                : Convert.ToDecimal(r["TyLeUuDai"]);
 
-            string hang =
-                dong.Cells["HangThanhVien"].Value == null
-                    ? "Thường"
-                    : dong.Cells["HangThanhVien"].Value.ToString();
+            lblXinChao.Text = "Xin chào, " + hoTen;
+            lblHang.Text = tenHangHienTai;
+            lblDiem.Text = diemHienTai.ToString("N0") + " điểm";
+            lblUuDai.Text = "Ưu đãi hạng: " + tyLeUuDaiHienTai.ToString("0.##") + "%";
 
-            object tt = dong.Cells["TrangThaiGoc"].Value;
+            lblMaKH.Text = "Mã khách hàng: KH" + maKH.ToString("D4");
+            lblQuyDoi.Text = "Quy đổi: 1 điểm / 10.000 VNĐ";
 
-            trangThaiDangChon =
-                tt == null || tt == DBNull.Value ||
-                Convert.ToBoolean(tt);
-
-            lbHoiVienDangChon.Text =
-                "Đang chọn: " + hoTen
-                + "  •  " + hang
-                + "  •  " + diem.ToString("N0") + " điểm";
-
-            btnDoiTrangThai.Text =
-                trangThaiDangChon
-                    ? "Ngừng giao dịch"
-                    : "Mở lại giao dịch";
-
-            CapNhatTrangThaiNut();
+            Color mau = LayMauHang(tenHangHienTai);
+            lblHang.ForeColor = mau;
+            pnlHang.BackColor = Color.FromArgb(32, 32, 35);
         }
 
-        private void CapNhatTrangThaiNut()
+        private void LoadDanhSachHang()
         {
-            bool coChon = maKHDangChon > 0;
+            dgvHang.Rows.Clear();
 
-            btnCongDiem.Enabled = coChon;
-            btnDoiTrangThai.Enabled = coChon;
-            numDiem.Enabled = coChon;
-        }
-
-        // =========================================================
-        // CỘNG ĐIỂM TÍCH LŨY
-        // =========================================================
-
-        private void btnCongDiem_Click(object sender, EventArgs e)
-        {
-            if (maKHDangChon <= 0)
-                return;
-
-            int diemCong = (int)numDiem.Value;
-
-            if (diemCong <= 0)
-            {
-                MessageBox.Show(
-                    "Số điểm cộng phải lớn hơn 0.",
-                    "SPORTSHOP",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            DialogResult xacNhan = MessageBox.Show(
-                "Cộng " + diemCong.ToString("N0")
-                + " điểm cho hội viên đang chọn?",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (xacNhan != DialogResult.Yes)
-                return;
+            DataTable dt = null;
 
             try
             {
-                string sql = @"
-                    UPDATE KhachHang
-                    SET DiemTichLuy = ISNULL(DiemTichLuy, 0) + @Diem
-                    WHERE MaKH = @MaKH";
-
-                kt.Execute(
-                    sql,
-                    new SqlParameter[]
-                    {
-                        new SqlParameter("@Diem", diemCong),
-                        new SqlParameter("@MaKH", maKHDangChon)
-                    });
-
-                LoadDanhSach();
-                LoadThongKe();
-
-                MessageBox.Show(
-                    "Đã cộng điểm cho hội viên.",
-                    "SPORTSHOP",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                // Đọc trực tiếp bảng HangHoiVien.
+                // Dùng SELECT * để form không phụ thuộc tuyệt đối vào tên
+                // cột ngưỡng điểm của từng phiên bản DB.
+                dt = kt.GetData(
+                    "SELECT * FROM HangHoiVien ORDER BY MaHangHoiVien");
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(
-                    "Không thể cộng điểm.\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                dt = null;
+            }
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                // Fallback đúng theo rule đã thống nhất của SPORTSHOP.
+                ThemHangFallback(1, "Đồng", 0, 0);
+                ThemHangFallback(2, "Bạc", 500, 2);
+                ThemHangFallback(3, "Vàng", 1000, 5);
+                ThemHangFallback(4, "Kim cương", 3000, 10);
+                return;
+            }
+
+            foreach (DataRow row in dt.Rows)
+            {
+                int maHang = LayInt(row, "MaHangHoiVien", 0);
+                string tenHang = LayString(row, "TenHang", "Hạng");
+
+                decimal uuDai = LayDecimal(row, "TyLeUuDai", 0);
+
+                int mocDiem = LayMocDiem(row);
+
+                int index = dgvHang.Rows.Add();
+                DataGridViewRow r = dgvHang.Rows[index];
+
+                r.Cells["colHang"].Value = tenHang;
+                r.Cells["colMocDiem"].Value =
+                    mocDiem.ToString("N0") + " điểm";
+                r.Cells["colUuDai"].Value =
+                    uuDai.ToString("0.##") + "%";
+                r.Cells["colTrangThai"].Value =
+                    maHang == maHangHienTai
+                        ? "ĐANG LÀ HẠNG CỦA BẠN"
+                        : diemHienTai >= mocDiem
+                            ? "Đã đạt"
+                            : "Chưa đạt";
+
+                r.Tag = new HangInfo
+                {
+                    MaHang = maHang,
+                    TenHang = tenHang,
+                    MocDiem = mocDiem,
+                    UuDai = uuDai
+                };
+
+                r.DefaultCellStyle.BackColor =
+                    maHang == maHangHienTai
+                        ? Color.FromArgb(255, 242, 242)
+                        : Color.White;
+
+                r.DefaultCellStyle.ForeColor =
+                    Color.FromArgb(45, 45, 50);
+
+                r.DefaultCellStyle.Font =
+                    new Font("Segoe UI", 9.5F, FontStyle.Regular);
+            }
+
+            if (dgvHang.Rows.Count == 0)
+            {
+                ThemHangFallback(1, "Đồng", 0, 0);
+                ThemHangFallback(2, "Bạc", 500, 2);
+                ThemHangFallback(3, "Vàng", 1000, 5);
+                ThemHangFallback(4, "Kim cương", 3000, 10);
             }
         }
 
-        // =========================================================
-        // TÍNH LẠI HẠNG THÀNH VIÊN THEO ĐIỂM TÍCH LŨY
-        // =========================================================
-
-        private void btnTinhLaiHang_Click(object sender, EventArgs e)
+        private void ThemHangFallback(
+            int maHang,
+            string tenHang,
+            int mocDiem,
+            decimal uuDai)
         {
-            DialogResult xacNhan = MessageBox.Show(
-                "Tính lại hạng thành viên cho toàn bộ hội viên "
-                + "dựa trên điểm tích lũy hiện tại?",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            int index = dgvHang.Rows.Add();
+            DataGridViewRow r = dgvHang.Rows[index];
 
-            if (xacNhan != DialogResult.Yes)
-                return;
+            r.Cells["colHang"].Value = tenHang;
+            r.Cells["colMocDiem"].Value = mocDiem.ToString("N0") + " điểm";
+            r.Cells["colUuDai"].Value = uuDai.ToString("0.##") + "%";
+            r.Cells["colTrangThai"].Value =
+                tenHang.Equals(
+                    tenHangHienTai,
+                    StringComparison.OrdinalIgnoreCase)
+                    ? "ĐANG LÀ HẠNG CỦA BẠN"
+                    : diemHienTai >= mocDiem
+                        ? "Đã đạt"
+                        : "Chưa đạt";
 
-            try
+            r.Tag = new HangInfo
             {
-                string sql = @"
-                    UPDATE KhachHang
-                    SET HangThanhVien =
-                        CASE
-                            WHEN ISNULL(DiemTichLuy, 0) >= @KimCuong
-                                THEN N'Kim cương'
-                            WHEN ISNULL(DiemTichLuy, 0) >= @Vang
-                                THEN N'Vàng'
-                            WHEN ISNULL(DiemTichLuy, 0) >= @Bac
-                                THEN N'Bạc'
-                            WHEN ISNULL(DiemTichLuy, 0) > 0
-                                THEN N'Đồng'
-                            ELSE N'Thường'
-                        END";
+                MaHang = maHang,
+                TenHang = tenHang,
+                MocDiem = mocDiem,
+                UuDai = uuDai
+            };
 
-                kt.Execute(
-                    sql,
-                    new SqlParameter[]
-                    {
-                        new SqlParameter("@KimCuong", NGUONG_KIM_CUONG),
-                        new SqlParameter("@Vang", NGUONG_VANG),
-                        new SqlParameter("@Bac", NGUONG_BAC)
-                    });
+            r.DefaultCellStyle.BackColor =
+                tenHang.Equals(
+                    tenHangHienTai,
+                    StringComparison.OrdinalIgnoreCase)
+                    ? Color.FromArgb(255, 242, 242)
+                    : Color.White;
+        }
 
-                LoadDanhSach();
-                LoadThongKe();
+        private int LayMocDiem(DataRow row)
+        {
+            string[] tenCot =
+            {
+                "DiemToiThieu",
+                "DiemCan",
+                "DiemYeuCau",
+                "SoDiemToiThieu",
+                "Diem"
+            };
 
-                MessageBox.Show(
-                    "Đã cập nhật lại hạng thành viên.",
-                    "SPORTSHOP",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+            foreach (string tenCotCanTim in tenCot)
+            {
+                if (!row.Table.Columns.Contains(tenCotCanTim))
+                    continue;
+
+                if (row[tenCotCanTim] == DBNull.Value)
+                    continue;
+
+                int diem;
+                if (int.TryParse(
+                    row[tenCotCanTim].ToString(),
+                    out diem))
+                    return diem;
             }
-            catch (Exception ex)
+
+            // Fallback theo MaHangHoiVien của seed SPORTSHOP.
+            int maHang = LayInt(row, "MaHangHoiVien", 0);
+
+            switch (maHang)
             {
-                MessageBox.Show(
-                    "Không thể tính lại hạng thành viên.\n\n"
-                    + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                case 1: return 0;
+                case 2: return 500;
+                case 3: return 1000;
+                case 4: return 3000;
+                default: return 0;
             }
         }
 
-        // =========================================================
-        // ĐỔI TRẠNG THÁI GIAO DỊCH
-        // =========================================================
-
-        private void btnDoiTrangThai_Click(object sender, EventArgs e)
+        private void LoadLichSuDiem()
         {
-            if (maKHDangChon <= 0)
-                return;
+            dgvLichSu.Rows.Clear();
 
-            bool trangThaiMoi = !trangThaiDangChon;
+            string sql = @"
+                SELECT TOP 100
+                    ls.ThoiGian,
+                    ls.SoDiem,
+                    ls.LyDo,
+                    ls.MaHD
+                FROM LichSuDiemThuong ls
+                WHERE ls.MaKH = @MaKH
+                ORDER BY ls.ThoiGian DESC, ls.MaLSDiem DESC";
 
-            string thongBao =
-                trangThaiMoi
-                    ? "Mở lại giao dịch cho hội viên này?"
-                    : "Ngừng giao dịch với hội viên này?";
+            DataTable dt = kt.GetData(
+                sql,
+                new SqlParameter[]
+                {
+                    new SqlParameter("@MaKH", maKH)
+                });
 
-            DialogResult xacNhan = MessageBox.Show(
-                thongBao,
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
-
-            if (xacNhan != DialogResult.Yes)
-                return;
-
-            try
+            foreach (DataRow row in dt.Rows)
             {
-                string sql = @"
-                    UPDATE KhachHang
-                    SET TrangThai = @TrangThai
-                    WHERE MaKH = @MaKH";
+                int index = dgvLichSu.Rows.Add();
 
-                kt.Execute(
-                    sql,
-                    new SqlParameter[]
-                    {
-                        new SqlParameter("@TrangThai", trangThaiMoi),
-                        new SqlParameter("@MaKH", maKHDangChon)
-                    });
+                DateTime thoiGian =
+                    row["ThoiGian"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : Convert.ToDateTime(row["ThoiGian"]);
 
-                LoadDanhSach();
-                LoadThongKe();
+                int soDiem =
+                    row["SoDiem"] == DBNull.Value
+                        ? 0
+                        : Convert.ToInt32(row["SoDiem"]);
+
+                string lyDo =
+                    row["LyDo"] == DBNull.Value
+                        ? ""
+                        : row["LyDo"].ToString();
+
+                string maHD =
+                    row["MaHD"] == DBNull.Value
+                        ? "-"
+                        : "HD" + Convert.ToInt32(row["MaHD"]).ToString("D4");
+
+                DataGridViewRow r = dgvLichSu.Rows[index];
+
+                r.Cells["colNgay"].Value =
+                    thoiGian == DateTime.MinValue
+                        ? "-"
+                        : thoiGian.ToString("dd/MM/yyyy HH:mm");
+
+                r.Cells["colDiemLS"].Value =
+                    (soDiem >= 0 ? "+" : "") +
+                    soDiem.ToString("N0");
+
+                r.Cells["colLyDo"].Value = lyDo;
+                r.Cells["colMaHD"].Value = maHD;
+
+                r.Cells["colDiemLS"].Style.ForeColor =
+                    soDiem >= 0
+                        ? Color.FromArgb(25, 145, 85)
+                        : Color.FromArgb(210, 45, 55);
             }
-            catch (Exception ex)
+
+            if (dgvLichSu.Rows.Count == 0)
             {
-                MessageBox.Show(
-                    "Không thể cập nhật trạng thái.\n\n"
-                    + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                int index = dgvLichSu.Rows.Add();
+                dgvLichSu.Rows[index].Cells["colNgay"].Value = "-";
+                dgvLichSu.Rows[index].Cells["colDiemLS"].Value = "0";
+                dgvLichSu.Rows[index].Cells["colLyDo"].Value =
+                    "Chưa có lịch sử điểm";
+                dgvLichSu.Rows[index].Cells["colMaHD"].Value = "-";
             }
+        }
+
+        private void TinhTienDoHang()
+        {
+            int mocHienTai = LayMocHangHienTai();
+
+            HangInfo hangKeTiep = LayHangKeTiep();
+
+            if (hangKeTiep == null)
+            {
+                progressHang.Value = 100;
+                lblTienDo.Text =
+                    "🎉 Bạn đang ở hạng cao nhất của hệ thống.";
+                lblConThieu.Text = "Đã đạt hạng tối đa";
+                lblNextHang.Text = "Hạng cao nhất";
+                return;
+            }
+
+            int mocKeTiep = hangKeTiep.MocDiem;
+
+            int max = Math.Max(mocKeTiep, mocHienTai + 1);
+            int value = Math.Max(0, Math.Min(diemHienTai, max));
+
+            progressHang.Maximum = max;
+            progressHang.Value = value;
+
+            int conThieu =
+                Math.Max(0, mocKeTiep - diemHienTai);
+
+            lblNextHang.Text =
+                "Mục tiêu tiếp theo: " + hangKeTiep.TenHang;
+
+            lblConThieu.Text =
+                conThieu > 0
+                    ? "Còn " + conThieu.ToString("N0") +
+                      " điểm để lên " + hangKeTiep.TenHang
+                    : "Bạn đã đủ điểm để đạt " + hangKeTiep.TenHang;
+
+            lblTienDo.Text =
+                diemHienTai.ToString("N0") +
+                " / " +
+                mocKeTiep.ToString("N0") +
+                " điểm";
+        }
+
+        private int LayMocHangHienTai()
+        {
+            foreach (DataGridViewRow row in dgvHang.Rows)
+            {
+                HangInfo info = row.Tag as HangInfo;
+
+                if (info == null)
+                    continue;
+
+                if (info.MaHang == maHangHienTai ||
+                    info.TenHang.Equals(
+                        tenHangHienTai,
+                        StringComparison.OrdinalIgnoreCase))
+                    return info.MocDiem;
+            }
+
+            if (tenHangHienTai.Equals(
+                "Bạc",
+                StringComparison.OrdinalIgnoreCase))
+                return 500;
+
+            if (tenHangHienTai.Equals(
+                "Vàng",
+                StringComparison.OrdinalIgnoreCase))
+                return 1000;
+
+            if (tenHangHienTai.Equals(
+                "Kim cương",
+                StringComparison.OrdinalIgnoreCase))
+                return 3000;
+
+            return 0;
+        }
+
+        private HangInfo LayHangKeTiep()
+        {
+            HangInfo ketQua = null;
+
+            foreach (DataGridViewRow row in dgvHang.Rows)
+            {
+                HangInfo info = row.Tag as HangInfo;
+
+                if (info == null)
+                    continue;
+
+                if (info.MocDiem <= LayMocHangHienTai())
+                    continue;
+
+                if (info.MocDiem <= diemHienTai)
+                    continue;
+
+                if (ketQua == null ||
+                    info.MocDiem < ketQua.MocDiem)
+                    ketQua = info;
+            }
+
+            return ketQua;
+        }
+
+        private void HienThiChuaDangNhap()
+        {
+            lblXinChao.Text = "Chưa đăng nhập";
+            lblHang.Text = "—";
+            lblDiem.Text = "0 điểm";
+            lblUuDai.Text = "Vui lòng đăng nhập tài khoản khách hàng.";
+            lblMaKH.Text = "";
+            lblQuyDoi.Text = "";
+            lblNextHang.Text = "Chưa có dữ liệu";
+            lblConThieu.Text = "";
+            lblTienDo.Text = "";
+            progressHang.Value = 0;
+
+            dgvHang.Rows.Clear();
+            dgvLichSu.Rows.Clear();
+        }
+
+        private void HienThiChuaCoHoSo()
+        {
+            lblXinChao.Text = "Chưa có hồ sơ khách hàng";
+            lblHang.Text = "—";
+            lblDiem.Text = "0 điểm";
+            lblUuDai.Text = "Tài khoản chưa có hồ sơ hội viên.";
+            lblMaKH.Text = "";
+            lblQuyDoi.Text = "";
+            lblNextHang.Text = "Chưa có dữ liệu";
+            lblConThieu.Text = "";
+            lblTienDo.Text = "";
+            progressHang.Value = 0;
+
+            dgvHang.Rows.Clear();
+            dgvLichSu.Rows.Clear();
+        }
+
+        private static int LayInt(
+            DataRow row,
+            string tenCot,
+            int macDinh)
+        {
+            if (!row.Table.Columns.Contains(tenCot) ||
+                row[tenCot] == DBNull.Value)
+                return macDinh;
+
+            int value;
+            return int.TryParse(
+                row[tenCot].ToString(),
+                out value)
+                ? value
+                : macDinh;
+        }
+
+        private static decimal LayDecimal(
+            DataRow row,
+            string tenCot,
+            decimal macDinh)
+        {
+            if (!row.Table.Columns.Contains(tenCot) ||
+                row[tenCot] == DBNull.Value)
+                return macDinh;
+
+            decimal value;
+            return decimal.TryParse(
+                row[tenCot].ToString(),
+                out value)
+                ? value
+                : macDinh;
+        }
+
+        private static string LayString(
+            DataRow row,
+            string tenCot,
+            string macDinh)
+        {
+            if (!row.Table.Columns.Contains(tenCot) ||
+                row[tenCot] == DBNull.Value)
+                return macDinh;
+
+            string value = row[tenCot].ToString();
+            return string.IsNullOrWhiteSpace(value)
+                ? macDinh
+                : value;
+        }
+
+        private Color LayMauHang(string tenHang)
+        {
+            if (tenHang.IndexOf(
+                "Kim",
+                StringComparison.OrdinalIgnoreCase) >= 0)
+                return Color.FromArgb(155, 90, 220);
+
+            if (tenHang.IndexOf(
+                "Vàng",
+                StringComparison.OrdinalIgnoreCase) >= 0)
+                return Color.FromArgb(210, 155, 35);
+
+            if (tenHang.IndexOf(
+                "Bạc",
+                StringComparison.OrdinalIgnoreCase) >= 0)
+                return Color.FromArgb(115, 125, 140);
+
+            return Color.FromArgb(180, 105, 55);
+        }
+
+        private sealed class HangInfo
+        {
+            public int MaHang { get; set; }
+            public string TenHang { get; set; }
+            public int MocDiem { get; set; }
+            public decimal UuDai { get; set; }
         }
     }
 }
