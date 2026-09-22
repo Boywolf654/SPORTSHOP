@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP._03_QuanLyKho
+namespace SPORTSHOP._03_QuanLyKho
 {
     partial class FormLStonkho
     {
@@ -241,9 +241,9 @@
             // 
             // btnLamMoi
             // 
-            this.btnLamMoi.BorderRadius = 8;
-            this.btnLamMoi.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(100)))), ((int)(((byte)(115)))));
-            this.btnLamMoi.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnLamMoi.BorderRadius = 6;
+            this.btnLamMoi.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
+            this.btnLamMoi.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnLamMoi.ForeColor = System.Drawing.Color.White;
             this.btnLamMoi.Location = new System.Drawing.Point(1237, 125);
             this.btnLamMoi.Name = "btnLamMoi";
@@ -253,8 +253,8 @@
             // 
             // btnXuatBaoCao
             // 
-            this.btnXuatBaoCao.BorderRadius = 9;
-            this.btnXuatBaoCao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(180)))), ((int)(((byte)(126)))));
+            this.btnXuatBaoCao.BorderRadius = 6;
+            this.btnXuatBaoCao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btnXuatBaoCao.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.btnXuatBaoCao.ForeColor = System.Drawing.Color.White;
             this.btnXuatBaoCao.Location = new System.Drawing.Point(1040, 625);
@@ -267,44 +267,44 @@
             // 
             this.dgvLichSuTonKho.AllowUserToAddRows = false;
             this.dgvLichSuTonKho.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.dgvLichSuTonKho.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvLichSuTonKho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvLichSuTonKho.ColumnHeadersHeight = 42;
+            this.dgvLichSuTonKho.ColumnHeadersHeight = 35;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(235)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvLichSuTonKho.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvLichSuTonKho.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            this.dgvLichSuTonKho.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(228)))), ((int)(((byte)(235)))));
             this.dgvLichSuTonKho.Location = new System.Drawing.Point(25, 180);
             this.dgvLichSuTonKho.MultiSelect = false;
             this.dgvLichSuTonKho.Name = "dgvLichSuTonKho";
             this.dgvLichSuTonKho.ReadOnly = true;
             this.dgvLichSuTonKho.RowHeadersVisible = false;
             this.dgvLichSuTonKho.RowHeadersWidth = 51;
-            this.dgvLichSuTonKho.RowTemplate.Height = 34;
+            this.dgvLichSuTonKho.RowTemplate.Height = 32;
             this.dgvLichSuTonKho.Size = new System.Drawing.Size(1240, 435);
             this.dgvLichSuTonKho.TabIndex = 15;
-            this.dgvLichSuTonKho.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
-            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(122)))));
-            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.dgvLichSuTonKho.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.Height = 42;
+            this.dgvLichSuTonKho.ThemeStyle.HeaderStyle.Height = 35;
             this.dgvLichSuTonKho.ThemeStyle.ReadOnly = true;
-            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.Height = 34;
-            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(235)))), ((int)(((byte)(247)))));
+            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.Height = 32;
+            this.dgvLichSuTonKho.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvLichSuTonKho.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
             // 
             // lblTongDong

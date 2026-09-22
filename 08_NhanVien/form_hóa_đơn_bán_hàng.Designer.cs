@@ -84,7 +84,7 @@
             // 
             // pnl_ThongTin
             // 
-            this.pnl_ThongTin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(38)))), ((int)(((byte)(57)))));
+            this.pnl_ThongTin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnl_ThongTin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_ThongTin.Controls.Add(this.lb_MaHoaDon);
             this.pnl_ThongTin.Controls.Add(this.txt_MaHoaDon);
@@ -254,7 +254,7 @@
             // 
             // pnl_ChiTietHoaDon
             // 
-            this.pnl_ChiTietHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(38)))), ((int)(((byte)(57)))));
+            this.pnl_ChiTietHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnl_ChiTietHoaDon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_ChiTietHoaDon.Controls.Add(this.lb_ChiTietHoaDon);
             this.pnl_ChiTietHoaDon.Controls.Add(this.dgv_ChiTietHoaDon);
@@ -424,7 +424,7 @@
             // 
             // pnl_ghichu
             // 
-            this.pnl_ghichu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(38)))), ((int)(((byte)(57)))));
+            this.pnl_ghichu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnl_ghichu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_ghichu.Controls.Add(this.lb_Ghichu);
             this.pnl_ghichu.Controls.Add(this.txt_GhiChu);
@@ -458,7 +458,7 @@
             // 
             // pnl_TongTien
             // 
-            this.pnl_TongTien.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(38)))), ((int)(((byte)(57)))));
+            this.pnl_TongTien.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnl_TongTien.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_TongTien.Controls.Add(this.lb_TongTien);
             this.pnl_TongTien.Controls.Add(this.lb_TongTienHangText);
@@ -609,7 +609,7 @@
             // 
             // btn_TaoHoaDon
             // 
-            this.btn_TaoHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(185)))), ((int)(((byte)(99)))));
+            this.btn_TaoHoaDon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
             this.btn_TaoHoaDon.FlatAppearance.BorderSize = 0;
             this.btn_TaoHoaDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TaoHoaDon.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -623,7 +623,7 @@
             // 
             // btn_ThanhToan
             // 
-            this.btn_ThanhToan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(135)))), ((int)(((byte)(232)))));
+            this.btn_ThanhToan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
             this.btn_ThanhToan.FlatAppearance.BorderSize = 0;
             this.btn_ThanhToan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ThanhToan.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -667,7 +667,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(23)))), ((int)(((byte)(37)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(1518, 977);
             this.Controls.Add(this.lb_TieuDe);
             this.Controls.Add(this.pnl_ThongTin);

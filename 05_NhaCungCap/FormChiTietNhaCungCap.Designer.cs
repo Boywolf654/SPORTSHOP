@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP._05_NhaCungCap
+namespace SPORTSHOP._05_NhaCungCap
 {
     partial class FormChiTietNhaCungCap
     {
@@ -489,6 +489,7 @@
             this.pnlHeader.Controls.Add(this.label1);
             this.pnlHeader.Controls.Add(this.btn_sp);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlHeader.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             this.pnlHeader.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -504,8 +505,8 @@
             this.btn_dhd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_dhd.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btn_dhd.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.btn_dhd.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btn_dhd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
+            this.btn_dhd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_dhd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btn_dhd.Location = new System.Drawing.Point(249, 35);
             this.btn_dhd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_dhd.Name = "btn_dhd";
@@ -520,9 +521,9 @@
             this.btn_mancc.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_mancc.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_mancc.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_mancc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(240)))), ((int)(((byte)(242)))));
-            this.btn_mancc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_mancc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(105)))), ((int)(((byte)(115)))));
+            this.btn_mancc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btn_mancc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_mancc.ForeColor = System.Drawing.Color.White;
             this.btn_mancc.Location = new System.Drawing.Point(138, 43);
             this.btn_mancc.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_mancc.Name = "btn_mancc";
@@ -537,10 +538,10 @@
             this.btn_chinhsua.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_chinhsua.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_chinhsua.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_chinhsua.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(232)))), ((int)(((byte)(235)))));
-            this.btn_chinhsua.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_chinhsua.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btn_chinhsua.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(218)))), ((int)(((byte)(222)))));
+            this.btn_chinhsua.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btn_chinhsua.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_chinhsua.ForeColor = System.Drawing.Color.White;
+            this.btn_chinhsua.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(78)))), ((int)(((byte)(216)))));
             this.btn_chinhsua.Location = new System.Drawing.Point(979, 21);
             this.btn_chinhsua.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_chinhsua.Name = "btn_chinhsua";
@@ -550,15 +551,15 @@
             // 
             // btn_nht
             // 
+            this.btn_nht.BorderRadius = 6;
             this.btn_nht.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btn_nht.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_nht.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_nht.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_nht.FillColor = System.Drawing.Color.Transparent;
-            this.btn_nht.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_nht.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(70)))), ((int)(((byte)(60)))));
-            this.btn_nht.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.btn_nht.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(70)))), ((int)(((byte)(60)))));
+            this.btn_nht.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.btn_nht.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_nht.ForeColor = System.Drawing.Color.White;
+            this.btn_nht.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.btn_nht.Location = new System.Drawing.Point(773, 21);
             this.btn_nht.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_nht.Name = "btn_nht";
@@ -573,9 +574,9 @@
             this.btn_sp.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_sp.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_sp.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_sp.FillColor = System.Drawing.Color.Black;
-            this.btn_sp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_sp.ForeColor = System.Drawing.Color.White;
+            this.btn_sp.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(0)))));
+            this.btn_sp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_sp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             this.btn_sp.Location = new System.Drawing.Point(52, 10);
             this.btn_sp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_sp.Name = "btn_sp";

@@ -13,6 +13,8 @@ namespace SPORTSHOP._06_BanHang
 
         private int maVoucherDangApDung = 0;
         private int maDiaChiDangApDung = 0;
+        private bool khachHangDangGiaoDich = true;
+        private string hangThanhVienHienTai = "Đồng";
 
         private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
 
@@ -24,6 +26,10 @@ namespace SPORTSHOP._06_BanHang
             btn_giamgia.Click += btn_giamgia_Click;
             btn_vanchuyen.Click += btn_vanchuyen_Click;
             btn_thanhtoan.Click += btn_thanhtoan_Click;
+            btn_thongTinKH.Click += btn_thongTinKH_Click;
+            btn_doiDiaChi.Click += btn_doiDiaChi_Click;
+            btn_moVi.Click += btn_moVi_Click;
+            btn_dong.Click += btn_dong_Click;
 
             dgv_giohang.CellContentClick += dgv_giohang_CellContentClick;
             dgv_giohang.CellMouseDown += dgv_giohang_CellMouseDown;
@@ -41,6 +47,8 @@ namespace SPORTSHOP._06_BanHang
         private void Giohang_Load(object sender, EventArgs e)
         {
             CauHinhGioHang();
+            LoadThongTinKhachHang();
+            LoadDanhSachVoucher();
             LoadGioHang();
             LoadDiaChiMacDinh();
             CapNhatThongTinVi();
@@ -114,18 +122,238 @@ namespace SPORTSHOP._06_BanHang
         private void CapNhatTrangThaiNut()
         {
             bool coHang = GioHangManager.DanhSach.Count > 0;
-            btn_thanhtoan.Enabled = coHang;
+            bool coDiaChi = maDiaChiDangApDung > 0;
+            bool choPhepThanhToan = coHang && coDiaChi && khachHangDangGiaoDich;
 
-            if (!coHang)
+            btn_thanhtoan.Enabled = choPhepThanhToan;
+
+            if (!khachHangDangGiaoDich)
             {
-                btn_thanhtoan.BackColor = Color.FromArgb(205, 205, 205);
-                btn_thanhtoan.ForeColor = Color.White;
+                btn_thanhtoan.Text = "KHÁCH ĐANG NGỪNG GIAO DỊCH";
+                btn_thanhtoan.BackColor = Color.FromArgb(85, 85, 90);
+            }
+            else if (!coDiaChi)
+            {
+                btn_thanhtoan.Text = "THÊM ĐỊA CHỈ ĐỂ THANH TOÁN";
+                btn_thanhtoan.BackColor = Color.FromArgb(85, 85, 90);
             }
             else
             {
-                btn_thanhtoan.BackColor = Color.FromArgb(27, 142, 62);
-                btn_thanhtoan.ForeColor = Color.White;
+                btn_thanhtoan.Text = "THANH TOÁN & ĐẶT ĐƠN";
+                btn_thanhtoan.BackColor = choPhepThanhToan
+                    ? Color.FromArgb(220, 30, 45)
+                    : Color.FromArgb(85, 85, 90);
             }
+
+            btn_thanhtoan.ForeColor = Color.White;
+        }
+
+        private void LoadThongTinKhachHang()
+        {
+            khachHangDangGiaoDich = true;
+            hangThanhVienHienTai = "Đồng";
+
+            if (Session.MaTK <= 0)
+            {
+                lblKHValue.Text = "Chưa đăng nhập tài khoản khách hàng.";
+                lblHangDiem.Text = "Hạng: Chưa xác định";
+                return;
+            }
+
+            try
+            {
+                string sql = @"
+                    SELECT TOP 1
+                        MaKH,
+                        HoTen,
+                        SDT,
+                        DiemTichLuy,
+                        HangThanhVien,
+                        TrangThai
+                    FROM KhachHang
+                    WHERE MaTK = @MaTK";
+
+                DataTable dt = kt.GetData(
+                    sql,
+                    new SqlParameter[] { new SqlParameter("@MaTK", Session.MaTK) });
+
+                if (dt.Rows.Count == 0)
+                {
+                    lblKHValue.Text = "Tài khoản chưa có hồ sơ khách hàng.";
+                    lblHangDiem.Text = "Hạng: Chưa xác định";
+                    return;
+                }
+
+                DataRow r = dt.Rows[0];
+
+                string hoTen = r["HoTen"] == DBNull.Value
+                    ? "Khách hàng"
+                    : Convert.ToString(r["HoTen"]);
+
+                string sdt = r["SDT"] == DBNull.Value
+                    ? ""
+                    : Convert.ToString(r["SDT"]);
+
+                int diem = r["DiemTichLuy"] == DBNull.Value
+                    ? 0
+                    : Convert.ToInt32(r["DiemTichLuy"]);
+
+                hangThanhVienHienTai = r["HangThanhVien"] == DBNull.Value
+                    ? "Đồng"
+                    : Convert.ToString(r["HangThanhVien"]);
+
+                khachHangDangGiaoDich =
+                    r["TrangThai"] == DBNull.Value ||
+                    Convert.ToBoolean(r["TrangThai"]);
+
+                lblKHValue.Text = string.IsNullOrWhiteSpace(sdt)
+                    ? hoTen
+                    : hoTen + "  •  " + sdt;
+
+                lblHangDiem.Text =
+                    "Hạng " + hangThanhVienHienTai +
+                    "  •  " + diem.ToString("N0") + " điểm";
+
+                lblHangDiem.ForeColor = khachHangDangGiaoDich
+                    ? Color.FromArgb(190, 190, 198)
+                    : Color.FromArgb(255, 95, 95);
+
+                if (khachHangDangGiaoDich)
+                {
+                    lblVoucherInfo.Text = "Voucher: Chưa áp dụng";
+                }
+                else
+                {
+                    lblVoucherInfo.Text =
+                        "● KHÁCH HÀNG ĐÃ NGỪNG GIAO DỊCH";
+                    lblVoucherInfo.ForeColor = Color.FromArgb(255, 85, 85);
+                }
+            }
+            catch (Exception ex)
+            {
+                lblKHValue.Text = "Không tải được thông tin khách hàng.";
+                lblHangDiem.Text = "Không tải được hạng thành viên.";
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void LoadDanhSachVoucher()
+        {
+            try
+            {
+                cmb_giamgia.Items.Clear();
+
+                string sql = @"
+                    SELECT MaCode
+                    FROM Voucher
+                    WHERE TrangThai = 1
+                      AND DaSuDung < SoLuongToiDa
+                      AND NgayBatDau <= CAST(GETDATE() AS DATE)
+                      AND (NgayHetHan IS NULL OR NgayHetHan >= CAST(GETDATE() AS DATE))
+                    ORDER BY MaVoucher DESC";
+
+                DataTable dt = kt.GetData(sql, null);
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string ma = Convert.ToString(row["MaCode"]);
+                    if (!string.IsNullOrWhiteSpace(ma))
+                        cmb_giamgia.Items.Add(ma);
+                }
+
+                cmb_giamgia.Text = "";
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void btn_thongTinKH_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SPORTSHOP._07_KhachHang.FormThongTinKhachHang frm =
+                    new SPORTSHOP._07_KhachHang.FormThongTinKhachHang())
+                {
+                    frm.ShowDialog(this);
+                }
+
+                LoadThongTinKhachHang();
+                LoadDiaChiMacDinh();
+                CapNhatThongTinVi();
+                CapNhatTrangThaiNut();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở thông tin khách hàng.\n\n" + ex.Message,
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_doiDiaChi_Click(object sender, EventArgs e)
+        {
+            int maKH = LayMaKH();
+
+            if (maKH <= 0)
+            {
+                MessageBox.Show(
+                    "Không xác định được khách hàng.",
+                    "Địa chỉ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (SPORTSHOP._07_KhachHang.FormQuanLyDiaChi frm =
+                    new SPORTSHOP._07_KhachHang.FormQuanLyDiaChi(maKH))
+                {
+                    frm.ShowDialog(this);
+                }
+
+                LoadDiaChiMacDinh();
+                CapNhatTrangThaiNut();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở quản lý địa chỉ.\n\n" + ex.Message,
+                    "Địa chỉ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_moVi_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SPORTSHOP._07_KhachHang.FormViDienTu frm =
+                    new SPORTSHOP._07_KhachHang.FormViDienTu())
+                {
+                    frm.ShowDialog(this);
+                }
+
+                CapNhatThongTinVi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở Ví điện tử.\n\n" + ex.Message,
+                    "Ví điện tử",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_dong_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void CapNhatTongTien()
@@ -197,6 +425,8 @@ namespace SPORTSHOP._06_BanHang
             // Thay đổi số lượng có thể làm voucher cũ không còn hợp lệ.
             maVoucherDangApDung = 0;
             giamGia = 0;
+            lblVoucherInfo.Text = "Voucher: Chưa áp dụng";
+            lblVoucherInfo.ForeColor = Color.FromArgb(190, 190, 198);
 
             LoadGioHang();
         }
@@ -349,6 +579,10 @@ namespace SPORTSHOP._06_BanHang
                     giamGia = giaGoc;
 
                 maVoucherDangApDung = Convert.ToInt32(row["MaVoucher"]);
+                lblVoucherInfo.Text =
+                    "Voucher: " + ma +
+                    "  •  Giảm " + giamGia.ToString("N0") + " Đ";
+                lblVoucherInfo.ForeColor = Color.FromArgb(255, 90, 100);
 
                 CapNhatTongTien();
 
@@ -700,6 +934,20 @@ namespace SPORTSHOP._06_BanHang
                 return;
             }
 
+            LoadThongTinKhachHang();
+
+            if (!khachHangDangGiaoDich)
+            {
+                CapNhatTrangThaiNut();
+                MessageBox.Show(
+                    "Khách hàng đã ngừng giao dịch.\n\n" +
+                    "Không thể tạo hoặc thanh toán đơn hàng.",
+                    "Không thể thanh toán",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
             if (maDiaChiDangApDung <= 0)
             {
                 MessageBox.Show(
@@ -774,7 +1022,10 @@ namespace SPORTSHOP._06_BanHang
                 maVoucherDangApDung = 0;
 
                 LoadGioHang();
+                LoadThongTinKhachHang();
                 CapNhatThongTinVi();
+                LoadDiaChiMacDinh();
+                CapNhatTrangThaiNut();
             }
             catch (Exception ex)
             {
@@ -814,7 +1065,8 @@ namespace SPORTSHOP._06_BanHang
                             SELECT COUNT(*)
                             FROM KhachHang
                             WHERE MaKH = @MaKH
-                              AND MaTK = @MaTK";
+                              AND MaTK = @MaTK
+                              AND TrangThai = 1";
 
                         using (SqlCommand cmd = new SqlCommand(
                             sqlCheckKH, conn, tran))

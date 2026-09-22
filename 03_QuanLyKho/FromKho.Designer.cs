@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+namespace SPORTSHOP
 {
     partial class FromKho
     {
@@ -117,13 +117,14 @@
             // guna2HtmlLabelQLDSK
             // 
             this.guna2HtmlLabelQLDSK.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabelQLDSK.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabelQLDSK.Location = new System.Drawing.Point(44, 22);
+            this.guna2HtmlLabelQLDSK.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.guna2HtmlLabelQLDSK.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            this.guna2HtmlLabelQLDSK.Location = new System.Drawing.Point(44, 20);
             this.guna2HtmlLabelQLDSK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.guna2HtmlLabelQLDSK.Name = "guna2HtmlLabelQLDSK";
-            this.guna2HtmlLabelQLDSK.Size = new System.Drawing.Size(454, 48);
+            this.guna2HtmlLabelQLDSK.Size = new System.Drawing.Size(350, 42);
             this.guna2HtmlLabelQLDSK.TabIndex = 0;
-            this.guna2HtmlLabelQLDSK.Text = "Quản Lí Danh Sách Kho";
+            this.guna2HtmlLabelQLDSK.Text = "📦 QUẢN LÝ DANH SÁCH KHO";
             // 
             // guna2PanelChanTrang
             // 
@@ -161,7 +162,7 @@
             this.pnl_tongsokho.Controls.Add(this.label2);
             this.pnl_tongsokho.Controls.Add(this.label1);
             this.pnl_tongsokho.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_tongsokho.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            this.pnl_tongsokho.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
             this.pnl_tongsokho.Location = new System.Drawing.Point(9, 8);
             this.pnl_tongsokho.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.pnl_tongsokho.Name = "pnl_tongsokho";
@@ -171,11 +172,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(57, 35);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 25);
+            this.label2.Size = new System.Drawing.Size(24, 28);
             this.label2.TabIndex = 1;
             this.label2.Text = "5";
             // 
@@ -183,11 +184,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(57, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 25);
+            this.label1.Size = new System.Drawing.Size(113, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tổng Số Kho";
             // 
@@ -197,7 +198,7 @@
             this.pnl_khotngung.Controls.Add(this.label4);
             this.pnl_khotngung.Controls.Add(this.label3);
             this.pnl_khotngung.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_khotngung.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(57)))), ((int)(((byte)(43)))));
+            this.pnl_khotngung.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.pnl_khotngung.Location = new System.Drawing.Point(447, 8);
             this.pnl_khotngung.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.pnl_khotngung.Name = "pnl_khotngung";
@@ -208,10 +209,11 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(76, 33);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(151, 29);
+            this.label4.Size = new System.Drawing.Size(130, 28);
             this.label4.TabIndex = 1;
             this.label4.Text = "1 (Cảnh báo)";
             // 
@@ -219,10 +221,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(77, 10);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(150, 24);
+            this.label3.Size = new System.Drawing.Size(138, 23);
             this.label3.TabIndex = 0;
             this.label3.Text = "Kho Tạm Ngưng";
             // 
@@ -232,7 +235,7 @@
             this.pnl_tonghangnhap.Controls.Add(this.label6);
             this.pnl_tonghangnhap.Controls.Add(this.label5);
             this.pnl_tonghangnhap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_tonghangnhap.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.pnl_tonghangnhap.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.pnl_tonghangnhap.Location = new System.Drawing.Point(964, 8);
             this.pnl_tonghangnhap.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.pnl_tonghangnhap.Name = "pnl_tonghangnhap";
@@ -243,10 +246,11 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(60, 35);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 29);
+            this.label6.Size = new System.Drawing.Size(76, 28);
             this.label6.TabIndex = 1;
             this.label6.Text = "36,360";
             // 
@@ -254,10 +258,11 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(61, 8);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(157, 24);
+            this.label5.Size = new System.Drawing.Size(146, 23);
             this.label5.TabIndex = 0;
             this.label5.Text = "Tổng Hàng Nhập";
             // 
@@ -278,20 +283,18 @@
             // 
             // cgv_danhsachkho
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(205)))), ((int)(((byte)(233)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.cgv_danhsachkho.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.cgv_danhsachkho.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(242)))), ((int)(((byte)(245)))));
+            this.cgv_danhsachkho.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.cgv_danhsachkho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.cgv_danhsachkho.ColumnHeadersHeight = 40;
+            this.cgv_danhsachkho.ColumnHeadersHeight = 35;
             this.cgv_danhsachkho.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             this.cgv_danhsachkho.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MaKho,
@@ -301,21 +304,21 @@
             this.TongHangNhap,
             this.TrangThai});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(221)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(144)))), ((int)(((byte)(206)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.cgv_danhsachkho.DefaultCellStyle = dataGridViewCellStyle3;
             this.cgv_danhsachkho.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cgv_danhsachkho.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(201)))), ((int)(((byte)(231)))));
+            this.cgv_danhsachkho.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(228)))), ((int)(((byte)(235)))));
             this.cgv_danhsachkho.Location = new System.Drawing.Point(0, 105);
             this.cgv_danhsachkho.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cgv_danhsachkho.Name = "cgv_danhsachkho";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -323,23 +326,22 @@
             this.cgv_danhsachkho.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.cgv_danhsachkho.RowHeadersVisible = false;
             this.cgv_danhsachkho.RowHeadersWidth = 62;
-            this.cgv_danhsachkho.RowTemplate.Height = 28;
+            this.cgv_danhsachkho.RowTemplate.Height = 32;
             this.cgv_danhsachkho.Size = new System.Drawing.Size(1396, 229);
             this.cgv_danhsachkho.TabIndex = 5;
-            this.cgv_danhsachkho.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.Amethyst;
-            this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(205)))), ((int)(((byte)(233)))));
-            this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.cgv_danhsachkho.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(242)))), ((int)(((byte)(245)))));
-            this.cgv_danhsachkho.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(201)))), ((int)(((byte)(231)))));
-            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
-            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Height = 40;
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(221)))), ((int)(((byte)(240)))));
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cgv_danhsachkho.ThemeStyle.BackColor = System.Drawing.Color.White;
+            this.cgv_danhsachkho.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(228)))), ((int)(((byte)(235)))));
+            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Height = 35;
+            this.cgv_danhsachkho.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
+            this.cgv_danhsachkho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.Black;
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.Height = 28;
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(144)))), ((int)(((byte)(206)))));
+            this.cgv_danhsachkho.ThemeStyle.RowsStyle.Height = 32;
+            this.cgv_danhsachkho.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.Black;
             // 
             // MaKho
@@ -386,12 +388,13 @@
             // 
             // btn_xuatbaocao
             // 
+            this.btn_xuatbaocao.BorderRadius = 6;
             this.btn_xuatbaocao.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btn_xuatbaocao.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_xuatbaocao.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_xuatbaocao.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_xuatbaocao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btn_xuatbaocao.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_xuatbaocao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
+            this.btn_xuatbaocao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_xuatbaocao.ForeColor = System.Drawing.Color.White;
             this.btn_xuatbaocao.Location = new System.Drawing.Point(1225, 49);
             this.btn_xuatbaocao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -402,43 +405,45 @@
             // 
             // btn_capnhat
             // 
+            this.btn_capnhat.BorderRadius = 6;
             this.btn_capnhat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btn_capnhat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_capnhat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_capnhat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_capnhat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btn_capnhat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_capnhat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
+            this.btn_capnhat.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_capnhat.ForeColor = System.Drawing.Color.White;
             this.btn_capnhat.Location = new System.Drawing.Point(1044, 49);
             this.btn_capnhat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_capnhat.Name = "btn_capnhat";
             this.btn_capnhat.Size = new System.Drawing.Size(160, 36);
             this.btn_capnhat.TabIndex = 3;
-            this.btn_capnhat.Text = "Cập Nhật";
+            this.btn_capnhat.Text = "✏️ Cập Nhật";
             // 
             // btn_themkho
             // 
+            this.btn_themkho.BorderRadius = 6;
             this.btn_themkho.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btn_themkho.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_themkho.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_themkho.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_themkho.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btn_themkho.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btn_themkho.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btn_themkho.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_themkho.ForeColor = System.Drawing.Color.White;
             this.btn_themkho.Location = new System.Drawing.Point(866, 49);
             this.btn_themkho.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_themkho.Name = "btn_themkho";
             this.btn_themkho.Size = new System.Drawing.Size(160, 36);
             this.btn_themkho.TabIndex = 2;
-            this.btn_themkho.Text = "Thêm Kho";
+            this.btn_themkho.Text = "➕ Thêm Kho";
             this.btn_themkho.Click += new System.EventHandler(this.btn_themkho_Click);
             // 
             // grp_tenkho
             // 
             this.grp_tenkho.Controls.Add(this.cmb_tenkho);
-            this.grp_tenkho.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.grp_tenkho.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.grp_tenkho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.grp_tenkho.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.grp_tenkho.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.grp_tenkho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
             this.grp_tenkho.Location = new System.Drawing.Point(443, 5);
             this.grp_tenkho.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grp_tenkho.Name = "grp_tenkho";
@@ -449,12 +454,14 @@
             // cmb_tenkho
             // 
             this.cmb_tenkho.BackColor = System.Drawing.Color.Transparent;
+            this.cmb_tenkho.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(213)))), ((int)(((byte)(225)))));
+            this.cmb_tenkho.BorderRadius = 6;
             this.cmb_tenkho.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_tenkho.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_tenkho.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmb_tenkho.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmb_tenkho.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmb_tenkho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmb_tenkho.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.cmb_tenkho.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.cmb_tenkho.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.cmb_tenkho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
             this.cmb_tenkho.ItemHeight = 30;
             this.cmb_tenkho.Items.AddRange(new object[] {
             "Tất Cả",
@@ -470,9 +477,9 @@
             // grp_trangthai
             // 
             this.grp_trangthai.Controls.Add(this.cmb_trangthai);
-            this.grp_trangthai.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.grp_trangthai.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.grp_trangthai.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.grp_trangthai.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.grp_trangthai.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.grp_trangthai.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
             this.grp_trangthai.Location = new System.Drawing.Point(11, 5);
             this.grp_trangthai.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grp_trangthai.Name = "grp_trangthai";
@@ -483,12 +490,14 @@
             // cmb_trangthai
             // 
             this.cmb_trangthai.BackColor = System.Drawing.Color.Transparent;
+            this.cmb_trangthai.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(213)))), ((int)(((byte)(225)))));
+            this.cmb_trangthai.BorderRadius = 6;
             this.cmb_trangthai.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_trangthai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_trangthai.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmb_trangthai.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cmb_trangthai.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmb_trangthai.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmb_trangthai.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.cmb_trangthai.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.cmb_trangthai.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.cmb_trangthai.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
             this.cmb_trangthai.ItemHeight = 30;
             this.cmb_trangthai.Items.AddRange(new object[] {
             "Tất Cả",
@@ -505,7 +514,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Menu;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.ClientSize = new System.Drawing.Size(1396, 546);
             this.Controls.Add(this.guna2PanelNoiDung);
             this.Controls.Add(this.guna2PanelChanTrang);

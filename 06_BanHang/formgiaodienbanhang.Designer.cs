@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+namespace SPORTSHOP
 {
     partial class formgiaodienbanhang
     {
@@ -159,15 +159,17 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.phukienpbx);
             this.groupBox1.Controls.Add(this.quanaopbx);
             this.groupBox1.Controls.Add(this.giaypbx);
-            this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox1.ForeColor = System.Drawing.Color.Yellow;
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(29, 196);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(649, 220);
+            this.groupBox1.Size = new System.Drawing.Size(700, 235);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Danh Mục Sản Phẩm";
@@ -176,9 +178,9 @@
             // 
             this.phukienpbx.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("phukienpbx.BackgroundImage")));
             this.phukienpbx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.phukienpbx.Location = new System.Drawing.Point(483, 33);
+            this.phukienpbx.Location = new System.Drawing.Point(490, 35);
             this.phukienpbx.Name = "phukienpbx";
-            this.phukienpbx.Size = new System.Drawing.Size(146, 124);
+            this.phukienpbx.Size = new System.Drawing.Size(180, 150);
             this.phukienpbx.TabIndex = 12;
             this.phukienpbx.TabStop = false;
             // 
@@ -187,9 +189,9 @@
             this.quanaopbx.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("quanaopbx.BackgroundImage")));
             this.quanaopbx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.quanaopbx.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.quanaopbx.Location = new System.Drawing.Point(257, 33);
+            this.quanaopbx.Location = new System.Drawing.Point(260, 35);
             this.quanaopbx.Name = "quanaopbx";
-            this.quanaopbx.Size = new System.Drawing.Size(146, 124);
+            this.quanaopbx.Size = new System.Drawing.Size(180, 150);
             this.quanaopbx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.quanaopbx.TabIndex = 11;
             this.quanaopbx.TabStop = false;
@@ -200,25 +202,27 @@
             this.giaypbx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.giaypbx.ErrorImage = ((System.Drawing.Image)(resources.GetObject("giaypbx.ErrorImage")));
             this.giaypbx.InitialImage = ((System.Drawing.Image)(resources.GetObject("giaypbx.InitialImage")));
-            this.giaypbx.Location = new System.Drawing.Point(25, 33);
+            this.giaypbx.Location = new System.Drawing.Point(30, 35);
             this.giaypbx.Name = "giaypbx";
-            this.giaypbx.Size = new System.Drawing.Size(146, 124);
+            this.giaypbx.Size = new System.Drawing.Size(180, 150);
             this.giaypbx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.giaypbx.TabIndex = 10;
             this.giaypbx.TabStop = false;
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.giay4pnl);
             this.groupBox2.Controls.Add(this.giay3pnl);
             this.groupBox2.Controls.Add(this.giay2pnl);
             this.groupBox2.Controls.Add(this.giay1pnl);
-            this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox2.ForeColor = System.Drawing.Color.Yellow;
+            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(760, 196);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(614, 220);
+            this.groupBox2.Size = new System.Drawing.Size(614, 235);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sản Phẩm Nổi Bật";
@@ -227,18 +231,18 @@
             // 
             this.giay4pnl.Controls.Add(this.label7);
             this.giay4pnl.Controls.Add(this.pictureBox8);
-            this.giay4pnl.Location = new System.Drawing.Point(462, 27);
+            this.giay4pnl.Location = new System.Drawing.Point(450, 30);
             this.giay4pnl.Name = "giay4pnl";
-            this.giay4pnl.Size = new System.Drawing.Size(110, 179);
+            this.giay4pnl.Size = new System.Drawing.Size(135, 190);
             this.giay4pnl.TabIndex = 3;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label7.Location = new System.Drawing.Point(7, 110);
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label7.Location = new System.Drawing.Point(5, 112);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 20);
+            this.label7.Size = new System.Drawing.Size(108, 23);
             this.label7.TabIndex = 1;
             this.label7.Text = "3.900.000 Đ";
             // 
@@ -247,9 +251,9 @@
             this.pictureBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.pictureBox8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox8.BackgroundImage")));
             this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox8.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox8.Location = new System.Drawing.Point(0, 0);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(107, 95);
+            this.pictureBox8.Size = new System.Drawing.Size(135, 105);
             this.pictureBox8.TabIndex = 0;
             this.pictureBox8.TabStop = false;
             // 
@@ -258,29 +262,29 @@
             this.giay3pnl.Controls.Add(this.label6);
             this.giay3pnl.Controls.Add(this.label5);
             this.giay3pnl.Controls.Add(this.pictureBox7);
-            this.giay3pnl.Location = new System.Drawing.Point(318, 27);
+            this.giay3pnl.Location = new System.Drawing.Point(305, 30);
             this.giay3pnl.Name = "giay3pnl";
-            this.giay3pnl.Size = new System.Drawing.Size(110, 179);
+            this.giay3pnl.Size = new System.Drawing.Size(135, 190);
             this.giay3pnl.TabIndex = 2;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label6.Location = new System.Drawing.Point(7, 140);
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(5, 142);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 20);
+            this.label6.Size = new System.Drawing.Size(108, 23);
             this.label6.TabIndex = 2;
             this.label6.Text = "2.790.000 Đ";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))));
             this.label5.ForeColor = System.Drawing.Color.Silver;
-            this.label5.Location = new System.Drawing.Point(7, 110);
+            this.label5.Location = new System.Drawing.Point(5, 112);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 20);
+            this.label5.Size = new System.Drawing.Size(95, 20);
             this.label5.TabIndex = 1;
             this.label5.Text = "3.000.000 Đ";
             // 
@@ -291,7 +295,7 @@
             this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox7.Location = new System.Drawing.Point(0, 0);
             this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(110, 95);
+            this.pictureBox7.Size = new System.Drawing.Size(135, 105);
             this.pictureBox7.TabIndex = 0;
             this.pictureBox7.TabStop = false;
             // 
@@ -300,29 +304,29 @@
             this.giay2pnl.Controls.Add(this.label4);
             this.giay2pnl.Controls.Add(this.label3);
             this.giay2pnl.Controls.Add(this.pictureBox6);
-            this.giay2pnl.Location = new System.Drawing.Point(165, 27);
+            this.giay2pnl.Location = new System.Drawing.Point(160, 30);
             this.giay2pnl.Name = "giay2pnl";
-            this.giay2pnl.Size = new System.Drawing.Size(110, 179);
+            this.giay2pnl.Size = new System.Drawing.Size(135, 190);
             this.giay2pnl.TabIndex = 1;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label4.Location = new System.Drawing.Point(21, 140);
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(5, 142);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 20);
+            this.label4.Size = new System.Drawing.Size(93, 23);
             this.label4.TabIndex = 2;
             this.label4.Text = "745.000 Đ";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))));
             this.label3.ForeColor = System.Drawing.Color.Silver;
-            this.label3.Location = new System.Drawing.Point(7, 110);
+            this.label3.Location = new System.Drawing.Point(5, 112);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 20);
+            this.label3.Size = new System.Drawing.Size(95, 20);
             this.label3.TabIndex = 1;
             this.label3.Text = "1.000.000 Đ";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -332,9 +336,9 @@
             this.pictureBox6.BackColor = System.Drawing.Color.White;
             this.pictureBox6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox6.BackgroundImage")));
             this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox6.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox6.Location = new System.Drawing.Point(0, 0);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(107, 95);
+            this.pictureBox6.Size = new System.Drawing.Size(135, 105);
             this.pictureBox6.TabIndex = 0;
             this.pictureBox6.TabStop = false;
             // 
@@ -343,29 +347,29 @@
             this.giay1pnl.Controls.Add(this.label2);
             this.giay1pnl.Controls.Add(this.label1);
             this.giay1pnl.Controls.Add(this.pictureBox5);
-            this.giay1pnl.Location = new System.Drawing.Point(20, 27);
+            this.giay1pnl.Location = new System.Drawing.Point(15, 30);
             this.giay1pnl.Name = "giay1pnl";
-            this.giay1pnl.Size = new System.Drawing.Size(110, 179);
+            this.giay1pnl.Size = new System.Drawing.Size(135, 190);
             this.giay1pnl.TabIndex = 0;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label2.Location = new System.Drawing.Point(3, 140);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(5, 142);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 20);
+            this.label2.Size = new System.Drawing.Size(108, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "1.949.000 Đ";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 10.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))));
             this.label1.ForeColor = System.Drawing.Color.Silver;
-            this.label1.Location = new System.Drawing.Point(3, 110);
+            this.label1.Location = new System.Drawing.Point(5, 112);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 20);
+            this.label1.Size = new System.Drawing.Size(95, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "2.000.000 Đ";
             // 
@@ -378,13 +382,15 @@
             this.pictureBox5.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox5.InitialImage")));
             this.pictureBox5.Location = new System.Drawing.Point(0, 0);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(107, 95);
+            this.pictureBox5.Size = new System.Drawing.Size(135, 105);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox5.TabIndex = 0;
             this.pictureBox5.TabStop = false;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.BackColor = System.Drawing.Color.Transparent;
             this.groupBox3.Controls.Add(this.giay11pnl);
             this.groupBox3.Controls.Add(this.giay10pnl);
@@ -393,9 +399,9 @@
             this.groupBox3.Controls.Add(this.giay7pnl);
             this.groupBox3.Controls.Add(this.giay6pnl);
             this.groupBox3.Controls.Add(this.giay5pnl);
-            this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox3.ForeColor = System.Drawing.Color.Yellow;
-            this.groupBox3.Location = new System.Drawing.Point(29, 433);
+            this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
+            this.groupBox3.Location = new System.Drawing.Point(29, 450);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1354, 250);
             this.groupBox3.TabIndex = 9;
@@ -958,6 +964,8 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 14F);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -970,7 +978,8 @@
             this.tàiKhoảnToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(353, 27);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1079, 40);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
+            this.menuStrip1.Size = new System.Drawing.Size(939, 44);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1001,7 +1010,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1396, 691);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

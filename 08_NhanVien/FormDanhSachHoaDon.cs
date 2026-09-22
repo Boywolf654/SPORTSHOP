@@ -15,6 +15,7 @@ namespace SPORTSHOP._06_BanHang
         private DateTimePicker dtpTuNgay;
         private DateTimePicker dtpDenNgay;
         private Button btnLocNgay;
+        private Button btnThoat;
 
         public FormDanhSachHoaDon() : this(0)
         {
@@ -25,14 +26,56 @@ namespace SPORTSHOP._06_BanHang
             InitializeComponent();
             maHDCanChon = maHD;
             CauHinhBoLocNgay();
-            CauHinhFullScreen();
+            CauHinhCuaSo();
+            CauHinhNutThoat();
         }
 
-        private void CauHinhFullScreen()
+        private void CauHinhCuaSo()
         {
-            WindowState = FormWindowState.Maximized;
-            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Normal;
+            FormBorderStyle = FormBorderStyle.Sizable;
             StartPosition = FormStartPosition.CenterScreen;
+            ClientSize = new Size(1400, 800);
+            MinimumSize = new Size(1100, 650);
+            MaximizeBox = true;
+            MinimizeBox = true;
+            ControlBox = true;
+            BackColor = Color.FromArgb(244, 247, 251);
+        }
+
+        private void CauHinhNutThoat()
+        {
+            btnThoat = new Button
+            {
+                Name = "btnThoat",
+                Text = "✕  THOÁT",
+                BackColor = Color.FromArgb(220, 30, 45),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold),
+                Size = new Size(112, 38),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
+                Cursor = Cursors.Hand
+            };
+
+            btnThoat.FlatAppearance.BorderSize = 0;
+            btnThoat.Location = new Point(
+                pnlHeader.ClientSize.Width - btnThoat.Width - 22,
+                31);
+
+            btnThoat.Click += (sender, e) => Close();
+            pnlHeader.Controls.Add(btnThoat);
+            btnThoat.BringToFront();
+
+            pnlHeader.Resize += (sender, e) =>
+            {
+                if (btnThoat != null)
+                {
+                    btnThoat.Left =
+                        pnlHeader.ClientSize.Width - btnThoat.Width - 22;
+                    btnThoat.Top = 31;
+                }
+            };
         }
 
         private void CauHinhBoLocNgay()
@@ -42,8 +85,7 @@ namespace SPORTSHOP._06_BanHang
                 AutoSize = true,
                 Text = "Từ ngày",
                 Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(62, 73, 89),
-                Location = new Point(760, 15)
+                ForeColor = Color.FromArgb(62, 73, 89)
             };
 
             dtpTuNgay = new DateTimePicker
@@ -51,7 +93,6 @@ namespace SPORTSHOP._06_BanHang
                 Format = DateTimePickerFormat.Custom,
                 CustomFormat = "dd/MM/yyyy",
                 Font = new Font("Segoe UI", 9F),
-                Location = new Point(760, 38),
                 Size = new Size(120, 25),
                 Value = DateTime.Today.AddDays(-30)
             };
@@ -61,8 +102,7 @@ namespace SPORTSHOP._06_BanHang
                 AutoSize = true,
                 Text = "Đến ngày",
                 Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(62, 73, 89),
-                Location = new Point(895, 15)
+                ForeColor = Color.FromArgb(62, 73, 89)
             };
 
             dtpDenNgay = new DateTimePicker
@@ -70,7 +110,6 @@ namespace SPORTSHOP._06_BanHang
                 Format = DateTimePickerFormat.Custom,
                 CustomFormat = "dd/MM/yyyy",
                 Font = new Font("Segoe UI", 9F),
-                Location = new Point(895, 38),
                 Size = new Size(120, 25),
                 Value = DateTime.Today
             };
@@ -78,14 +117,14 @@ namespace SPORTSHOP._06_BanHang
             btnLocNgay = new Button
             {
                 Text = "▣  Lọc ngày",
-                BackColor = Color.FromArgb(27, 120, 220),
+                BackColor = Color.FromArgb(220, 30, 45),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold),
-                Location = new Point(1030, 36),
                 Size = new Size(115, 30),
                 Cursor = Cursors.Hand
             };
+
             btnLocNgay.FlatAppearance.BorderSize = 0;
 
             pnlTools.Controls.Add(lblTuNgay);
@@ -93,10 +132,48 @@ namespace SPORTSHOP._06_BanHang
             pnlTools.Controls.Add(lblDenNgay);
             pnlTools.Controls.Add(dtpDenNgay);
             pnlTools.Controls.Add(btnLocNgay);
-            lblTuNgay.BringToFront(); dtpTuNgay.BringToFront();
-            lblDenNgay.BringToFront(); dtpDenNgay.BringToFront(); btnLocNgay.BringToFront();
+
+            pnlTools.Resize += (sender, e) => BoTriBoLocNgay();
+            BoTriBoLocNgay();
 
             btnLocNgay.Click += (sender, e) => LoadHoaDon();
+        }
+
+        private void BoTriBoLocNgay()
+        {
+            if (pnlTools == null || btnLocNgay == null)
+                return;
+
+            int right = pnlTools.ClientSize.Width - 22;
+
+            lblTongSo.AutoSize = true;
+            lblTongSo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            int tongWidth = TextRenderer.MeasureText(
+                lblTongSo.Text,
+                lblTongSo.Font).Width;
+
+            lblTongSo.Left = right - tongWidth;
+            lblTongSo.Top = 43;
+
+            right = lblTongSo.Left - 22;
+
+            btnLocNgay.Left = right - btnLocNgay.Width;
+            btnLocNgay.Top = 36;
+
+            right = btnLocNgay.Left - 18;
+
+            dtpDenNgay.Left = right - dtpDenNgay.Width;
+            dtpDenNgay.Top = 38;
+            lblDenNgay.Left = dtpDenNgay.Left;
+            lblDenNgay.Top = 15;
+
+            right = dtpDenNgay.Left - 18;
+
+            dtpTuNgay.Left = right - dtpTuNgay.Width;
+            dtpTuNgay.Top = 38;
+            lblTuNgay.Left = dtpTuNgay.Left;
+            lblTuNgay.Top = 15;
         }
 
         private void FormHoaDon_Load(object sender, EventArgs e)
@@ -136,7 +213,9 @@ namespace SPORTSHOP._06_BanHang
             dgvHoaDon.AutoSizeRowsMode =
                 DataGridViewAutoSizeRowsMode.None;
 
-            dgvHoaDon.RowTemplate.Height = 42;
+            dgvHoaDon.RowTemplate.Height = 44;
+            dgvHoaDon.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
             dgvHoaDon.Columns["colSTT"].DefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;

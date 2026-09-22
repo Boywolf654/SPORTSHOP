@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 namespace SPORTSHOP
 {
@@ -94,19 +94,19 @@ namespace SPORTSHOP
             this.dgvCanhBao.BackgroundColor = System.Drawing.Color.White;
             this.dgvCanhBao.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvCanhBao.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvCanhBao.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvCanhBao.ColumnHeadersHeight = 42;
+            this.dgvCanhBao.ColumnHeadersHeight = 35;
             this.dgvCanhBao.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
@@ -128,29 +128,30 @@ namespace SPORTSHOP
             // 
             // btnLamMoi
             // 
-            this.btnLamMoi.BackColor = System.Drawing.Color.White;
-            this.btnLamMoi.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(213)))), ((int)(((byte)(225)))));
+            this.btnLamMoi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
+            this.btnLamMoi.FlatAppearance.BorderSize = 0;
             this.btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLamMoi.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnLamMoi.Location = new System.Drawing.Point(310, 29);
+            this.btnLamMoi.ForeColor = System.Drawing.Color.White;
+            this.btnLamMoi.Location = new System.Drawing.Point(310, 26);
             this.btnLamMoi.Name = "btnLamMoi";
-            this.btnLamMoi.Size = new System.Drawing.Size(105, 34);
+            this.btnLamMoi.Size = new System.Drawing.Size(105, 36);
             this.btnLamMoi.TabIndex = 3;
-            this.btnLamMoi.Text = "LÀM MỚI";
+            this.btnLamMoi.Text = "🔄 LÀM MỚI";
             this.btnLamMoi.UseVisualStyleBackColor = false;
             // 
             // btnDieuChuyen
             // 
-            this.btnDieuChuyen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
+            this.btnDieuChuyen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
             this.btnDieuChuyen.FlatAppearance.BorderSize = 0;
             this.btnDieuChuyen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDieuChuyen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnDieuChuyen.ForeColor = System.Drawing.Color.White;
-            this.btnDieuChuyen.Location = new System.Drawing.Point(430, 29);
+            this.btnDieuChuyen.Location = new System.Drawing.Point(430, 26);
             this.btnDieuChuyen.Name = "btnDieuChuyen";
-            this.btnDieuChuyen.Size = new System.Drawing.Size(165, 34);
+            this.btnDieuChuyen.Size = new System.Drawing.Size(175, 36);
             this.btnDieuChuyen.TabIndex = 4;
-            this.btnDieuChuyen.Text = "ĐIỀU CHUYỂN KHO";
+            this.btnDieuChuyen.Text = "⚡ ĐIỀU CHUYỂN KHO";
             this.btnDieuChuyen.UseVisualStyleBackColor = false;
             // 
             // header

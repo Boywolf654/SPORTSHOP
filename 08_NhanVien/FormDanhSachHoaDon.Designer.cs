@@ -73,15 +73,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(244, 247, 251);
-            this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.MinimumSize = new System.Drawing.Size(1100, 620);
+            this.ClientSize = new System.Drawing.Size(1400, 800);
+            this.MinimumSize = new System.Drawing.Size(1100, 650);
             this.Name = "FormHoaDon";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPORTSHOP - Danh sách hóa đơn";
             this.Load += new System.EventHandler(this.FormHoaDon_Load);
 
             // Header
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(18, 35, 58);
+            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(18, 18, 18);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Height = 104;
             this.pnlHeader.Padding = new System.Windows.Forms.Padding(28, 18, 28, 12);
@@ -135,7 +135,7 @@
             this.btnLamMoi.Text = "↻  Làm mới";
             this.btnLamMoi.UseVisualStyleBackColor = false;
 
-            this.btnXemChiTiet.BackColor = System.Drawing.Color.FromArgb(27, 120, 220);
+            this.btnXemChiTiet.BackColor = System.Drawing.Color.FromArgb(220, 30, 45);
             this.btnXemChiTiet.FlatAppearance.BorderSize = 0;
             this.btnXemChiTiet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnXemChiTiet.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);

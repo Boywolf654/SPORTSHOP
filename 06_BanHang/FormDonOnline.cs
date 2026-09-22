@@ -28,6 +28,22 @@ namespace SPORTSHOP
 
         private void FormDonOnline_Load(object sender, EventArgs e)
         {
+            // Đơn online là nghiệp vụ bán hàng của nhân viên:
+            // bắt buộc phải có ca đang hoạt động.
+            if (Session.MaNV <= 0 || !QuanLyCa1.KiemTraCaDangLam())
+            {
+                MessageBox.Show(
+                    QuanLyCa1.ThongBaoChuaCoCa() +
+                    "\n\nHãy vào ca trước khi xử lý đơn online.",
+                    "CHƯA VÀO CA",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                DialogResult = DialogResult.Cancel;
+                Close();
+                return;
+            }
+
             TaoCotDanhSach();
             TaoCotChiTiet();
             LoadDonOnline();
@@ -228,6 +244,9 @@ ORDER BY sp.TenSP,s.TenSize";
                 return;
             }
 
+            if (!KiemTraKhachHangDangGiaoDich())
+                return;
+
             DialogResult confirm = MessageBox.Show(
                 "Xác nhận RA ĐƠN cho DO" + maDonOnlineDangChon.ToString("D4") + "?\n\n" +
                 "Nhân viên: NV" + Session.MaNV.ToString("D4") + "\n" +
@@ -277,6 +296,52 @@ ORDER BY sp.TenSP,s.TenSize";
         /// Tạo HoaDon + ChiTietHoaDon từ DonOnline đã thanh toán.
         /// Không trừ Ví ở đây vì khách đã thanh toán online trước đó.
         /// </summary>
+        private bool KiemTraKhachHangDangGiaoDich()
+        {
+            if (maDonOnlineDangChon <= 0)
+                return false;
+
+            try
+            {
+                object result = kt.ExecuteScalar(
+                    @"SELECT TOP 1 kh.TrangThai
+                      FROM DonOnline d
+                      INNER JOIN KhachHang kh ON kh.MaKH=d.MaKH
+                      WHERE d.MaDonOnline=@MaDonOnline",
+                    new SqlParameter[]
+                    {
+                        new SqlParameter("@MaDonOnline", maDonOnlineDangChon)
+                    });
+
+                bool dangGiaoDich =
+                    result == null ||
+                    result == DBNull.Value ||
+                    Convert.ToBoolean(result);
+
+                if (!dangGiaoDich)
+                {
+                    MessageBox.Show(
+                        "Khách hàng của đơn này đã ngừng giao dịch.\n\n" +
+                        "Không thể RA ĐƠN cho đến khi khách hàng được mở lại giao dịch.",
+                        "Không thể ra đơn",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể kiểm tra trạng thái khách hàng.\n\n" + ex.Message,
+                    "Không thể ra đơn",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
         private int TaoHoaDonTuDonOnline()
         {
             using (SqlConnection conn = kt.GetConnection())
@@ -317,6 +382,26 @@ WHERE MaDonOnline=@MaDonOnline", conn, tran))
 
                         DataRow d = don.Rows[0];
                         maKH = Convert.ToInt32(d["MaKH"]);
+
+                        // Kiểm tra lại trạng thái khách hàng ngay trong transaction.
+                        // Nếu khách vừa bị ngừng giao dịch sau khi form được mở,
+                        // hóa đơn vẫn không được tạo.
+                        using (SqlCommand cmd = new SqlCommand(
+                            @"SELECT TrangThai
+                              FROM KhachHang WITH (UPDLOCK, ROWLOCK)
+                              WHERE MaKH=@MaKH", conn, tran))
+                        {
+                            cmd.Parameters.AddWithValue("@MaKH", maKH);
+                            object trangThaiObj = cmd.ExecuteScalar();
+
+                            if (trangThaiObj == null || trangThaiObj == DBNull.Value)
+                                throw new Exception("Không tìm thấy khách hàng của đơn online.");
+
+                            if (!Convert.ToBoolean(trangThaiObj))
+                                throw new Exception(
+                                    "Khách hàng đã ngừng giao dịch. Không thể ra đơn.");
+                        }
+
                         tongTien = Convert.ToDecimal(d["TongTienHang"])
                                    - Convert.ToDecimal(d["TienGiam"])
                                    + Convert.ToDecimal(d["PhiVanChuyen"]);

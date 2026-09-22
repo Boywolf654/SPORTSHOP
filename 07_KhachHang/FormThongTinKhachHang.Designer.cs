@@ -115,7 +115,7 @@
             // =========================================================
             // pnlKhungChinh
             // =========================================================
-            this.pnlKhungChinh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.pnlKhungChinh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(12)))));
             this.pnlKhungChinh.BorderRadius = 0;
             this.pnlKhungChinh.Controls.Add(this.tab_dieuhuong);
             this.pnlKhungChinh.Controls.Add(this.pnlHeader);
@@ -128,7 +128,7 @@
             // =========================================================
             // pnlHeader
             // =========================================================
-            this.pnlHeader.BackColor = System.Drawing.Color.Transparent;
+            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(20)))));
             this.pnlHeader.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(236)))), ((int)(((byte)(241)))));
             this.pnlHeader.BorderRadius = 12;
             this.pnlHeader.BorderThickness = 1;
@@ -138,7 +138,7 @@
             this.pnlHeader.Controls.Add(this.lbTrangthai);
             this.pnlHeader.Controls.Add(this.btnNgunggiaodich);
             this.pnlHeader.Controls.Add(this.btnChinhsua);
-            this.pnlHeader.FillColor = System.Drawing.Color.White;
+            this.pnlHeader.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(20)))));
             this.pnlHeader.Location = new System.Drawing.Point(20, 20);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.ShadowDecoration.BorderRadius = 12;
@@ -263,10 +263,10 @@
             this.tab_dieuhuong.TabButtonIdleState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(115)))), ((int)(((byte)(125)))));
             this.tab_dieuhuong.TabButtonIdleState.InnerColor = System.Drawing.Color.White;
             this.tab_dieuhuong.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
-            this.tab_dieuhuong.TabButtonSelectedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(119)))), ((int)(((byte)(242)))));
+            this.tab_dieuhuong.TabButtonSelectedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
             this.tab_dieuhuong.TabButtonSelectedState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
             this.tab_dieuhuong.TabButtonSelectedState.ForeColor = System.Drawing.Color.White;
-            this.tab_dieuhuong.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(119)))), ((int)(((byte)(242)))));
+            this.tab_dieuhuong.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
             this.tab_dieuhuong.TabButtonSize = new System.Drawing.Size(200, 44);
             this.tab_dieuhuong.TabButtonTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tab_dieuhuong.TabIndex = 1;
@@ -276,7 +276,7 @@
             // =========================================================
             // TAB 1 - THÔNG TIN CHUNG
             // =========================================================
-            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.pnlDinhDanh);
             this.tabPage3.Controls.Add(this.pnlChonloaikhachhang);
@@ -314,7 +314,7 @@
             this.pnlDinhDanh.Controls.Add(this.label13);
             this.pnlDinhDanh.Controls.Add(this.label14);
             this.pnlDinhDanh.Controls.Add(this.label15);
-            this.pnlDinhDanh.FillColor = System.Drawing.Color.White;
+            this.pnlDinhDanh.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlDinhDanh.Location = new System.Drawing.Point(24, 56);
             this.pnlDinhDanh.Name = "pnlDinhDanh";
             this.pnlDinhDanh.Size = new System.Drawing.Size(620, 270);
@@ -454,7 +454,7 @@
             this.pnlChonloaikhachhang.Controls.Add(this.btn_canhan);
             this.pnlChonloaikhachhang.Controls.Add(this.btn_dntc);
             this.pnlChonloaikhachhang.Controls.Add(this.label3);
-            this.pnlChonloaikhachhang.FillColor = System.Drawing.Color.White;
+            this.pnlChonloaikhachhang.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlChonloaikhachhang.Location = new System.Drawing.Point(668, 56);
             this.pnlChonloaikhachhang.Name = "pnlChonloaikhachhang";
             this.pnlChonloaikhachhang.Size = new System.Drawing.Size(320, 270);
@@ -491,7 +491,7 @@
             this.btn_dntc.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btn_dntc.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btn_dntc.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btn_dntc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.btn_dntc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.btn_dntc.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F);
             this.btn_dntc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(115)))), ((int)(((byte)(125)))));
             this.btn_dntc.Location = new System.Drawing.Point(24, 116);
@@ -511,11 +511,11 @@
             this.label3.Text = "Áp dụng khi khách hàng là một cá nhân mua hàng trực tiếp.";
 
             // pnlGoiY
-            this.pnlGoiY.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(254)))));
+            this.pnlGoiY.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(35)))), ((int)(((byte)(45)))));
             this.pnlGoiY.BorderRadius = 10;
             this.pnlGoiY.BorderThickness = 1;
             this.pnlGoiY.Controls.Add(this.lbGoiY);
-            this.pnlGoiY.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(246)))), ((int)(((byte)(255)))));
+            this.pnlGoiY.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(20)))), ((int)(((byte)(24)))));
             this.pnlGoiY.Location = new System.Drawing.Point(24, 346);
             this.pnlGoiY.Name = "pnlGoiY";
             this.pnlGoiY.Size = new System.Drawing.Size(964, 58);
@@ -535,7 +535,7 @@
             // =========================================================
             // TAB 2 - ĐỊA CHỈ & LIÊN HỆ
             // =========================================================
-            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.tabPage4.Controls.Add(this.label16);
             this.tabPage4.Controls.Add(this.label17);
             this.tabPage4.Controls.Add(this.pnlLienHe);
@@ -578,7 +578,7 @@
             this.pnlLienHe.Controls.Add(this.label25);
             this.pnlLienHe.Controls.Add(this.label26);
             this.pnlLienHe.Controls.Add(this.label27);
-            this.pnlLienHe.FillColor = System.Drawing.Color.White;
+            this.pnlLienHe.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlLienHe.Location = new System.Drawing.Point(24, 82);
             this.pnlLienHe.Name = "pnlLienHe";
             this.pnlLienHe.Size = new System.Drawing.Size(964, 280);
@@ -692,7 +692,7 @@
             // =========================================================
             // TAB 3 - LỊCH SỬ MUA HÀNG
             // =========================================================
-            this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.tabPage5.Controls.Add(this.label28);
             this.tabPage5.Controls.Add(this.label29);
             this.tabPage5.Controls.Add(this.dataGridView1);
@@ -749,7 +749,7 @@
             this.dataGridView1.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = System.Drawing.Color.Empty;
             this.dataGridView1.ThemeStyle.BackColor = System.Drawing.Color.White;
             this.dataGridView1.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            this.dataGridView1.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.dataGridView1.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.dataGridView1.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView1.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F);
             this.dataGridView1.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(96)))), ((int)(((byte)(108)))));
@@ -766,7 +766,7 @@
             // =========================================================
             // TAB 4 - CÔNG NỢ & THANH TOÁN
             // =========================================================
-            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(17)))));
             this.tabPage6.Controls.Add(this.label30);
             this.tabPage6.Controls.Add(this.label31);
             this.tabPage6.Controls.Add(this.pnlHang);
@@ -805,7 +805,7 @@
             this.pnlHang.BorderThickness = 1;
             this.pnlHang.Controls.Add(this.label36);
             this.pnlHang.Controls.Add(this.label37);
-            this.pnlHang.FillColor = System.Drawing.Color.White;
+            this.pnlHang.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlHang.Location = new System.Drawing.Point(24, 84);
             this.pnlHang.Name = "pnlHang";
             this.pnlHang.Size = new System.Drawing.Size(306, 110);
@@ -837,7 +837,7 @@
             this.pnlDiem.BorderThickness = 1;
             this.pnlDiem.Controls.Add(this.label40);
             this.pnlDiem.Controls.Add(this.label41);
-            this.pnlDiem.FillColor = System.Drawing.Color.White;
+            this.pnlDiem.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlDiem.Location = new System.Drawing.Point(352, 84);
             this.pnlDiem.Name = "pnlDiem";
             this.pnlDiem.Size = new System.Drawing.Size(306, 110);
@@ -869,7 +869,7 @@
             this.pnlCongNo.BorderThickness = 1;
             this.pnlCongNo.Controls.Add(this.label38);
             this.pnlCongNo.Controls.Add(this.label39);
-            this.pnlCongNo.FillColor = System.Drawing.Color.White;
+            this.pnlCongNo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlCongNo.Location = new System.Drawing.Point(680, 84);
             this.pnlCongNo.Name = "pnlCongNo";
             this.pnlCongNo.Size = new System.Drawing.Size(308, 110);
@@ -903,7 +903,7 @@
             this.pnlThanhToan.Controls.Add(this.label33);
             this.pnlThanhToan.Controls.Add(this.label34);
             this.pnlThanhToan.Controls.Add(this.label35);
-            this.pnlThanhToan.FillColor = System.Drawing.Color.White;
+            this.pnlThanhToan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(31)))));
             this.pnlThanhToan.Location = new System.Drawing.Point(24, 214);
             this.pnlThanhToan.Name = "pnlThanhToan";
             this.pnlThanhToan.Size = new System.Drawing.Size(964, 150);
@@ -954,11 +954,11 @@
             // =========================================================
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(1060, 680);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(12)))));
+            this.ClientSize = new System.Drawing.Size(1280, 760);
             this.Controls.Add(this.pnlKhungChinh);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.MinimumSize = new System.Drawing.Size(1000, 640);
+            this.MinimumSize = new System.Drawing.Size(1100, 680);
             this.Name = "FormThongTinKhachHang";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SPORTSHOP - Thông tin khách hàng";

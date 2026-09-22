@@ -68,45 +68,68 @@ namespace SPORTSHOP._06_BanHang
         private void DecorFormChiTiet()
         {
             this.Text = "SPORTSHOP - Chi tiết sản phẩm";
-            this.BackColor = Color.FromArgb(245, 245, 247);
+            this.BackColor = Color.FromArgb(15, 17, 22);
             this.StartPosition = FormStartPosition.CenterParent;
 
-            panel1.BackColor = Color.White;
+            panel1.BackColor = Color.FromArgb(24, 27, 34);
             panel1.BorderStyle = BorderStyle.FixedSingle;
 
-            label1.ForeColor = Color.FromArgb(190, 20, 35);
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(225, 30, 45);
+            label1.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
 
             label2.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            label3.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label3.ForeColor = Color.FromArgb(220, 30, 45);
+            label2.ForeColor = Color.White;
 
-            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label6.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label7.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            label3.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label3.ForeColor = Color.FromArgb(235, 40, 55);
+
+            label4.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            label5.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            label6.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            label7.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+
+            label4.ForeColor = Color.FromArgb(205, 209, 216);
+            label5.ForeColor = Color.FromArgb(205, 209, 216);
+            label6.ForeColor = Color.FromArgb(205, 209, 216);
+            label7.ForeColor = Color.FromArgb(205, 209, 216);
 
             label8.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular);
-            label8.MaximumSize = new Size(980, 0);
+            label8.ForeColor = Color.FromArgb(190, 195, 204);
+            label8.MaximumSize = new Size(1060, 0);
 
-            comboBox1.Font = new Font("Segoe UI", 11F);
+            comboBox1.Font = new Font("Segoe UI", 10.5F);
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            button1.BackColor = Color.FromArgb(235, 235, 235);
-            button2.BackColor = Color.White;
-            button3.BackColor = Color.FromArgb(235, 235, 235);
+            button1.BackColor = Color.FromArgb(45, 48, 57);
+            button1.ForeColor = Color.White;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.FlatAppearance.BorderColor = Color.FromArgb(80, 83, 92);
+            button1.FlatAppearance.BorderSize = 1;
 
-            button4.BackColor = Color.FromArgb(35, 35, 35);
+            button2.BackColor = Color.FromArgb(38, 41, 49);
+            button2.ForeColor = Color.White;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.FlatAppearance.BorderColor = Color.FromArgb(70, 73, 82);
+            button2.FlatAppearance.BorderSize = 1;
+
+            button3.BackColor = Color.FromArgb(45, 48, 57);
+            button3.ForeColor = Color.White;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.FlatAppearance.BorderColor = Color.FromArgb(80, 83, 92);
+            button3.FlatAppearance.BorderSize = 1;
+
+            button4.BackColor = Color.FromArgb(45, 48, 57);
             button4.ForeColor = Color.White;
             button4.FlatStyle = FlatStyle.Flat;
-            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatAppearance.BorderColor = Color.FromArgb(80, 83, 92);
+            button4.FlatAppearance.BorderSize = 1;
 
             button5.BackColor = Color.FromArgb(220, 30, 45);
             button5.ForeColor = Color.White;
             button5.FlatStyle = FlatStyle.Flat;
             button5.FlatAppearance.BorderSize = 0;
 
-            pictureBox1.BackColor = Color.White;
+            pictureBox1.BackColor = Color.FromArgb(31, 34, 42);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
@@ -122,7 +145,7 @@ namespace SPORTSHOP._06_BanHang
             cboMauSac.Name = "cboMauSac";
             cboMauSac.Font = new Font("Segoe UI", 11F);
             cboMauSac.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboMauSac.Location = new Point(656, 334);
+            cboMauSac.Location = new Point(735, 345);
             cboMauSac.Size = new Size(180, 33);
             cboMauSac.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             cboMauSac.SelectedIndexChanged += cboMauSac_SelectedIndexChanged;
@@ -136,7 +159,7 @@ namespace SPORTSHOP._06_BanHang
             lblTonKho.AutoSize = true;
             lblTonKho.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblTonKho.ForeColor = Color.FromArgb(30, 150, 70);
-            lblTonKho.Location = new Point(535, 465);
+            lblTonKho.Location = new Point(610, 465);
             lblTonKho.Text = "Tồn kho: Đang tải...";
             panel1.Controls.Add(lblTonKho);
             lblTonKho.BringToFront();

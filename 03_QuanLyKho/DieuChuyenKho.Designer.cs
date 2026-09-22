@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
@@ -246,33 +246,33 @@ namespace SPORTSHOP
             // 
             // btnChuyen
             // 
-            this.btnChuyen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
+            this.btnChuyen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
             this.btnChuyen.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnChuyen.FlatAppearance.BorderSize = 0;
             this.btnChuyen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnChuyen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnChuyen.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btnChuyen.ForeColor = System.Drawing.Color.White;
-            this.btnChuyen.Location = new System.Drawing.Point(691, 19);
+            this.btnChuyen.Location = new System.Drawing.Point(680, 19);
             this.btnChuyen.Margin = new System.Windows.Forms.Padding(0, 0, 11, 0);
             this.btnChuyen.Name = "btnChuyen";
-            this.btnChuyen.Size = new System.Drawing.Size(217, 48);
+            this.btnChuyen.Size = new System.Drawing.Size(228, 48);
             this.btnChuyen.TabIndex = 1;
-            this.btnChuyen.Text = "XÁC NHẬN ĐIỀU CHUYỂN";
+            this.btnChuyen.Text = "⚡ XÁC NHẬN ĐIỀU CHUYỂN";
             this.btnChuyen.UseVisualStyleBackColor = false;
             // 
             // btnDong
             // 
-            this.btnDong.BackColor = System.Drawing.Color.White;
+            this.btnDong.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
             this.btnDong.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDong.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(213)))), ((int)(((byte)(225)))));
+            this.btnDong.FlatAppearance.BorderSize = 0;
             this.btnDong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDong.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnDong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
-            this.btnDong.Location = new System.Drawing.Point(577, 19);
+            this.btnDong.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btnDong.ForeColor = System.Drawing.Color.White;
+            this.btnDong.Location = new System.Drawing.Point(566, 19);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(114, 48);
             this.btnDong.TabIndex = 0;
-            this.btnDong.Text = "HỦY";
+            this.btnDong.Text = "❌ HỦY";
             this.btnDong.UseVisualStyleBackColor = false;
             // 
             // header

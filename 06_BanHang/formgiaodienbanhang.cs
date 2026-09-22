@@ -33,9 +33,186 @@ namespace SPORTSHOP
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.DoubleBuffered = true;
+            this.AutoScroll = true;
 
             // Panel tài khoản được tạo bằng code runtime để không làm hỏng Designer.
             TaoPanelTaiKhoan();
+
+            // Panel sản phẩm bổ sung: tạo runtime để không phải đập lại Designer cũ.
+            TaoPanelSanPhamThem();
+        }
+
+        // =========================================================
+        // PANEL SẢN PHẨM BỔ SUNG
+        // =========================================================
+
+        private Panel panelSanPhamThem;
+        private FlowLayoutPanel flowSanPhamThem;
+        private Label lblSanPhamThemTitle;
+        private Label lblSanPhamThemSub;
+
+        private void TaoPanelSanPhamThem()
+        {
+            panelSanPhamThem = new Panel
+            {
+                Name = "panelSanPhamThem",
+                BackColor = Color.FromArgb(28, 28, 31),
+                BorderStyle = BorderStyle.FixedSingle,
+                Left = 29,
+                Top = 715,
+                Width = Math.Max(700, ClientSize.Width - 58),
+                Height = 290,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+            };
+
+            lblSanPhamThemTitle = new Label
+            {
+                Text = "SẢN PHẨM GỢI Ý",
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+                ForeColor = Color.White,
+                Location = new Point(18, 14),
+                Size = new Size(300, 28)
+            };
+
+            lblSanPhamThemSub = new Label
+            {
+                Text = "Khám phá thêm sản phẩm đang có sẵn trong SPORTSHOP",
+                Font = new Font("Segoe UI", 8.5F),
+                ForeColor = Color.FromArgb(155, 155, 160),
+                Location = new Point(20, 43),
+                Size = new Size(500, 20)
+            };
+
+            flowSanPhamThem = new FlowLayoutPanel
+            {
+                Name = "flowSanPhamThem",
+                Location = new Point(16, 70),
+                Width = Math.Max(650, panelSanPhamThem.Width - 32),
+                Height = 205,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+                BackColor = Color.Transparent,
+                AutoScroll = true,
+                WrapContents = false,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(2)
+            };
+
+            panelSanPhamThem.Controls.Add(flowSanPhamThem);
+            panelSanPhamThem.Controls.Add(lblSanPhamThemSub);
+            panelSanPhamThem.Controls.Add(lblSanPhamThemTitle);
+
+            Controls.Add(panelSanPhamThem);
+            panelSanPhamThem.BringToFront();
+
+            Resize += (s, e) =>
+            {
+                if (panelSanPhamThem == null)
+                    return;
+
+                panelSanPhamThem.Width = Math.Max(700, ClientSize.Width - 58);
+                flowSanPhamThem.Width = Math.Max(650, panelSanPhamThem.ClientSize.Width - 32);
+            };
+        }
+
+        private void LoadSanPhamThem()
+        {
+            if (flowSanPhamThem == null)
+                return;
+
+            try
+            {
+                flowSanPhamThem.SuspendLayout();
+                flowSanPhamThem.Controls.Clear();
+
+                List<SanPhamDB> danhSach = LayDanhSachSanPhamThem();
+
+                foreach (SanPhamDB data in danhSach)
+                {
+                    Panel card = TaoCardSanPhamThem();
+                    GanDuLieuVaoCard(card, data);
+                    DecorCard(card);
+                    flowSanPhamThem.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                Label lbl = new Label
+                {
+                    Text = "Không thể tải sản phẩm gợi ý: " + ex.Message,
+                    ForeColor = Color.FromArgb(255, 100, 100),
+                    Font = new Font("Segoe UI", 9F),
+                    AutoSize = true,
+                    Padding = new Padding(8)
+                };
+                flowSanPhamThem.Controls.Add(lbl);
+            }
+            finally
+            {
+                flowSanPhamThem.ResumeLayout();
+            }
+        }
+
+        private List<SanPhamDB> LayDanhSachSanPhamThem()
+        {
+            string sql = @"
+                SELECT TOP 8
+                    sp.MaSP,
+                    sp.TenSP,
+                    ISNULL(th.TenThuongHieu, N'') AS TenThuongHieu,
+                    ISNULL(dm.TenDanhMuc, N'') AS TenDanhMuc,
+                    ISNULL(MIN(bt.GiaBan), 0) AS GiaBan,
+                    ISNULL(SUM(ISNULL(tk.SLTon, 0)), 0) AS SLTon
+                FROM SanPham sp
+                LEFT JOIN DanhMuc dm ON dm.MaDM = sp.MaDM
+                LEFT JOIN ThuongHieu th ON th.MaTH = sp.MaTH
+                LEFT JOIN BienTheSanPham bt ON bt.MaSP = sp.MaSP
+                LEFT JOIN TonKho tk ON tk.MaBienThe = bt.MaBienThe
+                WHERE sp.TrangThai = 1
+                GROUP BY sp.MaSP, sp.TenSP, th.TenThuongHieu, dm.TenDanhMuc
+                ORDER BY sp.MaSP DESC;";
+
+            DataTable dt = kt.GetData(sql);
+            List<SanPhamDB> result = new List<SanPhamDB>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                result.Add(new SanPhamDB
+                {
+                    MaSP = Convert.ToInt32(r["MaSP"]),
+                    TenSP = Convert.ToString(r["TenSP"]),
+                    ThuongHieu = Convert.ToString(r["TenThuongHieu"]),
+                    DanhMuc = Convert.ToString(r["TenDanhMuc"]),
+                    GiaBan = r["GiaBan"] == DBNull.Value ? 0 : Convert.ToDecimal(r["GiaBan"]),
+                    SLTon = r["SLTon"] == DBNull.Value ? 0 : Convert.ToInt32(r["SLTon"])
+                });
+            }
+
+            return result;
+        }
+
+        private Panel TaoCardSanPhamThem()
+        {
+            Panel card = new Panel
+            {
+                Width = 178,
+                Height = 190,
+                BackColor = Color.FromArgb(35, 35, 38),
+                Margin = new Padding(7),
+                Padding = new Padding(0)
+            };
+
+            PictureBox pic = new PictureBox
+            {
+                Name = "pictureBoxDB",
+                Location = new Point(4, 4),
+                Size = new Size(170, 92),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                BackColor = Color.White,
+                Cursor = Cursors.Hand
+            };
+
+            card.Controls.Add(pic);
+            return card;
         }
 
         // =========================================================
@@ -475,6 +652,7 @@ namespace SPORTSHOP
 
             GanSuKienDanhMuc();
             GanSuKienSanPham();
+            LoadSanPhamThem();
         }
 
         // =========================================================
@@ -797,39 +975,36 @@ namespace SPORTSHOP
         }
 
         private void GanClickCard(
-            Panel card,
-            int maSP,
-            string tenSP,
-            decimal gia,
-            decimal giaCu,
-            PictureBox pictureBox,
-            string thuongHieu,
-            string mauSac,
-            string moTa)
+    Panel card,
+    int maSP,
+    string tenSP,
+    decimal gia,
+    decimal giaCu,
+    PictureBox pictureBox,
+    string thuongHieu,
+    string mauSac,
+    string moTa)
         {
-            SanPhamTam sanPham =
-                new SanPhamTam
-                {
-                    MaSP = LayMaSPTheoTen(tenSP, maSP),
-                    TenSP = tenSP,
-                    Gia = gia,
-                    GiaCu = giaCu,
-                    Anh = LayAnhChinhTheoMaSP(
-                         LayMaSPTheoTen(tenSP, maSP),
-                         pictureBox.Image ?? pictureBox.BackgroundImage),
-                    ThuongHieu = thuongHieu,
-                    MauSac = mauSac,
-                    MoTa = moTa
-                };
+            SanPhamTam sanPham = new SanPhamTam
+            {
+                MaSP = maSP,
+                TenSP = tenSP,
+                Gia = gia,
+                GiaCu = giaCu,
+                Anh = LayAnhChinhTheoMaSP(
+                    maSP,
+                    pictureBox.Image ?? pictureBox.BackgroundImage),
+                ThuongHieu = thuongHieu,
+                MauSac = mauSac,
+                MoTa = moTa
+            };
 
             card.Tag = sanPham;
             card.Cursor = Cursors.Hand;
 
             card.Click += SanPham_Click;
 
-            GanClickControlCon(
-                card,
-                sanPham);
+            GanClickControlCon(card, sanPham);
         }
 
         private void GanClickControlCon(

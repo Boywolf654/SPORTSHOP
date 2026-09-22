@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
@@ -7,7 +6,6 @@ namespace SPORTSHOP
     public partial class FormMenuNV : Form
     {
         public bool YeuCauKhoaManHinh { get; private set; }
-
         public bool YeuCauDangXuat { get; private set; }
 
         public FormMenuNV()
@@ -19,143 +17,46 @@ namespace SPORTSHOP
             StartPosition = FormStartPosition.CenterScreen;
             TopMost = true;
 
-            // Giao diện menu đồng bộ theo phong cách SPORTSHOP:
-            // nền tối + viền đỏ + chữ trắng + hover nổi bật.
-            CauHinhGiaoDienMenu();
-
-            // Tự căn giữa cụm nút khi đổi kích thước màn hình.
-            Resize += FormMenuNV_Resize;
-
-            // Không cần nút HÓA ĐƠN riêng.
-            // Lịch sử hóa đơn sẽ quản lý toàn bộ hóa đơn.
             if (btn_hoadon != null)
-            {
                 btn_hoadon.Visible = false;
-            }
         }
 
-
-        // =========================================================
-        // GIAO DIỆN MENU SPORTSHOP
-        // =========================================================
-
-        private void CauHinhGiaoDienMenu()
+        private void FormMenuNV_Load(object sender, EventArgs e)
         {
-            Guna.UI2.WinForms.Guna2Button[] buttons =
-            {
-                btn_chuyenca,
-                btn_moket,
-                btn_khoamanhinh,
-                btn_dononline,
-                btn_chamcong,
-                btn_giaodich,
-                btn_tracuu,
-                btn_timSPP,
-                btn_dangxuat
-            };
+            // Chỉ cập nhật thông tin hiển thị trên menu, không thay đổi nghiệp vụ.
+            if (!string.IsNullOrWhiteSpace(Session.TenDangNhap))
+                lblSideUser.Text = Session.TenDangNhap;
+            else
+                lblSideUser.Text = "Nhân viên";
 
-            foreach (var btn in buttons)
-            {
-                if (btn == null) continue;
-
-                btn.Size = new Size(220, 88);
-                btn.BorderRadius = 16;
-                btn.BorderThickness = 2;
-                btn.BorderColor = Color.FromArgb(230, 35, 45);
-                btn.FillColor = Color.FromArgb(24, 24, 28);
-                btn.ForeColor = Color.White;
-                btn.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-                btn.TextAlign = HorizontalAlignment.Center;
-                btn.Cursor = Cursors.Hand;
-                btn.PressedColor = Color.FromArgb(170, 20, 28);
-
-                btn.HoverState.FillColor = Color.FromArgb(225, 35, 45);
-                btn.HoverState.ForeColor = Color.White;
-                btn.HoverState.BorderColor = Color.White;
-                btn.HoverState.CustomBorderColor = Color.White;
-            }
-
-            // Các nút có tính chất đặc biệt.
-            btn_dangxuat.FillColor = Color.FromArgb(75, 20, 24);
-            btn_dangxuat.BorderColor = Color.FromArgb(255, 70, 70);
-            btn_dangxuat.HoverState.FillColor = Color.FromArgb(210, 30, 40);
-
-            // Nút đóng menu: nhỏ, gọn, nổi bật ở góc phải.
-            btn_thoat.Size = new Size(68, 58);
-            btn_thoat.Location = new Point(
-                ClientSize.Width - btn_thoat.Width - 22, 20);
-            btn_thoat.BorderRadius = 16;
-            btn_thoat.BorderThickness = 1;
-            btn_thoat.BorderColor = Color.FromArgb(230, 35, 45);
-            btn_thoat.FillColor = Color.FromArgb(35, 35, 40);
-            btn_thoat.ForeColor = Color.White;
-            btn_thoat.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            btn_thoat.Cursor = Cursors.Hand;
-            btn_thoat.HoverState.FillColor = Color.FromArgb(225, 35, 45);
-            btn_thoat.HoverState.ForeColor = Color.White;
-
-            // Nút HÓA ĐƠN cũ không dùng.
-            btn_hoadon.Visible = false;
-
-            CanGiuaCacNut();
+            if (!string.IsNullOrWhiteSpace(Session.TenVaiTro))
+                lblSideRole.Text = Session.TenVaiTro.ToUpper();
+            else
+                lblSideRole.Text = "NHÂN VIÊN";
         }
 
-        private void FormMenuNV_Resize(object sender, EventArgs e)
+        private void btn_thongtinNV_Click(object sender, EventArgs e)
         {
-            CanGiuaCacNut();
-        }
-
-        private void CanGiuaCacNut()
-        {
-            if (btn_chuyenca == null) return;
-
-            Guna.UI2.WinForms.Guna2Button[] buttons =
+            if (Session.MaTK <= 0)
             {
-                btn_chuyenca,
-                btn_moket,
-                btn_khoamanhinh,
-                btn_dononline,
-                btn_chamcong,
-                btn_giaodich,
-                btn_tracuu,
-                btn_timSPP,
-                btn_dangxuat
-            };
-
-            const int columns = 3;
-            const int gapX = 24;
-            const int gapY = 22;
-            const int top = 155;
-
-            int totalWidth =
-                columns * 220 + (columns - 1) * gapX;
-
-            int startX =
-                Math.Max(20, (ClientSize.Width - totalWidth) / 2);
-
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                int row = i / columns;
-                int col = i % columns;
-
-                buttons[i].Location = new Point(
-                    startX + col * (220 + gapX),
-                    top + row * (88 + gapY)
-                );
+                MessageBox.Show(
+                    "Không xác định được tài khoản đang đăng nhập.",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
             }
 
-            if (btn_thoat != null)
+            using (FormThongTinNV frm = new FormThongTinNV(
+                Session.MaTK,
+                Session.TenDangNhap,
+                Session.TenVaiTro))
             {
-                btn_thoat.Location = new Point(
-                    Math.Max(10, ClientSize.Width - btn_thoat.Width - 22),
-                    20
-                );
+                frm.ShowDialog(this);
             }
         }
 
-        private void btn_chuyenca_Click(
-            object sender,
-            EventArgs e)
+        private void btn_chuyenca_Click(object sender, EventArgs e)
         {
             if (Session.MaNV <= 0)
             {
@@ -164,29 +65,21 @@ namespace SPORTSHOP
                     "SPORTSHOP",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
                 return;
             }
 
-            using (FormChuyenGiaoCa frm =
-                new FormChuyenGiaoCa())
+            using (FormChuyenGiaoCa frm = new FormChuyenGiaoCa())
             {
-                if (frm.ShowDialog(this) ==
-                    DialogResult.OK)
+                if (frm.ShowDialog(this) == DialogResult.OK)
                 {
                     YeuCauKhoaManHinh = true;
-
-                    DialogResult =
-                        DialogResult.OK;
-
+                    DialogResult = DialogResult.OK;
                     Close();
                 }
             }
         }
 
-        private void btn_moket_Click(
-            object sender,
-            EventArgs e)
+        private void btn_moket_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
                 "MỞ KÉT THÀNH CÔNG",
@@ -195,32 +88,73 @@ namespace SPORTSHOP
                 MessageBoxIcon.Information);
         }
 
-        private void btn_dononline_Click(
-            object sender,
-            EventArgs e)
+        private void btn_dononline_Click(object sender, EventArgs e)
         {
-            using (FormDonOnline frm =
-                new FormDonOnline())
+            if (!KiemTraVaYeuCauCa())
+                return;
+
+            using (FormDonOnline frm = new FormDonOnline())
             {
                 frm.ShowDialog(this);
             }
         }
 
-        private void btn_khoamanhinh_Click(
-            object sender,
-            EventArgs e)
+        private bool KiemTraVaYeuCauCa()
+        {
+            if (Session.MaNV <= 0)
+            {
+                MessageBox.Show(
+                    "Không xác định được nhân viên đang đăng nhập.",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!QuanLyCa1.KiemTraCaDangLam())
+            {
+                MessageBox.Show(
+                    QuanLyCa1.ThongBaoChuaCoCa() +
+                    "\n\nBạn phải vào ca trước khi thực hiện bán hàng/ra đơn.",
+                    "CHƯA VÀO CA",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool YeuCauChuyenCaNeuDangLam()
+        {
+            if (!QuanLyCa1.KiemTraCaDangLam())
+                return true;
+
+            DialogResult confirm = MessageBox.Show(
+                "Bạn đang trong ca làm việc.\n\n" +
+                "Muốn ra ca, bạn bắt buộc phải thực hiện CHUYỂN CA trước.\n\n" +
+                "Bạn có muốn mở chức năng Chuyển ca ngay không?",
+                "ĐANG TRONG CA",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return false;
+
+            using (FormChuyenGiaoCa frm = new FormChuyenGiaoCa())
+            {
+                return frm.ShowDialog(this) == DialogResult.OK;
+            }
+        }
+
+        private void btn_khoamanhinh_Click(object sender, EventArgs e)
         {
             YeuCauKhoaManHinh = true;
-
-            DialogResult =
-                DialogResult.OK;
-
+            DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void btn_chamcong_Click(
-            object sender,
-            EventArgs e)
+        private void btn_chamcong_Click(object sender, EventArgs e)
         {
             using (D frm = new D())
             {
@@ -228,79 +162,48 @@ namespace SPORTSHOP
             }
         }
 
-        // =========================================================
-        // LỊCH SỬ HÓA ĐƠN
-        // =========================================================
-
-        private void btn_giaodich_Click(
-            object sender,
-            EventArgs e)
+        private void btn_giaodich_Click(object sender, EventArgs e)
         {
-            using (
-                SPORTSHOP._06_BanHang.FormDanhSachHoaDon frm =
-                new SPORTSHOP._06_BanHang.FormDanhSachHoaDon())
+            using (SPORTSHOP._06_BanHang.FormDanhSachHoaDon frm =
+                   new SPORTSHOP._06_BanHang.FormDanhSachHoaDon())
             {
                 frm.ShowDialog(this);
             }
         }
 
-        // =========================================================
-        // HÓA ĐƠN - KHÔNG DÙNG NỮA
-        // =========================================================
-
-        private void btn_hoadon_Click(
-            object sender,
-            EventArgs e)
+        private void btn_hoadon_Click(object sender, EventArgs e)
         {
-            // Không làm gì.
-            // Nút đã được ẩn trong constructor.
+            // Nút legacy đang được ẩn.
         }
 
-        // =========================================================
-        // ĐĂNG XUẤT
-        // =========================================================
-
-        private void btn_dangxuat_Click(
-            object sender,
-            EventArgs e)
+        private void btn_dangxuat_Click(object sender, EventArgs e)
         {
-            DialogResult confirm =
-                MessageBox.Show(
-                    "Bạn có chắc chắn muốn đăng xuất " +
-                    "tài khoản nhân viên hiện tại không?",
-                    "ĐĂNG XUẤT",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+            DialogResult confirm = MessageBox.Show(
+                "Bạn có chắc chắn muốn đăng xuất tài khoản nhân viên hiện tại không?",
+                "ĐĂNG XUẤT",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (confirm != DialogResult.Yes)
                 return;
 
+            // Không cho thoát tài khoản khi vẫn còn ca đang hoạt động.
+            if (!YeuCauChuyenCaNeuDangLam())
+                return;
+
             YeuCauDangXuat = true;
-
-            DialogResult =
-                DialogResult.OK;
-
+            DialogResult = DialogResult.OK;
             Close();
         }
 
-        // =========================================================
-        // ĐÓNG MENU
-        // =========================================================
-
-        private void btn_thoat_Click(
-            object sender,
-            EventArgs e)
+        private void btn_thoat_Click(object sender, EventArgs e)
         {
-            DialogResult =
-                DialogResult.Cancel;
+            // Nút X cũng phải tuân thủ quy trình ra ca.
+            if (!YeuCauChuyenCaNeuDangLam())
+                return;
 
+            DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private void FormMenuNV_Load(
-            object sender,
-            EventArgs e)
-        {
         }
     }
 }

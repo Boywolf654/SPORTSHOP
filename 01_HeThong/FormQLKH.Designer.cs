@@ -1,4 +1,4 @@
-﻿namespace SPORTSHOP
+namespace SPORTSHOP
 {
     partial class FormKhachHang
     {
@@ -64,37 +64,41 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.txt_timkiem);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1523, 131);
+            this.panel1.Size = new System.Drawing.Size(1523, 70);
             this.panel1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.Gold;
             this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label1.Location = new System.Drawing.Point(45, 33);
+            this.label1.Location = new System.Drawing.Point(25, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(653, 64);
+            this.label1.Size = new System.Drawing.Size(395, 41);
             this.label1.TabIndex = 0;
-            this.label1.Text = "QUẢN LÍ KHÁCH HÀNG";
+            this.label1.Text = "👥 QUẢN LÝ KHÁCH HÀNG";
             // 
             // txt_timkiem
             // 
-            this.txt_timkiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_timkiem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_timkiem.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.txt_timkiem.ForeColor = System.Drawing.Color.Gray;
-            this.txt_timkiem.Location = new System.Drawing.Point(866, 46);
+            this.txt_timkiem.Location = new System.Drawing.Point(1100, 18);
             this.txt_timkiem.Name = "txt_timkiem";
-            this.txt_timkiem.Size = new System.Drawing.Size(446, 39);
+            this.txt_timkiem.Size = new System.Drawing.Size(390, 32);
             this.txt_timkiem.TabIndex = 5;
-            this.txt_timkiem.Text = "Tìm Kiếm...";
+            this.txt_timkiem.Text = "Tìm kiếm khách hàng...";
             // 
             // panel2
             // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel2.Controls.Add(this.btn_lmoi);
             this.panel2.Controls.Add(this.btn_xoa);
             this.panel2.Controls.Add(this.btn_sua);
@@ -117,142 +121,149 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 131);
+            this.panel2.Location = new System.Drawing.Point(0, 70);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1523, 714);
+            this.panel2.Size = new System.Drawing.Size(1523, 775);
             this.panel2.TabIndex = 1;
             // 
             // btn_lmoi
             // 
-            this.btn_lmoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_lmoi.Image = ((System.Drawing.Image)(resources.GetObject("btn_lmoi.Image")));
-            this.btn_lmoi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_lmoi.Location = new System.Drawing.Point(1191, 344);
+            this.btn_lmoi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
+            this.btn_lmoi.FlatAppearance.BorderSize = 0;
+            this.btn_lmoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_lmoi.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_lmoi.ForeColor = System.Drawing.Color.White;
+            this.btn_lmoi.Location = new System.Drawing.Point(620, 205);
             this.btn_lmoi.Name = "btn_lmoi";
-            this.btn_lmoi.Size = new System.Drawing.Size(190, 56);
+            this.btn_lmoi.Size = new System.Drawing.Size(150, 42);
             this.btn_lmoi.TabIndex = 11;
-            this.btn_lmoi.Text = "Làm Mới";
-            this.btn_lmoi.UseVisualStyleBackColor = true;
+            this.btn_lmoi.Text = "🔄 Làm Mới";
+            this.btn_lmoi.UseVisualStyleBackColor = false;
             // 
             // btn_xoa
             // 
-            this.btn_xoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_xoa.Image = ((System.Drawing.Image)(resources.GetObject("btn_xoa.Image")));
-            this.btn_xoa.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_xoa.Location = new System.Drawing.Point(866, 344);
+            this.btn_xoa.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.btn_xoa.FlatAppearance.BorderSize = 0;
+            this.btn_xoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_xoa.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_xoa.ForeColor = System.Drawing.Color.White;
+            this.btn_xoa.Location = new System.Drawing.Point(450, 205);
             this.btn_xoa.Name = "btn_xoa";
-            this.btn_xoa.Size = new System.Drawing.Size(154, 65);
+            this.btn_xoa.Size = new System.Drawing.Size(150, 42);
             this.btn_xoa.TabIndex = 11;
-            this.btn_xoa.Text = "Xoá";
-            this.btn_xoa.UseVisualStyleBackColor = true;
+            this.btn_xoa.Text = "🗑️ Xóa";
+            this.btn_xoa.UseVisualStyleBackColor = false;
             // 
             // btn_sua
             // 
-            this.btn_sua.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_sua.Image = ((System.Drawing.Image)(resources.GetObject("btn_sua.Image")));
-            this.btn_sua.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_sua.Location = new System.Drawing.Point(486, 344);
+            this.btn_sua.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
+            this.btn_sua.FlatAppearance.BorderSize = 0;
+            this.btn_sua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_sua.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_sua.ForeColor = System.Drawing.Color.White;
+            this.btn_sua.Location = new System.Drawing.Point(280, 205);
             this.btn_sua.Name = "btn_sua";
-            this.btn_sua.Size = new System.Drawing.Size(157, 65);
+            this.btn_sua.Size = new System.Drawing.Size(150, 42);
             this.btn_sua.TabIndex = 11;
-            this.btn_sua.Text = "Sửa";
-            this.btn_sua.UseVisualStyleBackColor = true;
+            this.btn_sua.Text = "✏️ Sửa";
+            this.btn_sua.UseVisualStyleBackColor = false;
             // 
             // btn_them
             // 
-            this.btn_them.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_them.Image = ((System.Drawing.Image)(resources.GetObject("btn_them.Image")));
-            this.btn_them.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_them.Location = new System.Drawing.Point(140, 344);
+            this.btn_them.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btn_them.FlatAppearance.BorderSize = 0;
+            this.btn_them.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_them.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_them.ForeColor = System.Drawing.Color.White;
+            this.btn_them.Location = new System.Drawing.Point(110, 205);
             this.btn_them.Name = "btn_them";
-            this.btn_them.Size = new System.Drawing.Size(162, 56);
+            this.btn_them.Size = new System.Drawing.Size(150, 42);
             this.btn_them.TabIndex = 11;
-            this.btn_them.Text = "Thêm";
-            this.btn_them.UseVisualStyleBackColor = true;
+            this.btn_them.Text = "➕ Thêm Mới";
+            this.btn_them.UseVisualStyleBackColor = false;
             // 
             // txt_diem
             // 
-            this.txt_diem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_diem.Location = new System.Drawing.Point(1012, 147);
+            this.txt_diem.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_diem.Location = new System.Drawing.Point(900, 105);
             this.txt_diem.Name = "txt_diem";
-            this.txt_diem.Size = new System.Drawing.Size(300, 35);
+            this.txt_diem.Size = new System.Drawing.Size(240, 31);
             this.txt_diem.TabIndex = 10;
             this.txt_diem.TextChanged += new System.EventHandler(this.txt_diem_TextChanged);
             // 
             // txt_email
             // 
-            this.txt_email.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_email.Location = new System.Drawing.Point(1012, 79);
+            this.txt_email.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_email.Location = new System.Drawing.Point(900, 60);
             this.txt_email.Name = "txt_email";
-            this.txt_email.Size = new System.Drawing.Size(300, 35);
+            this.txt_email.Size = new System.Drawing.Size(240, 31);
             this.txt_email.TabIndex = 9;
             this.txt_email.TextChanged += new System.EventHandler(this.txt_email_TextChanged);
             // 
             // txt_hoten
             // 
-            this.txt_hoten.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_hoten.Location = new System.Drawing.Point(1012, 16);
+            this.txt_hoten.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_hoten.Location = new System.Drawing.Point(900, 15);
             this.txt_hoten.Name = "txt_hoten";
-            this.txt_hoten.Size = new System.Drawing.Size(300, 35);
+            this.txt_hoten.Size = new System.Drawing.Size(240, 31);
             this.txt_hoten.TabIndex = 8;
             this.txt_hoten.TextChanged += new System.EventHandler(this.txt_hoten_TextChanged);
             // 
             // txt_mk
             // 
-            this.txt_mk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_mk.Location = new System.Drawing.Point(347, 150);
+            this.txt_mk.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_mk.Location = new System.Drawing.Point(230, 105);
             this.txt_mk.Name = "txt_mk";
-            this.txt_mk.Size = new System.Drawing.Size(296, 35);
+            this.txt_mk.Size = new System.Drawing.Size(240, 31);
             this.txt_mk.TabIndex = 7;
             this.txt_mk.TextChanged += new System.EventHandler(this.txt_mk_TextChanged);
             // 
             // txt_sdt
             // 
-            this.txt_sdt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_sdt.Location = new System.Drawing.Point(347, 79);
+            this.txt_sdt.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_sdt.Location = new System.Drawing.Point(230, 60);
             this.txt_sdt.Name = "txt_sdt";
-            this.txt_sdt.Size = new System.Drawing.Size(296, 35);
+            this.txt_sdt.Size = new System.Drawing.Size(240, 31);
             this.txt_sdt.TabIndex = 6;
             this.txt_sdt.TextChanged += new System.EventHandler(this.txt_sdt_TextChanged);
             // 
             // txt_mkh
             // 
-            this.txt_mkh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_mkh.Location = new System.Drawing.Point(347, 16);
+            this.txt_mkh.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_mkh.Location = new System.Drawing.Point(230, 15);
             this.txt_mkh.Name = "txt_mkh";
-            this.txt_mkh.Size = new System.Drawing.Size(296, 35);
+            this.txt_mkh.Size = new System.Drawing.Size(240, 31);
             this.txt_mkh.TabIndex = 5;
             this.txt_mkh.TextChanged += new System.EventHandler(this.txt_mkh_TextChanged);
             // 
             // txt_makh
             // 
+            this.txt_makh.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_makh.BackgroundColor = System.Drawing.Color.White;
+            this.txt_makh.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.txt_makh.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.txt_makh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.txt_makh.ColumnHeadersHeight = 40;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(40)))), ((int)(((byte)(55)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(235)))), ((int)(((byte)(252)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.txt_makh.DefaultCellStyle = dataGridViewCellStyle5;
-            this.txt_makh.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txt_makh.Location = new System.Drawing.Point(0, 450);
+            this.txt_makh.EnableHeadersVisualStyles = false;
+            this.txt_makh.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(242)))));
+            this.txt_makh.Location = new System.Drawing.Point(20, 270);
             this.txt_makh.Name = "txt_makh";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.txt_makh.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.txt_makh.RowHeadersWidth = 62;
             this.txt_makh.RowTemplate.Height = 28;

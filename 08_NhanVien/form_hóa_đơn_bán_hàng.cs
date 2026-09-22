@@ -20,6 +20,8 @@ namespace SPORTSHOP
         private decimal giamGia = 0;
         private decimal tongThanhToan = 0;
 
+        private Button btn_ThoatTrang;
+
         public form_hóa_đơn_bán_hàng()
         {
             InitializeComponent();
@@ -42,6 +44,8 @@ namespace SPORTSHOP
             this.StartPosition = FormStartPosition.CenterScreen;
 
             cmb_PhuongThuc.SelectedIndex = 0;
+            TaoThanhTieuDe();
+            CauHinhGiaoDienTheoMenu();
 
             dgv_ChiTietHoaDon.CellContentClick += dgv_ChiTietHoaDon_CellContentClick;
             btn_TimKhachHang.Click += btn_TimKhachHang_Click;
@@ -54,6 +58,115 @@ namespace SPORTSHOP
             btn_menu.Click += btn_menu_Click;
             btn_Voucher.Click += btn_Voucher_Click;
             cmb_PhuongThuc.SelectedIndexChanged += cmb_PhuongThuc_SelectedIndexChanged;
+        }
+
+        private void TaoThanhTieuDe()
+        {
+            // Nút thoát đồng bộ với phong cách menu, đặt cạnh nút MENU.
+            btn_ThoatTrang = new Button
+            {
+                Name = "btn_ThoatTrang",
+                Text = "✕  THOÁT",
+                BackColor = Color.FromArgb(220, 30, 45),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold),
+                Size = new Size(112, 40),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
+                Cursor = Cursors.Hand
+            };
+
+            btn_ThoatTrang.FlatAppearance.BorderSize = 0;
+            btn_ThoatTrang.Click += (sender, e) => Close();
+
+            Controls.Add(btn_ThoatTrang);
+            btn_ThoatTrang.BringToFront();
+
+            btn_menu.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            Resize += (sender, e) => BoTriNutGocPhai();
+            BoTriNutGocPhai();
+        }
+
+        private void BoTriNutGocPhai()
+        {
+            if (btn_ThoatTrang == null)
+                return;
+
+            btn_menu.Left = ClientSize.Width - btn_menu.Width - 24;
+            btn_menu.Top = 5;
+
+            btn_ThoatTrang.Left =
+                btn_menu.Left - btn_ThoatTrang.Width - 8;
+            btn_ThoatTrang.Top = 12;
+        }
+
+        private void CauHinhGiaoDienTheoMenu()
+        {
+            BackColor = Color.FromArgb(10, 10, 12);
+
+            Color panelColor = Color.FromArgb(28, 28, 31);
+            Color inputColor = Color.FromArgb(22, 22, 25);
+            Color red = Color.FromArgb(220, 30, 45);
+
+            pnl_ThongTin.BackColor = panelColor;
+            pnl_ChiTietHoaDon.BackColor = panelColor;
+            pnl_ghichu.BackColor = panelColor;
+            pnl_TongTien.BackColor = panelColor;
+
+            foreach (Control parent in new Control[]
+            {
+                pnl_ThongTin,
+                pnl_ChiTietHoaDon,
+                pnl_ghichu,
+                pnl_TongTien
+            })
+            {
+                foreach (Control child in parent.Controls)
+                {
+                    if (child is TextBox)
+                    {
+                        TextBox tb = (TextBox)child;
+                        tb.BackColor = inputColor;
+                        tb.ForeColor = Color.White;
+                    }
+                    else if (child is RichTextBox)
+                    {
+                        RichTextBox rt = (RichTextBox)child;
+                        rt.BackColor = inputColor;
+                        rt.ForeColor = Color.White;
+                    }
+                    else if (child is Label)
+                    {
+                        child.ForeColor = Color.White;
+                    }
+                }
+            }
+
+            lb_TieuDe.ForeColor = Color.White;
+            lb_TieuDe.Font = new Font("Segoe UI", 23F, FontStyle.Bold);
+
+            CauHinhNut(ref btn_TaoHoaDon, red);
+            CauHinhNut(ref btn_ThanhToan, red);
+            CauHinhNut(ref btn_InHoaDon, Color.FromArgb(55, 55, 60));
+
+            btn_menu.BackColor = Color.FromArgb(35, 35, 38);
+            btn_menu.FlatStyle = FlatStyle.Flat;
+            btn_menu.FlatAppearance.BorderSize = 0;
+            btn_menu.ForeColor = Color.White;
+            btn_menu.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btn_menu.Text = "☰  MENU";
+            btn_menu.Cursor = Cursors.Hand;
+        }
+
+        private void CauHinhNut(ref Button button, Color backColor)
+        {
+            button.BackColor = backColor;
+            button.ForeColor = Color.White;
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            button.Cursor = Cursors.Hand;
         }
 
         private void form_hóa_đơn_bán_hàng_Load(object sender, EventArgs e)
