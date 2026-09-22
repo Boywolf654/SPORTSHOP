@@ -89,45 +89,23 @@ namespace SPORTSHOP
         private void CauHinhDgv()
         {
             dgv_QLTK.AutoGenerateColumns = true;
+
             dgv_QLTK.AllowUserToAddRows = false;
             dgv_QLTK.AllowUserToDeleteRows = false;
+
             dgv_QLTK.ReadOnly = true;
-            dgv_QLTK.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dgv_QLTK.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
             dgv_QLTK.MultiSelect = false;
+
             dgv_QLTK.RowHeadersVisible = false;
-            dgv_QLTK.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgv_QLTK.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
             dgv_QLTK.Cursor = Cursors.Hand;
-
-            // Header rõ ràng, không bị tụt/ẩn chữ
-            dgv_QLTK.ColumnHeadersVisible = true;
-            dgv_QLTK.ColumnHeadersHeightSizeMode =
-                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgv_QLTK.ColumnHeadersHeight = 42;
-
-            dgv_QLTK.EnableHeadersVisualStyles = false;
-            dgv_QLTK.ColumnHeadersDefaultCellStyle.BackColor =
-                System.Drawing.Color.FromArgb(34, 87, 122);
-            dgv_QLTK.ColumnHeadersDefaultCellStyle.ForeColor =
-                System.Drawing.Color.White;
-            dgv_QLTK.ColumnHeadersDefaultCellStyle.Font =
-                new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            dgv_QLTK.ColumnHeadersDefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-            dgv_QLTK.ColumnHeadersDefaultCellStyle.Padding =
-                new Padding(0);
-
-            dgv_QLTK.DefaultCellStyle.Font =
-                new System.Drawing.Font("Segoe UI", 9F);
-            dgv_QLTK.DefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleLeft;
-            dgv_QLTK.DefaultCellStyle.SelectionBackColor =
-                System.Drawing.Color.FromArgb(221, 235, 247);
-            dgv_QLTK.DefaultCellStyle.SelectionForeColor =
-                System.Drawing.Color.FromArgb(25, 45, 60);
-            dgv_QLTK.RowTemplate.Height = 34;
-
-            dgv_QLTK.AlternatingRowsDefaultCellStyle.BackColor =
-                System.Drawing.Color.FromArgb(248, 250, 252);
         }
 
         // =========================================================
@@ -181,7 +159,6 @@ namespace SPORTSHOP
                     kt.GetData(sql, parameters);
 
                 dgv_QLTK.DataSource = dt;
-                CauHinhDgv();
 
                 // ==========================
                 // ĐỔI TÊN CỘT
@@ -229,40 +206,6 @@ namespace SPORTSHOP
                     dgv_QLTK.Columns["SoLanSaiMatKhau"]
                         .DefaultCellStyle.Alignment =
                         DataGridViewContentAlignment.MiddleCenter;
-                }
-
-                if (dgv_QLTK.Columns.Contains("MaTK"))
-                    dgv_QLTK.Columns["MaTK"].FillWeight = 55;
-                if (dgv_QLTK.Columns.Contains("TenDangNhap"))
-                    dgv_QLTK.Columns["TenDangNhap"].FillWeight = 130;
-                if (dgv_QLTK.Columns.Contains("TenVaiTro"))
-                    dgv_QLTK.Columns["TenVaiTro"].FillWeight = 100;
-                if (dgv_QLTK.Columns.Contains("TrangThai"))
-                    dgv_QLTK.Columns["TrangThai"].FillWeight = 105;
-                if (dgv_QLTK.Columns.Contains("SoLanSaiMatKhau"))
-                    dgv_QLTK.Columns["SoLanSaiMatKhau"].FillWeight = 75;
-                if (dgv_QLTK.Columns.Contains("LanDangNhapCuoi"))
-                    dgv_QLTK.Columns["LanDangNhapCuoi"].FillWeight = 145;
-
-                if (dgv_QLTK.Columns.Contains("TrangThai"))
-                {
-                    foreach (DataGridViewRow r in dgv_QLTK.Rows)
-                    {
-                        if (r.Cells["TrangThai"].Value?.ToString() == "Đã khóa")
-                        {
-                            r.Cells["TrangThai"].Style.ForeColor =
-                                System.Drawing.Color.FromArgb(200, 55, 55);
-                            r.Cells["TrangThai"].Style.Font =
-                                new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-                        }
-                        else
-                        {
-                            r.Cells["TrangThai"].Style.ForeColor =
-                                System.Drawing.Color.FromArgb(35, 150, 95);
-                            r.Cells["TrangThai"].Style.Font =
-                                new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-                        }
-                    }
                 }
             }
             catch (Exception ex)
@@ -392,7 +335,6 @@ namespace SPORTSHOP
 
                     if (resultForm == DialogResult.OK)
                     {
-                        TaoNhanVienNeuChuaCo(maTK.Value);
                         LoadDanhSachTaiKhoan();
                     }
                 }
@@ -660,71 +602,5 @@ namespace SPORTSHOP
             Close();
         }
 
-        private void TaoNhanVienNeuChuaCo(int maTK)
-        {
-            try
-            {
-                string sql = @"
-            IF EXISTS
-            (
-                SELECT 1
-                FROM TaiKhoan
-                WHERE MaTK = @MaTK
-                  AND MaVaiTro IN (@NV_BAN_HANG, @NV_KHO)
-            )
-            AND NOT EXISTS
-            (
-                SELECT 1
-                FROM NhanVien
-                WHERE MaTK = @MaTK
-            )
-            BEGIN
-
-                INSERT INTO NhanVien
-                (
-                    HoTen,
-                    ChucVu,
-                    TrangThai,
-                    MaTK
-                )
-                SELECT
-                    TenDangNhap,
-                    vt.TenVaiTro,
-                    1,
-                    tk.MaTK
-                FROM TaiKhoan tk
-                INNER JOIN VaiTro vt
-                    ON tk.MaVaiTro = vt.MaVaiTro
-                WHERE tk.MaTK = @MaTK;
-
-            END";
-
-
-                SqlParameter[] parameters =
-                {
-            new SqlParameter("@MaTK", maTK),
-
-            new SqlParameter(
-                "@NV_BAN_HANG",
-                PhanQuyen.NV_BAN_HANG),
-
-            new SqlParameter(
-                "@NV_KHO",
-                PhanQuyen.NV_KHO)
-        };
-
-
-                kt.Execute(sql, parameters);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Không thể tự tạo hồ sơ nhân viên!\n\n"
-                    + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
     }
 }
