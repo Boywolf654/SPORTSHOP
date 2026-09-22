@@ -485,29 +485,29 @@
     <Compile Include="08_NhanVien\FormThanhToan.Designer.cs">
       <DependentUpon>FormThanhToan.cs</DependentUpon>
     </Compile>
-    <Compile Include="CanhBaoKho.cs">
+    <Compile Include="03_QuanLyKho\CanhBaoKho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CanhBaoKho.Designer.cs">
+    <Compile Include="03_QuanLyKho\CanhBaoKho.Designer.cs">
       <DependentUpon>CanhBaoKho.cs</DependentUpon>
     </Compile>
-    <Compile Include="DieuChuyenKho.cs">
+    <Compile Include="03_QuanLyKho\DieuChuyenKho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DieuChuyenKho.Designer.cs">
+    <Compile Include="03_QuanLyKho\DieuChuyenKho.Designer.cs">
       <DependentUpon>DieuChuyenKho.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLichSuGiaoDichKhachHang.cs">
+    <Compile Include="07_KhachHang\FormLichSuGiaoDichKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLichSuGiaoDichKhachHang.Designer.cs">
+    <Compile Include="07_KhachHang\FormLichSuGiaoDichKhachHang.Designer.cs">
       <DependentUpon>FormLichSuGiaoDichKhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="KhoService.cs" />
-    <Compile Include="PhieuXuatKho.cs">
+    <Compile Include="00_Core\KhoService.cs" />
+    <Compile Include="03_QuanLyKho\PhieuXuatKho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhieuXuatKho.Designer.cs">
+    <Compile Include="03_QuanLyKho\PhieuXuatKho.Designer.cs">
       <DependentUpon>PhieuXuatKho.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -715,16 +715,16 @@
     <EmbeddedResource Include="08_NhanVien\FormThanhToan.resx">
       <DependentUpon>FormThanhToan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CanhBaoKho.resx">
+    <EmbeddedResource Include="03_QuanLyKho\CanhBaoKho.resx">
       <DependentUpon>CanhBaoKho.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DieuChuyenKho.resx">
+    <EmbeddedResource Include="03_QuanLyKho\DieuChuyenKho.resx">
       <DependentUpon>DieuChuyenKho.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormLichSuGiaoDichKhachHang.resx">
+    <EmbeddedResource Include="07_KhachHang\FormLichSuGiaoDichKhachHang.resx">
       <DependentUpon>FormLichSuGiaoDichKhachHang.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhieuXuatKho.resx">
+    <EmbeddedResource Include="03_QuanLyKho\PhieuXuatKho.resx">
       <DependentUpon>PhieuXuatKho.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

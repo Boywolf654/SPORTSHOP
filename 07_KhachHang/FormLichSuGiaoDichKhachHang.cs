@@ -68,33 +68,74 @@ namespace SPORTSHOP
                 }
 
                 /*
-                 * QUAN TRỌNG:
-                 * Không có ô chọn MaKH và không nhận MaKH từ người dùng.
-                 * Luôn lọc trực tiếp theo Session.MaTK.
-                 * Vì vậy khách chỉ nhìn được hóa đơn thuộc chính tài khoản của mình.
+                 * Lấy 2 loại giao dịch:
+                 * 1. Hóa đơn đã được tạo trong HoaDon.
+                 * 2. Đơn online vẫn đang chờ xử lý / thanh toán và chưa tạo HoaDon.
+                 *
+                 * Luôn lọc theo Session.MaTK để khách chỉ thấy dữ liệu của mình.
                  */
                 string sql = @"
+-- =========================================================
+-- 1. HÓA ĐƠN ĐÃ TẠO
+-- =========================================================
 SELECT
     hd.MaHD,
     hd.MaDonOnline,
-    hd.NgayLap,
+    hd.NgayLap AS ThoiGian,
     hd.TongTien,
     ISNULL(hd.TrangThaiDonHang, N'Hoàn thành') AS TrangThaiDonHang,
-    ISNULL(tt.PhuongThucThanhToan, N'—') AS PhuongThucThanhToan
+    ISNULL(tt.PhuongThuc, N'—') AS PhuongThucThanhToan,
+    N'HD' AS LoaiMa
 FROM dbo.HoaDon hd
 INNER JOIN dbo.KhachHang kh
     ON kh.MaKH = hd.MaKH
 OUTER APPLY
 (
     SELECT TOP 1
-        t.PhuongThucThanhToan,
+        t.PhuongThuc,
         t.TrangThai
     FROM dbo.ThanhToan t
     WHERE t.MaHD = hd.MaHD
-    ORDER BY t.MaThanhToan DESC
+    ORDER BY t.MaTT DESC
 ) tt
 WHERE kh.MaTK = @MaTK
-ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
+
+UNION ALL
+
+-- =========================================================
+-- 2. ĐƠN ONLINE CHƯA TẠO HÓA ĐƠN - ĐANG CHỜ XỬ LÝ
+-- =========================================================
+SELECT
+    CAST(0 AS INT) AS MaHD,
+    d.MaDonOnline,
+    d.NgayTao AS ThoiGian,
+    (
+        ISNULL(d.TongTienHang, 0)
+        - ISNULL(d.TienGiam, 0)
+        + ISNULL(d.PhiVanChuyen, 0)
+    ) AS TongTien,
+    d.TrangThai AS TrangThaiDonHang,
+    ISNULL(d.PhuongThucThanhToan, N'—') AS PhuongThucThanhToan,
+    N'DO' AS LoaiMa
+FROM dbo.DonOnline d
+INNER JOIN dbo.KhachHang kh
+    ON kh.MaKH = d.MaKH
+WHERE kh.MaTK = @MaTK
+  AND d.TrangThai IN
+  (
+      N'Chờ thanh toán',
+      N'Đã thanh toán',
+      N'NV tiếp nhận'
+  )
+  -- Không hiển thị lại đơn online nếu đơn đó đã được tạo HoaDon.
+  AND NOT EXISTS
+  (
+      SELECT 1
+      FROM dbo.HoaDon hd2
+      WHERE hd2.MaDonOnline = d.MaDonOnline
+  )
+
+ORDER BY ThoiGian DESC, MaHD DESC, MaDonOnline DESC;";
 
                 DataTable dt = kt.GetData(
                     sql,
@@ -110,19 +151,34 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
                 foreach (DataRow row in dt.Rows)
                 {
                     int maHD = Convert.ToInt32(row["MaHD"]);
+                    int maDonOnline =
+                        row["MaDonOnline"] == DBNull.Value
+                            ? 0
+                            : Convert.ToInt32(row["MaDonOnline"]);
+
+                    string loaiMa =
+                        Convert.ToString(row["LoaiMa"]);
+
                     int index = dgvGiaoDich.Rows.Add();
 
                     dgvGiaoDich.Rows[index].Cells["colSTT"].Value = stt++;
+
+                    // Hóa đơn: HD00001
+                    // Đơn online đang chờ: DO0001
                     dgvGiaoDich.Rows[index].Cells["colMaGD"].Value =
-                        "HD" + maHD.ToString("D5");
+                        loaiMa == "DO"
+                            ? "DO" + maDonOnline.ToString("D4")
+                            : "HD" + maHD.ToString("D5");
 
                     dgvGiaoDich.Rows[index].Cells["colLoai"].Value =
-                        row["MaDonOnline"] == DBNull.Value
-                            ? "Bán tại quầy"
-                            : "Đơn online";
+                        loaiMa == "DO"
+                            ? "Đơn online - Chờ xử lý"
+                            : row["MaDonOnline"] == DBNull.Value
+                                ? "Bán tại quầy"
+                                : "Đơn online";
 
                     dgvGiaoDich.Rows[index].Cells["colNgay"].Value =
-                        Convert.ToDateTime(row["NgayLap"])
+                        Convert.ToDateTime(row["ThoiGian"])
                             .ToString("dd/MM/yyyy HH:mm");
 
                     dgvGiaoDich.Rows[index].Cells["colTongTien"].Value =
@@ -138,7 +194,12 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
                     dgvGiaoDich.Rows[index].Cells["colTrangThai"].Value =
                         trangThai;
 
-                    dgvGiaoDich.Rows[index].Tag = maHD;
+                    // Lưu cả loại + mã để nút "Xem chi tiết" biết đây là HD hay DO.
+                    dgvGiaoDich.Rows[index].Tag =
+                        loaiMa + "|" +
+                        (loaiMa == "DO"
+                            ? maDonOnline.ToString()
+                            : maHD.ToString());
 
                     GanMauTrangThai(
                         dgvGiaoDich.Rows[index],
@@ -226,13 +287,13 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
             }
         }
 
-        private int LayMaHDDangChon()
+        private string LayGiaoDichDangChon()
         {
             if (dgvGiaoDich.CurrentRow == null ||
                 dgvGiaoDich.CurrentRow.Tag == null)
-                return 0;
+                return "";
 
-            return Convert.ToInt32(
+            return Convert.ToString(
                 dgvGiaoDich.CurrentRow.Tag);
         }
 
@@ -240,9 +301,9 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
             object sender,
             EventArgs e)
         {
-            int maHD = LayMaHDDangChon();
+            string giaoDich = LayGiaoDichDangChon();
 
-            if (maHD <= 0)
+            if (string.IsNullOrWhiteSpace(giaoDich))
             {
                 MessageBox.Show(
                     "Vui lòng chọn một giao dịch.",
@@ -252,14 +313,45 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC;";
                 return;
             }
 
-            /*
-             * FormChiTietHoaDon chỉ nhận MaHD.
-             * MaHD này đã được lấy từ danh sách được khóa theo Session.MaTK.
-             */
-            using (FormChiTietHoaDon frm =
-                new FormChiTietHoaDon(maHD))
+            string[] parts = giaoDich.Split('|');
+
+            if (parts.Length != 2 ||
+                !int.TryParse(parts[1], out int ma))
             {
-                frm.ShowDialog(this);
+                MessageBox.Show(
+                    "Không xác định được giao dịch đã chọn.",
+                    "Lịch sử giao dịch",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Hóa đơn đã tạo -> mở FormChiTietHoaDon như cũ.
+            if (parts[0] == "HD")
+            {
+                using (FormChiTietHoaDon frm =
+                    new FormChiTietHoaDon(ma))
+                {
+                    frm.ShowDialog(this);
+                }
+
+                return;
+            }
+
+            // Đơn online chưa tạo HoaDon -> hiện thông báo trạng thái.
+            if (parts[0] == "DO")
+            {
+                MessageBox.Show(
+                    "Đơn online DO" + ma.ToString("D4") +
+                    " hiện vẫn đang được xử lý.\r\n\r\n" +
+                    "Trạng thái: " +
+                    Convert.ToString(
+                        dgvGiaoDich.CurrentRow.Cells["colTrangThai"].Value) +
+                    "\r\n" +
+                    "Đơn sẽ xuất hiện dưới dạng hóa đơn sau khi được tiếp nhận/thanh toán.",
+                    "Đơn online",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
         }
 

@@ -37,7 +37,10 @@ namespace SPORTSHOP
                 BackgroundImage = _background;
                 BackgroundImageLayout = ImageLayout.Stretch;
             }
-
+            this.Resize += (s, e) =>
+            {
+                this.BackgroundImageLayout = ImageLayout.Stretch;
+            };
             timerClock.Start();
             CapNhatThoiGian();
         }

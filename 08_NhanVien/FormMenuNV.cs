@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SPORTSHOP
@@ -18,11 +19,137 @@ namespace SPORTSHOP
             StartPosition = FormStartPosition.CenterScreen;
             TopMost = true;
 
+            // Giao diện menu đồng bộ theo phong cách SPORTSHOP:
+            // nền tối + viền đỏ + chữ trắng + hover nổi bật.
+            CauHinhGiaoDienMenu();
+
+            // Tự căn giữa cụm nút khi đổi kích thước màn hình.
+            Resize += FormMenuNV_Resize;
+
             // Không cần nút HÓA ĐƠN riêng.
             // Lịch sử hóa đơn sẽ quản lý toàn bộ hóa đơn.
             if (btn_hoadon != null)
             {
                 btn_hoadon.Visible = false;
+            }
+        }
+
+
+        // =========================================================
+        // GIAO DIỆN MENU SPORTSHOP
+        // =========================================================
+
+        private void CauHinhGiaoDienMenu()
+        {
+            Guna.UI2.WinForms.Guna2Button[] buttons =
+            {
+                btn_chuyenca,
+                btn_moket,
+                btn_khoamanhinh,
+                btn_dononline,
+                btn_chamcong,
+                btn_giaodich,
+                btn_tracuu,
+                btn_timSPP,
+                btn_dangxuat
+            };
+
+            foreach (var btn in buttons)
+            {
+                if (btn == null) continue;
+
+                btn.Size = new Size(220, 88);
+                btn.BorderRadius = 16;
+                btn.BorderThickness = 2;
+                btn.BorderColor = Color.FromArgb(230, 35, 45);
+                btn.FillColor = Color.FromArgb(24, 24, 28);
+                btn.ForeColor = Color.White;
+                btn.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+                btn.TextAlign = HorizontalAlignment.Center;
+                btn.Cursor = Cursors.Hand;
+                btn.PressedColor = Color.FromArgb(170, 20, 28);
+
+                btn.HoverState.FillColor = Color.FromArgb(225, 35, 45);
+                btn.HoverState.ForeColor = Color.White;
+                btn.HoverState.BorderColor = Color.White;
+                btn.HoverState.CustomBorderColor = Color.White;
+            }
+
+            // Các nút có tính chất đặc biệt.
+            btn_dangxuat.FillColor = Color.FromArgb(75, 20, 24);
+            btn_dangxuat.BorderColor = Color.FromArgb(255, 70, 70);
+            btn_dangxuat.HoverState.FillColor = Color.FromArgb(210, 30, 40);
+
+            // Nút đóng menu: nhỏ, gọn, nổi bật ở góc phải.
+            btn_thoat.Size = new Size(68, 58);
+            btn_thoat.Location = new Point(
+                ClientSize.Width - btn_thoat.Width - 22, 20);
+            btn_thoat.BorderRadius = 16;
+            btn_thoat.BorderThickness = 1;
+            btn_thoat.BorderColor = Color.FromArgb(230, 35, 45);
+            btn_thoat.FillColor = Color.FromArgb(35, 35, 40);
+            btn_thoat.ForeColor = Color.White;
+            btn_thoat.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            btn_thoat.Cursor = Cursors.Hand;
+            btn_thoat.HoverState.FillColor = Color.FromArgb(225, 35, 45);
+            btn_thoat.HoverState.ForeColor = Color.White;
+
+            // Nút HÓA ĐƠN cũ không dùng.
+            btn_hoadon.Visible = false;
+
+            CanGiuaCacNut();
+        }
+
+        private void FormMenuNV_Resize(object sender, EventArgs e)
+        {
+            CanGiuaCacNut();
+        }
+
+        private void CanGiuaCacNut()
+        {
+            if (btn_chuyenca == null) return;
+
+            Guna.UI2.WinForms.Guna2Button[] buttons =
+            {
+                btn_chuyenca,
+                btn_moket,
+                btn_khoamanhinh,
+                btn_dononline,
+                btn_chamcong,
+                btn_giaodich,
+                btn_tracuu,
+                btn_timSPP,
+                btn_dangxuat
+            };
+
+            const int columns = 3;
+            const int gapX = 24;
+            const int gapY = 22;
+            const int top = 155;
+
+            int totalWidth =
+                columns * 220 + (columns - 1) * gapX;
+
+            int startX =
+                Math.Max(20, (ClientSize.Width - totalWidth) / 2);
+
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                int row = i / columns;
+                int col = i % columns;
+
+                buttons[i].Location = new Point(
+                    startX + col * (220 + gapX),
+                    top + row * (88 + gapY)
+                );
+            }
+
+            if (btn_thoat != null)
+            {
+                btn_thoat.Location = new Point(
+                    Math.Max(10, ClientSize.Width - btn_thoat.Width - 22),
+                    20
+                );
             }
         }
 
