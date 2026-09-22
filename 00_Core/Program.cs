@@ -4,6 +4,7 @@ using SPORTSHOP._07_KhachHang;
 using SPORTSHOP._01_HeThong;
 using SPORTSHOP._09_BaoCao;
 using SPORTSHOP._06_BanHang;
+using SPORTSHOP._;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace SPORTSHOP
 
             Application.Run(new Formdangnhap());
             Application.Run(new FormAdmin(null));
-
+            Application.Run(new FormQlSanPham(null));
 
 
         }
