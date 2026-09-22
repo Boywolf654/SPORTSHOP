@@ -30,6 +30,7 @@ namespace SPORTSHOP
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+<<<<<<< HEAD
 
 
 
@@ -40,6 +41,9 @@ namespace SPORTSHOP
             Application.Run(new FormQlSanPham(null));
 
 
+=======
+            Application.Run(new Formdangnhap());
+>>>>>>> c755351a5ba0e1b737f9eb15d73b38bc1bfc7199
         }
 
         // Khai báo hàm API của Windows
