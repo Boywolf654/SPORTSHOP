@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace SPORTSHOP._07_KhachHang
 {
-    public partial class formhoivien : Form
+    public partial class tichdiem : Form
     {
-        public formhoivien()
+        public tichdiem()
         {
             InitializeComponent();
         }

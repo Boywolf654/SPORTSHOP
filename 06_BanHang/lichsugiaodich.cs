@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SPORTSHOP._07_KhachHang
+namespace SPORTSHOP._06_BanHang
 {
-    public partial class formhoivien : Form
+    public partial class lichsugiaodich : Form
     {
-        public formhoivien()
+        public lichsugiaodich()
         {
             InitializeComponent();
         }
