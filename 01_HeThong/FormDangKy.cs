@@ -110,38 +110,44 @@ namespace SPORTSHOP._01_HeThong
                                 }
                             }
 
-                            // 4. Thêm tài khoản
-                            // MaVaiTro = 4 => Khách hàng
+                            // 4. Thêm tài khoản khách hàng
                             string insertTaiKhoanSql = @"
-                        INSERT INTO TAIKHOAN
-                            (TenDangNhap, MatKhau, MaVaiTro)
-                        OUTPUT INSERTED.MaTK
-                        VALUES
-                            (@TenDangNhap, @MatKhau, 4)";
+                            INSERT INTO TaiKhoan
+                                (TenDangNhap, MatKhau, MaVaiTro)
+                            OUTPUT INSERTED.MaTK
+                            VALUES
+                                (@TenDangNhap, @MatKhau, @MaVaiTro)";
 
                             int maTK;
 
                             using (SqlCommand cmdTaiKhoan =
-                                   new SqlCommand(insertTaiKhoanSql, conn, transaction))
+       new SqlCommand(insertTaiKhoanSql, conn, transaction))
                             {
-                                cmdTaiKhoan.Parameters.AddWithValue("@TenDangNhap", username);
-                                cmdTaiKhoan.Parameters.AddWithValue("@MatKhau", password);
+                                cmdTaiKhoan.Parameters.AddWithValue(
+                                    "@TenDangNhap", username);
 
-                                // Lấy MaTK vừa tạo
-                                maTK = Convert.ToInt32(cmdTaiKhoan.ExecuteScalar());
+                                cmdTaiKhoan.Parameters.AddWithValue(
+                                    "@MatKhau", password);
+
+                                cmdTaiKhoan.Parameters.AddWithValue(
+                                    "@MaVaiTro", PhanQuyen.KHACH_HANG);
+
+                                maTK = Convert.ToInt32(
+                                    cmdTaiKhoan.ExecuteScalar());
                             }
 
                             // 5. Thêm khách hàng
+                            // 5. Thêm khách hàng
                             string insertKhachHangSql = @"
-                        INSERT INTO KHACHHANG
-                            (TenKH, MaTK)
-                        VALUES
-                            (@TenKH, @MaTK)";
+                            INSERT INTO KhachHang
+                                (HoTen, MaTK)
+                            VALUES
+                                (@HoTen, @MaTK)";
 
                             using (SqlCommand cmdKhachHang =
                                    new SqlCommand(insertKhachHangSql, conn, transaction))
                             {
-                                cmdKhachHang.Parameters.AddWithValue("@TenKH", hoTen);
+                                cmdKhachHang.Parameters.AddWithValue("@HoTen", hoTen);
                                 cmdKhachHang.Parameters.AddWithValue("@MaTK", maTK);
 
                                 cmdKhachHang.ExecuteNonQuery();

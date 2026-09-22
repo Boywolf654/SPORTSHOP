@@ -1,206 +1,277 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SPORTSHOP._06_BanHang
 {
     public partial class giaodienpkien : Form
     {
+        private readonly KetNoiDuLieu kt = new KetNoiDuLieu();
+
         public giaodienpkien()
         {
             InitializeComponent();
-
-            GanSuKienClickSanPham();
+            LoadSanPhamTuCSDL();
         }
 
         private void giaodienpkien_Load(object sender, EventArgs e)
         {
+            // Dữ liệu đã được load trong constructor.
         }
 
         // =========================================================
-        // GẮN CLICK CHO 14 SẢN PHẨM
+        // LOAD SẢN PHẨM THẬT TỪ DATABASE
         // =========================================================
-
-        private void GanSuKienClickSanPham()
+        private void LoadSanPhamTuCSDL()
         {
-            GanClickCard(
+            Panel[] cards =
+            {
                 pnl_phukien1,
-                101,
-                "Găng tay thủ môn Nike Grip 3 màu vàng đen GK Gloves HQ0256-702",
-                1500000,
-                1800000,
-                pictureBox2);
-
-            GanClickCard(
                 pnl_phukien2,
-                102,
-                "Găng tay thủ môn Nike Dynamic Fit núi lửa IF8194-830",
-                2045000,
-                0,
-                pictureBox3);
-
-            GanClickCard(
                 pnl_phukien3,
-                103,
-                "Găng tay thủ môn Adidas X Pro xanh blue IA0836",
-                2486000,
-                0,
-                pictureBox4);
-
-            GanClickCard(
                 pnl_phukien4,
-                104,
-                "Găng tay thủ môn Adidas X Pro màu xanh chuối IA0837",
-                2800000,
-                0,
-                pictureBox5);
-
-            GanClickCard(
                 pnl_phukien5,
-                105,
-                "Quả bóng đá Adidas Bundesliga Torfabrik Pro 26/27 KG6037",
-                3300000,
-                0,
-                pictureBox6);
-
-            GanClickCard(
                 pnl_phukien6,
-                106,
-                "Balo thể thao Kelme Basic 22L 9876004-010",
-                1320000,
-                0,
-                pictureBox7);
-
-            GanClickCard(
                 pnl_phukien7,
-                107,
-                "Tất Nike Strike Crew màu đen trắng DH6620-010",
-                300000,
-                0,
-                pictureBox8);
-
-            GanClickCard(
                 pnl_phukien8,
-                108,
-                "Tất Nike Strike Crew màu trắng DH6620-100",
-                400000,
-                450000,
-                pictureBox9);
-
-            GanClickCard(
                 pnl_phukien9,
-                109,
-                "Bọc ống đồng Nike Mercurial Lite Shinguard màu xanh xám DN3611-395",
-                675000,
-                750000,
-                pictureBox10);
-
-            GanClickCard(
                 pnl_phukien10,
-                110,
-                "Hộp Cầu Lông Chuyên Dụng",
-                50000,
-                0,
-                pictureBox11);
-
-            GanClickCard(
                 pnl_phukien11,
-                111,
-                "Combo 2 bó gối thể thao Spinnix Virex màu đen",
-                250000,
-                0,
-                pictureBox12);
-
-            GanClickCard(
                 pnl_phukien12,
-                112,
-                "Bình nước Adidas Tiro Bottle 0.5L xanh cửu long IW8158",
-                100000,
-                0,
-                pictureBox13);
-
-            GanClickCard(
                 pnl_phukien13,
-                113,
-                "Chai xịt nóng hỗ trợ khởi động Ligpro 200ml",
-                50000,
-                0,
-                pictureBox14);
+                pnl_phukien14
+            };
 
-            GanClickCard(
-                pnl_phukien14,
-                114,
-                "Áo giữ nhiệt Wika màu xanh dương",
-                140000,
-                0,
-                pictureBox15);
+            PictureBox[] pictures =
+            {
+                pictureBox2,
+                pictureBox3,
+                pictureBox4,
+                pictureBox5,
+                pictureBox6,
+                pictureBox7,
+                pictureBox8,
+                pictureBox9,
+                pictureBox10,
+                pictureBox11,
+                pictureBox12,
+                pictureBox13,
+                pictureBox14,
+                pictureBox15
+            };
+
+            // Mặc định ẩn toàn bộ card. Card nào có sản phẩm sẽ được bật lại.
+            foreach (Panel card in cards)
+            {
+                if (card != null)
+                {
+                    card.Tag = null;
+                    card.Visible = false;
+                    XoaSuKienClickCu(card);
+                }
+            }
+
+            try
+            {
+                string sql = @"
+                    SELECT TOP 14
+                        sp.MaSP,
+                        sp.TenSP,
+                        ISNULL(sp.MoTa, '') AS MoTa,
+                        ISNULL(dm.TenDanhMuc, '') AS TenDanhMuc,
+                        ISNULL(th.TenThuongHieu, '') AS TenThuongHieu,
+                        MIN(bt.GiaBan) AS GiaBan,
+                        ISNULL(SUM(bt.SoLuong), 0) AS TonKho
+                    FROM SanPham sp
+                    LEFT JOIN DanhMuc dm
+                        ON dm.MaDM = sp.MaDM
+                    LEFT JOIN ThuongHieu th
+                        ON th.MaTH = sp.MaTH
+                    LEFT JOIN BienTheSanPham bt
+                        ON bt.MaSP = sp.MaSP
+                       AND bt.TrangThai = 1
+                    WHERE sp.TrangThai = 1
+                      AND (sp.MaDM = 4)
+                    GROUP BY
+                        sp.MaSP,
+                        sp.TenSP,
+                        sp.MoTa,
+                        dm.TenDanhMuc,
+                        th.TenThuongHieu
+                    ORDER BY sp.MaSP;";
+
+                DataTable dt = kt.GetData(sql);
+
+                for (int i = 0; i < cards.Length && i < dt.Rows.Count; i++)
+                {
+                    DataRow row = dt.Rows[i];
+
+                    int maSP = Convert.ToInt32(row["MaSP"]);
+                    string tenSP = row["TenSP"]?.ToString() ?? "";
+                    string moTa = row["MoTa"]?.ToString() ?? "";
+                    string tenDM = row["TenDanhMuc"]?.ToString() ?? "Phụ kiện";
+                    string tenTH = row["TenThuongHieu"]?.ToString() ?? "";
+
+                    decimal gia = 0;
+                    if (row["GiaBan"] != DBNull.Value)
+                        decimal.TryParse(row["GiaBan"].ToString(), out gia);
+
+                    int tonKho = 0;
+                    if (row["TonKho"] != DBNull.Value)
+                        int.TryParse(row["TonKho"].ToString(), out tonKho);
+
+                    SanPhamTam sanPham = new SanPhamTam
+                    {
+                        MaSP = maSP,
+                        TenSP = tenSP,
+                        Gia = gia,
+                        GiaCu = 0,
+                        Anh = LayAnhChinhTheoMaSP(
+                            maSP,
+                            pictures[i] != null ? pictures[i].BackgroundImage : null),
+                        LoaiSP = tenDM,
+                        ThuongHieu = tenTH,
+                        // Không lấy màu từ tên sản phẩm nữa.
+                        // Màu thật sẽ được xử lý từ BienTheSanPham ở form chi tiết.
+                        MauSac = "",
+                        MoTa = moTa
+                    };
+
+                    GanDuLieuVaoCard(cards[i], pictures[i], sanPham, tonKho);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể tải danh sách sản phẩm từ CSDL.\n\n" + ex.Message,
+                    "Lỗi dữ liệu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         // =========================================================
-        // GẮN CLICK CHO CARD
+        // ĐƯA DỮ LIỆU DB VÀO CARD
         // =========================================================
-
-        private void GanClickCard(
+        private void GanDuLieuVaoCard(
             Panel card,
-            int maSP,
-            string tenSP,
-            decimal gia,
-            decimal giaCu,
-            PictureBox picture)
+            PictureBox picture,
+            SanPhamTam sanPham,
+            int tonKho)
+        {
+            if (card == null || sanPham == null)
+                return;
+
+            card.Visible = true;
+            card.Tag = sanPham;
+            card.Cursor = Cursors.Hand;
+
+            if (picture != null && sanPham.Anh != null)
+                picture.BackgroundImage = sanPham.Anh;
+
+            // Các Label trong card đang có cấu trúc:
+            // - Label ở khoảng Y 110-170: tên sản phẩm
+            // - Label thấp nhất: giá hiện tại
+            // - Các label giá cũ (nếu có) sẽ được ẩn.
+            Label[] labels = card.Controls
+                .OfType<Label>()
+                .OrderBy(x => x.Location.Y)
+                .ToArray();
+
+            Label labelTen = labels.FirstOrDefault(
+                x => x.Location.Y >= 100 && x.Location.Y <= 175);
+
+            if (labelTen != null)
+            {
+                labelTen.Text = CatTenSanPham(sanPham.TenSP);
+                labelTen.Visible = true;
+            }
+
+            Label labelGia = labels
+                .Where(x => x.Location.Y >= 170)
+                .OrderByDescending(x => x.Location.Y)
+                .FirstOrDefault();
+
+            if (labelGia != null)
+            {
+                labelGia.Text = sanPham.Gia > 0
+                    ? sanPham.Gia.ToString("N0") + " Đ"
+                    : "Liên hệ";
+                labelGia.Visible = true;
+            }
+
+            // Ẩn các label giá cũ / label thừa.
+            foreach (Label label in labels)
+            {
+                if (label != labelTen && label != labelGia && label.Location.Y >= 170)
+                    label.Visible = false;
+            }
+
+            // Hiển thị trạng thái hết hàng nhưng không làm mất sản phẩm.
+            // Khi vào chi tiết, người dùng vẫn có thể xem các biến thể.
+            card.AccessibleDescription = tonKho > 0
+                ? "Còn hàng: " + tonKho
+                : "Hết hàng";
+
+            GanClickCard(card, sanPham);
+        }
+
+        private string CatTenSanPham(string ten)
+        {
+            if (string.IsNullOrWhiteSpace(ten))
+                return "";
+
+            return ten.Trim();
+        }
+
+        // =========================================================
+        // CLICK CARD
+        // =========================================================
+        private void GanClickCard(Panel card, SanPhamTam sanPham)
         {
             if (card == null)
                 return;
 
-            SanPhamTam sanPham = new SanPhamTam
-            {
-                MaSP = maSP,
-                TenSP = tenSP,
-                Gia = gia,
-                GiaCu = giaCu,
-                Anh = picture != null
-                    ? picture.BackgroundImage
-                    : null,
-
-                LoaiSP = "Phụ kiện",
-                ThuongHieu = LayThuongHieu(tenSP),
-                MauSac = LayMauSac(tenSP),
-                MoTa = "Sản phẩm phụ kiện thể thao SPORTSHOP."
-            };
-
             card.Tag = sanPham;
             card.Cursor = Cursors.Hand;
 
+            card.Click -= SanPham_Click;
             card.Click += SanPham_Click;
 
-            // Cho phép click vào ảnh + tên + giá
-            GanClickControlCon(card, sanPham);
+            GanClickChoControlCon(card, sanPham);
         }
 
-        // =========================================================
-        // CLICK CẢ CONTROL BÊN TRONG CARD
-        // =========================================================
-
-        private void GanClickControlCon(
-            Control parent,
-            SanPhamTam sanPham)
+        private void GanClickChoControlCon(Control parent, SanPhamTam sanPham)
         {
             foreach (Control control in parent.Controls)
             {
                 control.Tag = sanPham;
                 control.Cursor = Cursors.Hand;
 
+                control.Click -= SanPham_Click;
                 control.Click += SanPham_Click;
 
                 if (control.Controls.Count > 0)
-                {
-                    GanClickControlCon(control, sanPham);
-                }
+                    GanClickChoControlCon(control, sanPham);
             }
         }
 
-        // =========================================================
-        // CLICK SẢN PHẨM
-        // =========================================================
+        private void XoaSuKienClickCu(Control parent)
+        {
+            parent.Click -= SanPham_Click;
+
+            foreach (Control control in parent.Controls)
+            {
+                control.Click -= SanPham_Click;
+
+                if (control.Controls.Count > 0)
+                    XoaSuKienClickCu(control);
+            }
+        }
 
         private void SanPham_Click(object sender, EventArgs e)
         {
@@ -209,89 +280,71 @@ namespace SPORTSHOP._06_BanHang
             if (control == null)
                 return;
 
-            SanPhamTam sanPham =
-                control.Tag as SanPhamTam;
+            SanPhamTam sanPham = control.Tag as SanPhamTam;
 
-            if (sanPham == null)
+            if (sanPham == null || sanPham.MaSP <= 0)
                 return;
 
-            chitietsanpham formChiTiet =
-                new chitietsanpham(sanPham);
-
-            formChiTiet.StartPosition =
-                FormStartPosition.CenterParent;
-
-            formChiTiet.ShowDialog(this);
+            using (chitietsanpham formChiTiet = new chitietsanpham(sanPham))
+            {
+                formChiTiet.StartPosition = FormStartPosition.CenterParent;
+                formChiTiet.ShowDialog(this);
+            }
         }
 
         // =========================================================
-        // THƯƠNG HIỆU
+        // LẤY ẢNH CHÍNH THEO MaSP
         // =========================================================
-
-        private string LayThuongHieu(string tenSP)
+        private Image LayAnhChinhTheoMaSP(int maSP, Image anhMacDinh)
         {
-            if (tenSP.IndexOf(
-                "Nike",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Nike";
+            if (maSP <= 0)
+                return anhMacDinh;
 
-            if (tenSP.IndexOf(
-                "Adidas",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Adidas";
-
-            if (tenSP.IndexOf(
-                "Kelme",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Kelme";
-
-            if (tenSP.IndexOf(
-                "Wika",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Wika";
-
-            if (tenSP.IndexOf(
-                "Spinnix",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Spinnix";
-
-            if (tenSP.IndexOf(
-                "Ligpro",
-                StringComparison.OrdinalIgnoreCase) >= 0)
-                return "Ligpro";
-
-            return "Khác";
-        }
-
-        // =========================================================
-        // MÀU SẮC
-        // =========================================================
-
-        private string LayMauSac(string tenSP)
-        {
-            string[] mauSac =
+            try
             {
-                "đen",
-                "trắng",
-                "hồng",
-                "đỏ",
-                "xanh",
-                "vàng",
-                "xám",
-                "xanh dương"
-            };
+                string sql = @"
+                    SELECT TOP 1 UrlAnh
+                    FROM HinhAnhSanPham
+                    WHERE MaSP = @MaSP
+                      AND AnhChinh = 1
+                    ORDER BY MaAnh;";
 
-            foreach (string mau in mauSac)
-            {
-                if (tenSP.IndexOf(
-                    mau,
-                    StringComparison.OrdinalIgnoreCase) >= 0)
+                SqlParameter[] parameters =
                 {
-                    return mau;
+                    new SqlParameter("@MaSP", maSP)
+                };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                if (dt.Rows.Count == 0)
+                    return anhMacDinh;
+
+                string urlAnh = dt.Rows[0]["UrlAnh"]?.ToString();
+
+                if (string.IsNullOrWhiteSpace(urlAnh))
+                    return anhMacDinh;
+
+                string duongDan = urlAnh.Replace(
+                    "/",
+                    Path.DirectorySeparatorChar.ToString());
+
+                if (!Path.IsPathRooted(duongDan))
+                    duongDan = Path.Combine(
+                        Application.StartupPath,
+                        duongDan);
+
+                if (!File.Exists(duongDan))
+                    return anhMacDinh;
+
+                using (Image temp = Image.FromFile(duongDan))
+                {
+                    return new Bitmap(temp);
                 }
             }
-
-            return "";
+            catch
+            {
+                return anhMacDinh;
+            }
         }
     }
 }

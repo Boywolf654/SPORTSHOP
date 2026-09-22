@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClosedXML.Excel;
 
 namespace SPORTSHOP._03_QuanLyKho
 {
@@ -19,6 +20,7 @@ namespace SPORTSHOP._03_QuanLyKho
         public FormTonKho()
         {
             InitializeComponent();
+            TaoNutXuatExcel();
 
             LoadDanhMuc();
             LoadTrangThai();
@@ -425,5 +427,197 @@ namespace SPORTSHOP._03_QuanLyKho
             dgvTonKho.Columns["GiaBan"].Width = 110;
             dgvTonKho.Columns["TrangThai"].Width = 110;
         }
+        // =========================================================
+        // XUẤT TỒN KHO RA EXCEL
+        // Xuất đúng dữ liệu đang hiển thị sau khi lọc.
+        // =========================================================
+        private void TaoNutXuatExcel()
+        {
+            Guna.UI2.WinForms.Guna2Button btn = new Guna.UI2.WinForms.Guna2Button();
+
+            btn.Name = "btnXuatExcel";
+            btn.Text = "📊  Xuất Excel";
+            btn.Size = new Size(150, 42);
+            btn.Location = new Point(625, 24);
+            btn.BorderRadius = 8;
+            btn.FillColor = Color.FromArgb(25, 135, 84);
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btn.Cursor = Cursors.Hand;
+
+            btn.HoverState.FillColor = Color.FromArgb(20, 110, 68);
+            btn.Click += btnXuatExcel_Click;
+
+            Controls.Add(btn);
+            btn.BringToFront();
+        }
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = null;
+
+                DataView view = dgvTonKho.DataSource as DataView;
+
+                if (view != null)
+                {
+                    dt = view.ToTable();
+                }
+                else
+                {
+                    DataTable source = dgvTonKho.DataSource as DataTable;
+                    if (source != null)
+                        dt = source.Copy();
+                }
+
+                if (dt == null)
+                {
+                    MessageBox.Show(
+                        "Không có dữ liệu tồn kho để xuất.",
+                        "Xuất Excel",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Không có dữ liệu phù hợp với bộ lọc hiện tại.",
+                        "Xuất Excel",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (SaveFileDialog save = new SaveFileDialog())
+                {
+                    save.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                    save.Title = "Xuất báo cáo tồn kho";
+                    save.FileName =
+                        "BaoCaoTonKho_" +
+                        DateTime.Now.ToString("yyyyMMdd_HHmmss") +
+                        ".xlsx";
+
+                    if (save.ShowDialog(this) != DialogResult.OK)
+                        return;
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var ws = wb.Worksheets.Add("Ton Kho");
+
+                        ws.Cell(1, 1).Value = "BÁO CÁO TỒN KHO SPORTSHOP";
+                        ws.Range(1, 1, 1, 9).Merge();
+
+                        ws.Cell(1, 1).Style.Font.Bold = true;
+                        ws.Cell(1, 1).Style.Font.FontSize = 18;
+                        ws.Cell(1, 1).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+
+                        ws.Cell(2, 1).Value = "Thời gian xuất:";
+                        ws.Cell(2, 2).Value = DateTime.Now;
+                        ws.Cell(2, 2).Style.DateFormat.Format =
+                            "dd/MM/yyyy HH:mm:ss";
+
+                        string[] headers =
+                        {
+                            "Mã tồn",
+                            "Sản phẩm",
+                            "SKU",
+                            "Size",
+                            "Màu",
+                            "Tồn kho",
+                            "Tối thiểu",
+                            "Giá bán",
+                            "Trạng thái"
+                        };
+
+                        for (int c = 0; c < headers.Length; c++)
+                        {
+                            ws.Cell(4, c + 1).Value = headers[c];
+                            ws.Cell(4, c + 1).Style.Font.Bold = true;
+                            ws.Cell(4, c + 1).Style.Font.FontColor =
+                                XLColor.White;
+                            ws.Cell(4, c + 1).Style.Fill.BackgroundColor =
+                                XLColor.FromArgb(25, 52, 82);
+                            ws.Cell(4, c + 1).Style.Alignment.Horizontal =
+                                XLAlignmentHorizontalValues.Center;
+                        }
+
+                        int excelRow = 5;
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            ws.Cell(excelRow, 1).Value = row[0]?.ToString() ?? "";
+                            ws.Cell(excelRow, 2).Value = row[1]?.ToString() ?? "";
+                            ws.Cell(excelRow, 3).Value = row[2]?.ToString() ?? "";
+                            ws.Cell(excelRow, 4).Value = row[3]?.ToString() ?? "";
+                            ws.Cell(excelRow, 5).Value = row[4]?.ToString() ?? "";
+                            ws.Cell(excelRow, 6).Value = row[5]?.ToString() ?? "";
+                            ws.Cell(excelRow, 7).Value = row[6]?.ToString() ?? "";
+                            ws.Cell(excelRow, 8).Value = row[7]?.ToString() ?? "";
+                            ws.Cell(excelRow, 9).Value = row[8]?.ToString() ?? "";
+
+                            excelRow++;
+                        }
+
+                        ws.Column(8).Style.NumberFormat.Format = "#,##0";
+                        ws.Column(1).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(3).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(4).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(5).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(6).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(7).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        ws.Column(8).Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Right;
+
+                        ws.Range(4, 1, excelRow - 1, 9).Style.Border.OutsideBorder =
+                            XLBorderStyleValues.Thin;
+                        ws.Range(4, 1, excelRow - 1, 9).Style.Border.InsideBorder =
+                            XLBorderStyleValues.Thin;
+
+                        ws.SheetView.FreezeRows(4);
+                        ws.Range(4, 1, excelRow - 1, 9).SetAutoFilter();
+
+                        ws.Column(1).Width = 10;
+                        ws.Column(2).Width = 30;
+                        ws.Column(3).Width = 18;
+                        ws.Column(4).Width = 12;
+                        ws.Column(5).Width = 15;
+                        ws.Column(6).Width = 12;
+                        ws.Column(7).Width = 12;
+                        ws.Column(8).Width = 16;
+                        ws.Column(9).Width = 18;
+
+                        wb.SaveAs(save.FileName);
+                    }
+
+                    MessageBox.Show(
+                        "Xuất Excel thành công!\n\n" +
+                        "Đã xuất " + dt.Rows.Count.ToString("N0") +
+                        " dòng tồn kho.",
+                        "Xuất Excel",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể xuất Excel.\n\n" + ex.Message,
+                    "Xuất Excel",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+
     }
 }

@@ -33,11 +33,12 @@ namespace SPORTSHOP._04_NhapHang
             btnDuyet.Click += btnDuyet_Click;
             btnTuChoi.Click += btnTuChoi_Click;
             btnDong.Click += btnDong_Click;
+            btnChiTietPhieu.Click += btnChiTietPhieu_Click;
 
             this.Load += FrmPhieuNhap_Load;
         }
 
-     
+
 
         // =========================================================
         // LOAD FORM
@@ -68,7 +69,6 @@ namespace SPORTSHOP._04_NhapHang
                 btnTuChoi.Visible = false;
             }
         }
-
         // =========================================================
         // LOAD DANH SÁCH PHIẾU
         // =========================================================
@@ -80,47 +80,49 @@ namespace SPORTSHOP._04_NhapHang
                 string trangThai = cboTrangThai.Text;
 
                 string sql = @"
-                    SELECT
-                        pn.MaPN,
-                        pn.NgayNhap,
-                        nv.HoTen AS TenNhanVien,
-                        ncc.TenNCC,
-                        k.TenKho,
-                        pn.TrangThai
-                    FROM PhieuNhap pn
-                    INNER JOIN NhanVien nv
-                        ON nv.MaNV = pn.MaNV
-                    INNER JOIN NhaCungCap ncc
-                        ON ncc.MaNCC = pn.MaNCC
-                    LEFT JOIN Kho k
-                        ON k.MaKho = pn.MaKho
-                    WHERE
-                    (
-                        CAST(pn.MaPN AS NVARCHAR(20)) LIKE '%' + @TuKhoa + '%'
-                        OR nv.HoTen LIKE '%' + @TuKhoa + '%'
-                        OR ncc.TenNCC LIKE '%' + @TuKhoa + '%'
-                    )
-                    AND
-                    (
-                        @TrangThai = N'Tất cả'
-                        OR pn.TrangThai = @TrangThai
-                    )
-                    ORDER BY pn.MaPN DESC";
+            SELECT
+                pn.MaPN,
+                pn.NgayNhap,
+                nv.HoTen AS TenNhanVien,
+                ncc.TenNCC,
+                k.TenKho,
+                pn.TrangThai
+            FROM PhieuNhap pn
+            INNER JOIN NhanVien nv
+                ON nv.MaNV = pn.MaNV
+            INNER JOIN NhaCungCap ncc
+                ON ncc.MaNCC = pn.MaNCC
+            LEFT JOIN Kho k
+                ON k.MaKho = pn.MaKho
+            WHERE
+            (
+                CAST(pn.MaPN AS NVARCHAR(20)) LIKE '%' + @TuKhoa + '%'
+                OR nv.HoTen LIKE '%' + @TuKhoa + '%'
+                OR ncc.TenNCC LIKE '%' + @TuKhoa + '%'
+            )
+            AND
+            (
+                @TrangThai = N'Tất cả'
+                OR pn.TrangThai = @TrangThai
+            )
+            ORDER BY pn.MaPN DESC";
 
                 SqlParameter[] parameters =
                 {
-                    new SqlParameter("@TuKhoa", tuKhoa),
-                    new SqlParameter("@TrangThai",
-                        string.IsNullOrWhiteSpace(trangThai)
-                            ? "Tất cả"
-                            : trangThai)
-                };
+            new SqlParameter("@TuKhoa", tuKhoa),
+            new SqlParameter(
+                "@TrangThai",
+                string.IsNullOrWhiteSpace(trangThai)
+                    ? "Tất cả"
+                    : trangThai)
+        };
 
                 DataTable dt = kt.GetData(sql, parameters);
 
                 dgvDanhSachPhieu.DataSource = dt;
 
                 DinhDangDanhSachPhieu();
+
                 lblSoPhieu.Text =
                     "Danh sách phiếu (" + dt.Rows.Count + ")";
             }
@@ -135,8 +137,33 @@ namespace SPORTSHOP._04_NhapHang
             }
         }
 
+
         private void DinhDangDanhSachPhieu()
         {
+            dgvDanhSachPhieu.AutoGenerateColumns = true;
+            dgvDanhSachPhieu.AllowUserToAddRows = false;
+            dgvDanhSachPhieu.AllowUserToDeleteRows = false;
+            dgvDanhSachPhieu.ReadOnly = true;
+            dgvDanhSachPhieu.RowHeadersVisible = false;
+            dgvDanhSachPhieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDanhSachPhieu.MultiSelect = false;
+            dgvDanhSachPhieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDanhSachPhieu.RowTemplate.Height = 32;
+            dgvDanhSachPhieu.ColumnHeadersVisible = true;
+            dgvDanhSachPhieu.ColumnHeadersHeight = 38;
+            dgvDanhSachPhieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvDanhSachPhieu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(67, 87, 115);
+            dgvDanhSachPhieu.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgvDanhSachPhieu.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgvDanhSachPhieu.DefaultCellStyle.BackColor = Color.White;
+            dgvDanhSachPhieu.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
+            dgvDanhSachPhieu.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            dgvDanhSachPhieu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
+            dgvDanhSachPhieu.GridColor = Color.FromArgb(226, 232, 240);
+
             if (dgvDanhSachPhieu.Columns["MaPN"] != null)
                 dgvDanhSachPhieu.Columns["MaPN"].HeaderText = "Mã phiếu";
 
@@ -210,7 +237,7 @@ namespace SPORTSHOP._04_NhapHang
 
                 txtNhaCungCap.Text =
                     row.Cells["TenNCC"].Value?.ToString() ?? "";
-                
+
                 txtKho.Text =
                     row.Cells["TenKho"].Value?.ToString() ?? "";
 
@@ -250,7 +277,7 @@ namespace SPORTSHOP._04_NhapHang
         // =========================================================
         private void LoadChiTietPhieu(int maPN)
         {
-                    string sql = @"
+            string sql = @"
                 SELECT
                 ct.MaBienThe,
                 bt.SKU,
@@ -287,6 +314,30 @@ namespace SPORTSHOP._04_NhapHang
 
         private void DinhDangChiTiet()
         {
+            dgvDanhSachSP.AutoGenerateColumns = true;
+            dgvDanhSachSP.AllowUserToAddRows = false;
+            dgvDanhSachSP.AllowUserToDeleteRows = false;
+            dgvDanhSachSP.ReadOnly = true;
+            dgvDanhSachSP.RowHeadersVisible = false;
+            dgvDanhSachSP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDanhSachSP.MultiSelect = false;
+            dgvDanhSachSP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDanhSachSP.RowTemplate.Height = 30;
+            dgvDanhSachSP.ColumnHeadersVisible = true;
+            dgvDanhSachSP.ColumnHeadersHeight = 36;
+            dgvDanhSachSP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvDanhSachSP.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(67, 87, 115);
+            dgvDanhSachSP.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgvDanhSachSP.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgvDanhSachSP.DefaultCellStyle.BackColor = Color.White;
+            dgvDanhSachSP.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
+            dgvDanhSachSP.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            dgvDanhSachSP.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
+            dgvDanhSachSP.GridColor = Color.FromArgb(226, 232, 240);
+
             if (dgvDanhSachSP.Columns["SKU"] != null)
             {
                 dgvDanhSachSP.Columns["SKU"].HeaderText =
@@ -357,6 +408,27 @@ namespace SPORTSHOP._04_NhapHang
         }
 
         // =========================================================
+        // XEM CHI TIẾT PHIẾU
+        // =========================================================
+        private void btnChiTietPhieu_Click(object sender, EventArgs e)
+        {
+            if (maPNDangChon == null)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn một phiếu nhập trước.",
+                    "Chưa chọn phiếu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (ChiTietPhieuNhap frm = new ChiTietPhieuNhap(maPNDangChon.Value))
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        // =========================================================
         // DUYỆT PHIẾU
         // =========================================================
         private void btnDuyet_Click(object sender, EventArgs e)
@@ -393,11 +465,21 @@ namespace SPORTSHOP._04_NhapHang
 
             try
             {
+                // =====================================================
+                // CHỈ CHO PHÉP 1 PHIẾU Ở TRẠNG THÁI "CHỜ XUẤT KHO"
+                // =====================================================
+
                 string sql = @"
             UPDATE PhieuNhap
             SET TrangThai = N'Chờ xuất kho'
             WHERE MaPN = @MaPN
-              AND TrangThai = N'Chờ duyệt'";
+              AND TrangThai = N'Chờ duyệt'
+              AND NOT EXISTS
+              (
+                  SELECT 1
+                  FROM PhieuNhap
+                  WHERE TrangThai = N'Chờ xuất kho'
+              )";
 
                 SqlParameter[] parameters =
                 {
@@ -408,11 +490,38 @@ namespace SPORTSHOP._04_NhapHang
 
                 if (affected == 0)
                 {
-                    MessageBox.Show(
-                        "Phiếu không còn ở trạng thái Chờ duyệt.",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    // Kiểm tra xem đã có phiếu khác đang chờ xuất kho
+                    string sqlCheck = @"
+                SELECT TOP 1 MaPN
+                FROM PhieuNhap
+                WHERE TrangThai = N'Chờ xuất kho'
+                ORDER BY NgayNhap ASC";
+
+                    object maPNChoXuat =
+                        kt.ExecuteScalar(sqlCheck, null);
+
+                    if (maPNChoXuat != null &&
+                        maPNChoXuat != DBNull.Value)
+                    {
+                        MessageBox.Show(
+                            "Hiện đang có phiếu PN" +
+                            Convert.ToInt32(maPNChoXuat).ToString("D4") +
+                            " đang ở trạng thái 'Chờ xuất kho'.\n\n" +
+                            "Vui lòng kiểm kho và xuất kho phiếu này trước " +
+                            "khi duyệt phiếu tiếp theo.",
+                            "Không thể duyệt phiếu",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Phiếu không còn ở trạng thái 'Chờ duyệt'.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+
                     return;
                 }
 
@@ -431,7 +540,8 @@ namespace SPORTSHOP._04_NhapHang
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Duyệt phiếu thất bại.\n\n" + ex.Message,
+                    "Duyệt phiếu thất bại.\n\n" +
+                    ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -549,7 +659,7 @@ namespace SPORTSHOP._04_NhapHang
             dgvDanhSachSP.DataSource = null;
 
             lblTongCong.Text = "Tổng cộng: 0 VNĐ";
-            
+
 
             btnDuyet.Enabled = false;
             btnTuChoi.Enabled = false;

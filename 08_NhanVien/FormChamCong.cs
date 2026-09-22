@@ -40,6 +40,23 @@ namespace SPORTSHOP
 
             dtp_GioVao.Value = DateTime.Now;
             Dtp_GioRa.Value = DateTime.Now;
+
+            // Chỉ nhân viên bán hàng và nhân viên kho mới bắt buộc chấm công.
+            if (cheDoNhanVien &&
+                Session.MaVaiTro != PhanQuyen.NV_BAN_HANG &&
+                Session.MaVaiTro != PhanQuyen.NV_KHO)
+            {
+                MessageBox.Show(
+                    "Tài khoản hiện tại không thuộc nhóm nhân viên phải chấm công.",
+                    "Không được chấm công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+                return;
+            }
+
             if (cheDoNhanVien)
             {
                 // Tự điền mã NV nhưng vẫn bắt buộc bấm TÌM
@@ -225,7 +242,6 @@ namespace SPORTSHOP
                 return;
 
             int maNV = Convert.ToInt32(txt_MaNV.Text);
-
             DateTime gioVao = DateTime.Now;
             DateTime ngayLam = gioVao.Date;
 
@@ -235,12 +251,17 @@ namespace SPORTSHOP
                 {
                     conn.Open();
 
-                    // Kiểm tra nhân viên đã vào ca hôm nay chưa
+                    // -------------------------------------------------
+                    // 1. KIỂM TRA CHẤM CÔNG HÔM NAY
+                    // -------------------------------------------------
                     string sqlCheck = @"
                         SELECT MaChamCong, GioVao, GioRa
                         FROM ChamCong
                         WHERE MaNV = @MaNV
                           AND NgayLam = @NgayLam";
+
+                    bool daVao = false;
+                    bool daRa = false;
 
                     using (SqlCommand cmdCheck =
                         new SqlCommand(sqlCheck, conn))
@@ -258,101 +279,161 @@ namespace SPORTSHOP
                         {
                             if (reader.Read())
                             {
-                                bool daVao =
+                                daVao =
                                     reader["GioVao"] != DBNull.Value;
 
-                                bool daRa =
+                                daRa =
                                     reader["GioRa"] != DBNull.Value;
-
-                                reader.Close();
-
-                                if (daVao && !daRa)
-                                {
-                                    MessageBox.Show(
-                                        "Nhân viên này đã vào ca hôm nay.",
-                                        "Thông báo",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
-
-                                    return;
-                                }
-
-                                if (daVao && daRa)
-                                {
-                                    MessageBox.Show(
-                                        "Nhân viên này đã hoàn thành ca hôm nay.",
-                                        "Thông báo",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
-
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                reader.Close();
-
-                                string sqlInsert = @"
-                                    INSERT INTO ChamCong
-                                    (
-                                        MaNV,
-                                        NgayLam,
-                                        GioVao,
-                                        GioRa,
-                                        TrangThai
-                                    )
-                                    VALUES
-                                    (
-                                        @MaNV,
-                                        @NgayLam,
-                                        @GioVao,
-                                        NULL,
-                                        N'Có mặt'
-                                    )";
-
-                                using (SqlCommand cmdInsert =
-                                    new SqlCommand(sqlInsert, conn))
-                                {
-                                    cmdInsert.Parameters.Add(
-                                        "@MaNV",
-                                        SqlDbType.Int).Value = maNV;
-
-                                    cmdInsert.Parameters.Add(
-                                        "@NgayLam",
-                                        SqlDbType.Date).Value = ngayLam;
-
-                                    cmdInsert.Parameters.Add(
-                                        "@GioVao",
-                                        SqlDbType.DateTime).Value = gioVao;
-
-                                    cmdInsert.ExecuteNonQuery();
-                                    if (cheDoNhanVien)
-                                    {
-                                        MessageBox.Show(
-                                            "Đã ghi nhận vào ca.\n\n" +
-                                            "Nhân viên: " + txt_TenNV.Text + "\n" +
-                                            "Thời gian: " + gioVao.ToString("HH:mm:ss"),
-                                            "Chấm công",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Information);
-
-                                        this.DialogResult = DialogResult.OK;
-                                        this.Close();
-                                    }
-                                }
-
-                                dtp_GioVao.Value = gioVao;
-
-                                MessageBox.Show(
-                                    "Đã ghi nhận vào ca lúc "
-                                    + gioVao.ToString("HH:mm:ss")
-                                    + ".",
-                                    "Chấm công",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
                             }
                         }
                     }
+
+                    if (daVao && !daRa)
+                    {
+                        MessageBox.Show(
+                            "Nhân viên này đã vào ca hôm nay.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    if (daVao && daRa)
+                    {
+                        MessageBox.Show(
+                            "Nhân viên này đã hoàn thành ca hôm nay.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // -------------------------------------------------
+                    // 2. GHI CHẤM CÔNG VÀO CA
+                    // -------------------------------------------------
+                    string sqlInsertChamCong = @"
+                        INSERT INTO ChamCong
+                        (
+                            MaNV,
+                            NgayLam,
+                            GioVao,
+                            GioRa,
+                            TrangThai
+                        )
+                        VALUES
+                        (
+                            @MaNV,
+                            @NgayLam,
+                            @GioVao,
+                            NULL,
+                            N'Có mặt'
+                        )";
+
+                    using (SqlCommand cmdInsert =
+                        new SqlCommand(sqlInsertChamCong, conn))
+                    {
+                        cmdInsert.Parameters.Add(
+                            "@MaNV",
+                            SqlDbType.Int).Value = maNV;
+
+                        cmdInsert.Parameters.Add(
+                            "@NgayLam",
+                            SqlDbType.Date).Value = ngayLam;
+
+                        cmdInsert.Parameters.Add(
+                            "@GioVao",
+                            SqlDbType.DateTime).Value = gioVao;
+
+                        cmdInsert.ExecuteNonQuery();
+                    }
+
+                    // -------------------------------------------------
+                    // 3. TẠO CA LÀM VIỆC
+                    //
+                    // Nếu đã có một ca "Đang làm" thì không tạo thêm.
+                    // Nếu ca cũ đã kết thúc thì tạo MaCa mới.
+                    // -------------------------------------------------
+                    string sqlCheckCa = @"
+                        SELECT TOP 1 MaCa
+                        FROM CaLamViec
+                        WHERE MaNV = @MaNV
+                          AND TrangThai = N'Đang làm'
+                        ORDER BY MaCa DESC";
+
+                    object maCaDangLam;
+
+                    using (SqlCommand cmdCheckCa =
+                        new SqlCommand(sqlCheckCa, conn))
+                    {
+                        cmdCheckCa.Parameters.Add(
+                            "@MaNV",
+                            SqlDbType.Int).Value = maNV;
+
+                        maCaDangLam = cmdCheckCa.ExecuteScalar();
+                    }
+
+                    if (maCaDangLam == null ||
+                        maCaDangLam == DBNull.Value)
+                    {
+                        string sqlInsertCa = @"
+                            INSERT INTO CaLamViec
+                            (
+                                MaNV,
+                                GioBatDau,
+                                GioKetThuc,
+                                DoanhThu,
+                                SoHoaDon,
+                                TrangThai
+                            )
+                            VALUES
+                            (
+                                @MaNV,
+                                @GioBatDau,
+                                NULL,
+                                0,
+                                0,
+                                N'Đang làm'
+                            )";
+
+                        using (SqlCommand cmdInsertCa =
+                            new SqlCommand(sqlInsertCa, conn))
+                        {
+                            cmdInsertCa.Parameters.Add(
+                                "@MaNV",
+                                SqlDbType.Int).Value = maNV;
+
+                            cmdInsertCa.Parameters.Add(
+                                "@GioBatDau",
+                                SqlDbType.DateTime).Value = gioVao;
+
+                            cmdInsertCa.ExecuteNonQuery();
+                        }
+                    }
+
+                    dtp_GioVao.Value = gioVao;
+
+                    if (cheDoNhanVien)
+                    {
+                        MessageBox.Show(
+                            "Đã ghi nhận vào ca.\n\n" +
+                            "Nhân viên: " + txt_TenNV.Text + "\n" +
+                            "Thời gian: " + gioVao.ToString("HH:mm:ss"),
+                            "Chấm công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                        return;
+                    }
+
+                    MessageBox.Show(
+                        "Đã ghi nhận vào ca lúc "
+                        + gioVao.ToString("HH:mm:ss")
+                        + ".",
+                        "Chấm công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -384,14 +465,21 @@ namespace SPORTSHOP
                 {
                     conn.Open();
 
+                    // -------------------------------------------------
+                    // 1. LẤY CHẤM CÔNG ĐANG MỞ
+                    // -------------------------------------------------
                     int maChamCong = 0;
                     DateTime gioVao;
 
                     string sqlCheck = @"
-                        SELECT MaChamCong, GioVao, GioRa
+                        SELECT TOP 1
+                            MaChamCong,
+                            GioVao,
+                            GioRa
                         FROM ChamCong
                         WHERE MaNV = @MaNV
-                          AND NgayLam = @NgayLam";
+                          AND NgayLam = @NgayLam
+                        ORDER BY MaChamCong DESC";
 
                     using (SqlCommand cmdCheck =
                         new SqlCommand(sqlCheck, conn))
@@ -414,7 +502,6 @@ namespace SPORTSHOP
                                     "Thông báo",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
-
                                 return;
                             }
 
@@ -429,7 +516,6 @@ namespace SPORTSHOP
                                     "Thông báo",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
-
                                 return;
                             }
 
@@ -444,7 +530,6 @@ namespace SPORTSHOP
                                     "Thông báo",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
-
                                 return;
                             }
                         }
@@ -457,10 +542,12 @@ namespace SPORTSHOP
                             "Thông báo",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
-
                         return;
                     }
 
+                    // -------------------------------------------------
+                    // 2. CẬP NHẬT CHẤM CÔNG
+                    // -------------------------------------------------
                     string sqlUpdate = @"
                         UPDATE ChamCong
                         SET GioRa = @GioRa
@@ -480,19 +567,137 @@ namespace SPORTSHOP
                         cmdUpdate.ExecuteNonQuery();
                     }
 
+                    // -------------------------------------------------
+                    // 3. ĐÓNG CA LÀM VIỆC + TỔNG KẾT CA
+                    //
+                    // Không phụ thuộc HoaDon.MaCa.
+                    // Doanh thu được tính theo:
+                    //   - đúng MaNV
+                    //   - khoảng thời gian GioBatDau -> GioRa
+                    //   - hóa đơn Hoàn thành
+                    // -------------------------------------------------
+                    string sqlDongCa = @"
+                        UPDATE CaLamViec
+                        SET
+                            GioKetThuc = @GioKetThuc,
+
+                            DoanhThu = ISNULL(
+                                (
+                                    SELECT SUM(ISNULL(hd.TongTien, 0))
+                                    FROM HoaDon hd
+                                    WHERE hd.MaNV = CaLamViec.MaNV
+                                      AND hd.NgayLap >= CaLamViec.GioBatDau
+                                      AND hd.NgayLap <= @GioKetThuc
+                                      AND hd.TrangThaiDonHang = N'Hoàn thành'
+                                ),
+                                0
+                            ),
+
+                            SoHoaDon = ISNULL(
+                                (
+                                    SELECT COUNT(*)
+                                    FROM HoaDon hd
+                                    WHERE hd.MaNV = CaLamViec.MaNV
+                                      AND hd.NgayLap >= CaLamViec.GioBatDau
+                                      AND hd.NgayLap <= @GioKetThuc
+                                      AND hd.TrangThaiDonHang = N'Hoàn thành'
+                                ),
+                                0
+                            ),
+
+                            TrangThai = N'Đã kết thúc'
+
+                        WHERE MaCa = (
+                            SELECT TOP 1 MaCa
+                            FROM CaLamViec
+                            WHERE MaNV = @MaNV
+                              AND TrangThai = N'Đang làm'
+                            ORDER BY MaCa DESC
+                        );";
+
+                    int soDongCa;
+
+                    using (SqlCommand cmdDongCa =
+                        new SqlCommand(sqlDongCa, conn))
+                    {
+                        cmdDongCa.Parameters.Add(
+                            "@MaNV",
+                            SqlDbType.Int).Value = maNV;
+
+                        cmdDongCa.Parameters.Add(
+                            "@GioKetThuc",
+                            SqlDbType.DateTime).Value = gioRa;
+
+                        soDongCa = cmdDongCa.ExecuteNonQuery();
+                    }
+
+                    if (soDongCa == 0)
+                    {
+                        MessageBox.Show(
+                            "Đã ghi giờ ra nhưng không tìm thấy ca đang làm " +
+                            "trong bảng CaLamViec.\n\n" +
+                            "Hãy kiểm tra lại dữ liệu CaLamViec.",
+                            "Cảnh báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+
                     Dtp_GioRa.Value = gioRa;
+
+                    // -------------------------------------------------
+                    // 4. LẤY KẾT QUẢ CA VỪA ĐÓNG
+                    // -------------------------------------------------
+                    decimal doanhThu = 0;
+                    int soHoaDon = 0;
+
+                    string sqlKetQua = @"
+                        SELECT TOP 1
+                            DoanhThu,
+                            SoHoaDon
+                        FROM CaLamViec
+                        WHERE MaNV = @MaNV
+                        ORDER BY MaCa DESC";
+
+                    using (SqlCommand cmdKetQua =
+                        new SqlCommand(sqlKetQua, conn))
+                    {
+                        cmdKetQua.Parameters.Add(
+                            "@MaNV",
+                            SqlDbType.Int).Value = maNV;
+
+                        using (SqlDataReader reader =
+                            cmdKetQua.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                doanhThu =
+                                    reader["DoanhThu"] == DBNull.Value
+                                    ? 0
+                                    : Convert.ToDecimal(
+                                        reader["DoanhThu"]);
+
+                                soHoaDon =
+                                    reader["SoHoaDon"] == DBNull.Value
+                                    ? 0
+                                    : Convert.ToInt32(
+                                        reader["SoHoaDon"]);
+                            }
+                        }
+                    }
 
                     TimeSpan thoiGianLam = gioRa - gioVao;
 
                     MessageBox.Show(
-                        "Đã ghi nhận ra ca lúc "
-                        + gioRa.ToString("HH:mm:ss")
-                        + "\n\nThời gian làm: "
-                        + (int)thoiGianLam.TotalHours
-                        + " giờ "
-                        + thoiGianLam.Minutes
-                        + " phút.",
-                        "Chấm công",
+                        "ĐÃ KẾT THÚC CA\n\n" +
+                        "Nhân viên: " + txt_TenNV.Text + "\n" +
+                        "Giờ vào: " + gioVao.ToString("dd/MM/yyyy HH:mm:ss") + "\n" +
+                        "Giờ ra:  " + gioRa.ToString("dd/MM/yyyy HH:mm:ss") + "\n" +
+                        "Thời gian: " +
+                        (int)thoiGianLam.TotalHours + " giờ " +
+                        thoiGianLam.Minutes + " phút\n\n" +
+                        "Số hóa đơn: " + soHoaDon + "\n" +
+                        "Doanh thu: " + doanhThu.ToString("N0") + " đ",
+                        "Chấm công - Kết thúc ca",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }

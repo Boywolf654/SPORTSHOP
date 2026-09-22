@@ -65,8 +65,8 @@ namespace SPORTSHOP
             chk_TrangThai.Checked = Convert.ToBoolean(dgvDanhMuc.CurrentRow.Cells["TrangThai"].Value);
         }
 
-      
-      
+
+
 
         private void btn_sua_Click(object sender, EventArgs e)
         {

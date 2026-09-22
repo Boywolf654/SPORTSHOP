@@ -49,22 +49,22 @@
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             this.dgvMauSac.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvMauSac.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvMauSac.ColumnHeadersHeight = 4;
-            this.dgvMauSac.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            this.dgvMauSac.ColumnHeadersHeight = 40;
+            this.dgvMauSac.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvMauSac.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MaMau,
             this.TenMau});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
@@ -75,14 +75,14 @@
             this.dgvMauSac.Name = "dgvMauSac";
             this.dgvMauSac.RowHeadersVisible = false;
             this.dgvMauSac.RowHeadersWidth = 51;
-            this.dgvMauSac.RowTemplate.Height = 24;
-            this.dgvMauSac.Size = new System.Drawing.Size(799, 207);
+            this.dgvMauSac.RowTemplate.Height = 34;
+            this.dgvMauSac.Size = new System.Drawing.Size(960, 207);
             this.dgvMauSac.TabIndex = 12;
             this.dgvMauSac.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
-            this.dgvMauSac.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.dgvMauSac.ThemeStyle.HeaderStyle.Height = 4;
-            this.dgvMauSac.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.dgvMauSac.ThemeStyle.RowsStyle.Height = 24;
+            this.dgvMauSac.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvMauSac.ThemeStyle.HeaderStyle.Height = 40;
+            this.dgvMauSac.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvMauSac.ThemeStyle.RowsStyle.Height = 34;
             this.dgvMauSac.SelectionChanged += new System.EventHandler(this.dgvMauSac_SelectionChanged);
             // 
             // MaMau
@@ -215,11 +215,28 @@
             this.chk_TrangThai.UncheckedState.BorderThickness = 0;
             this.chk_TrangThai.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             // 
+            // ===== DGV DECORATION =====
+            this.dgvMauSac.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvMauSac.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.None;
+            this.dgvMauSac.ColumnHeadersVisible = true;
+            this.dgvMauSac.EnableHeadersVisualStyles = false;
+            this.dgvMauSac.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMauSac.MultiSelect = false;
+            this.dgvMauSac.ReadOnly = true;
+            this.dgvMauSac.AllowUserToAddRows = false;
+            this.dgvMauSac.AllowUserToDeleteRows = false;
+            this.dgvMauSac.AllowUserToResizeRows = false;
+            this.dgvMauSac.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvMauSac.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgvMauSac.GridColor = System.Drawing.Color.FromArgb(225, 228, 235);
+            this.dgvMauSac.ColumnHeadersDefaultCellStyle.Padding = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.dgvMauSac.DefaultCellStyle.Padding = new System.Windows.Forms.Padding(6, 0, 6, 0);
+
             // FormMauSac
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(980, 650);
             this.Controls.Add(this.dgvMauSac);
             this.Controls.Add(this.btn_lammoi);
             this.Controls.Add(this.btn_xoa);

@@ -83,8 +83,8 @@ namespace SPORTSHOP
                 INSERT INTO Size (TenSize, TrangThai)
                 VALUES (@TenSize, @TrangThai)";
 
-                
-                
+
+
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {

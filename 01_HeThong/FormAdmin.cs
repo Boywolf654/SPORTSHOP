@@ -10,9 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+<<<<<<< HEAD
+=======
+using SPORTSHOP;
+using SPORTSHOP._07_KhachHang;
+
+>>>>>>> origin/backup-before-final-business
 
 namespace SPORTSHOP
 {
+
     public partial class FormAdmin : Form
     {
         public TaiKhoan tk;
@@ -37,7 +44,16 @@ namespace SPORTSHOP
             LoadThongKe();
             LoadDanhSachSanPham();
 
-
+            // Các nút Bán hàng / Đơn hàng / Khách hàng / Doanh thu
+            // chưa có event trong Designer hiện tại nên gắn đúng một lần ở đây.
+            btn_banhang.Click += btn_banhang_Click;
+            btn_donhang.Click += btn_donhang_Click;
+            btn_khachhang.Click += btn_khachhang_Click;
+            btn_doanhthu.Click += btn_doanhthu_Click;
+            // Đảm bảo nút Phiếu nhập chỉ có đúng 1 event Click.
+            // Nếu Designer đã gắn sẵn thì gỡ trước rồi gắn lại.
+            btn_phieunhap.Click -= btn_phieunhap_Click;
+            btn_phieunhap.Click += btn_phieunhap_Click;
         }
 
         private void btn_chitiet_Click(object sender, EventArgs e)
@@ -180,14 +196,46 @@ namespace SPORTSHOP
         private void btn_dangxuat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
+<<<<<<< HEAD
                 "Bạn có chắc muốn đăng xuất không?",
                 "Đăng xuất",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
+=======
+       "Bạn có chắc muốn đăng xuất không?",
+       "Đăng xuất",
+       MessageBoxButtons.YesNo,
+       MessageBoxIcon.Question);
+>>>>>>> origin/backup-before-final-business
 
             if (result == DialogResult.Yes)
             {
+<<<<<<< HEAD
+=======
+                // Chỉ cập nhật phiên đăng nhập của Admin / Quản lý
+                if (Session.MaVaiTro == PhanQuyen.ADMIN ||
+                    Session.MaVaiTro == PhanQuyen.QUAN_LY)
+                {
+                    string sql = @"
+                UPDATE LichSuDangNhap
+                SET ThoiGianRa = GETDATE()
+                WHERE MaTK = @MaTK
+                  AND ThoiGianRa IS NULL";
+
+                    SqlParameter[] parameters =
+                    {
+                new SqlParameter("@MaTK", Session.MaTK)
+            };
+
+                    KetNoiDuLieu kt = new KetNoiDuLieu();
+                    kt.Execute(sql, parameters);
+                }
+
+                // Xóa phiên đăng nhập
+>>>>>>> origin/backup-before-final-business
                 Session.DangXuat();
+
+                // Đóng form hiện tại
                 this.Close();
             }
         }
@@ -281,6 +329,60 @@ namespace SPORTSHOP
             }
 
         }
+        private void btn_banhang_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new form_hóa_đơn_bán_hàng());
+        }
+
+        private void btn_donhang_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormDonOnline());
+        }
+
+        private void btn_khachhang_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormQuanLyKhachHang());
+        }
+
+        private void btn_doanhthu_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormBaoCaoDoanhThu());
+        }
+
+
+        private void btn_uuDai_Click(object sender, EventArgs e)
+        {
+            bool dangMo = panelMenuUuDai.Visible;
+
+            DongTatCaMenu();
+
+            panelMenuUuDai.Visible = !dangMo;
+            if (panelMenuUuDai.Visible)
+                panelMenuUuDai.BringToFront();
+        }
+
+        private void btn_khuyenmai_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormQuanLyKhuyenMai());
+        }
+
+        private void btn_voucher_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormQuanLyVoucher());
+        }
+
+        private void btn_hoivien_Click(object sender, EventArgs e)
+        {
+            DongTatCaMenu();
+            MoFormTrongPanel(new FormQuanLyHoiVien());
+        }
+
         private void FormAdmin_Load(object sender, EventArgs e)
         {
 
@@ -429,6 +531,7 @@ namespace SPORTSHOP
             PanelMenuNCC.Visible = false;
             panelMenuBaoCao.Visible = false;
             panelMenuKho.Visible = false;
+            panelMenuUuDai.Visible = false;
         }
 
         private void btn_danhmuc_Click(object sender, EventArgs e)
@@ -502,7 +605,22 @@ namespace SPORTSHOP
 
         private void btn_phieunhap_Click(object sender, EventArgs e)
         {
-            MoFormTrongPanel(new FrmPhieuNhap());
+            try
+            {
+                // Tạo form trước. Nếu FrmPhieuNhap lỗi khi InitializeComponent/Load
+                // thì bắt lỗi ngay tại đây để không có tình trạng bấm mà "im re".
+                FrmPhieuNhap frm = new FrmPhieuNhap();
+                MoFormTrongPanel(frm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở màn hình Phiếu nhập.\\n\\n" +
+                    ex.Message,
+                    "Lỗi mở Phiếu nhập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonNhapHang(object sender, EventArgs e)
@@ -554,5 +672,18 @@ namespace SPORTSHOP
         {
             MoFormTrongPanel(new FrmPhieuKho());
         }
+<<<<<<< HEAD
+=======
+
+        private void FormChiTietNCC_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_BaoCaoCHamCong_Click(object sender, EventArgs e)
+        {
+            MoFormTrongPanel(new FormQuanLyChamCong());
+        }
+>>>>>>> origin/backup-before-final-business
     }
 }

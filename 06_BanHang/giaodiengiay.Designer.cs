@@ -1007,7 +1007,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel2);
             this.Name = "giaodiengiay";
-            this.Text = "giaodiengiay";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SPORTSHOP - Giày Thể Thao";
             this.Load += new System.EventHandler(this.giaodiengiay_Load);
             this.pnl_giay8.ResumeLayout(false);
             this.pnl_giay8.PerformLayout();

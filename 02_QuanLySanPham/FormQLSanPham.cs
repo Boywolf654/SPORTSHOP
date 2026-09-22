@@ -22,6 +22,7 @@ namespace SPORTSHOP
             btnSuaSP.Click += btnSuaSP_Click;
             btnXoaSP.Click += btnXoaSP_Click;
             btnLamMoiSP.Click += btnLamMoiSP_Click;
+            btnQLHinhAnh.Click += btnQLHinhAnh_Click;
 
             btnThemBienThe.Click += btnThemBienThe_Click;
             btnSuaBienThe.Click += btnSuaBienThe_Click;
@@ -89,6 +90,7 @@ namespace SPORTSHOP
             BoGocButton(btnSuaSP, 10);
             BoGocButton(btnXoaSP, 10);
             BoGocButton(btnLamMoiSP, 10);
+            BoGocButton(btnQLHinhAnh, 10);
 
             BoGocButton(btnThemBienThe, 10);
             BoGocButton(btnSuaBienThe, 10);
@@ -100,7 +102,7 @@ namespace SPORTSHOP
             LoadThuongHieu();
             LoadSanPham();
 
-            
+
             LoadMau();
             ClearForm();
 
@@ -398,6 +400,8 @@ namespace SPORTSHOP
                 maSPDangChon =
                     Convert.ToInt32(
                         row.Cells["MaSP"].Value);
+
+                btnQLHinhAnh.Enabled = true;
                 LoadBienThe(maSPDangChon.Value);
 
                 txtTenSP.Text =
@@ -726,6 +730,40 @@ namespace SPORTSHOP
         }
 
         // =========================================================
+        // QUẢN LÝ HÌNH ẢNH
+        // =========================================================
+        private void btnQLHinhAnh_Click(object sender, EventArgs e)
+        {
+            if (maSPDangChon == null)
+            {
+                MessageBox.Show(
+                    "Vui lòng chọn sản phẩm trước khi quản lý hình ảnh.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (FormQLHinhAnhSanPham frm =
+                    new FormQLHinhAnhSanPham(maSPDangChon.Value))
+                {
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể mở quản lý hình ảnh.\n\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        // =========================================================
         // LÀM MỚI
         // =========================================================
         private void btnLamMoiSP_Click(
@@ -751,10 +789,11 @@ namespace SPORTSHOP
 
             chkTrangThai.Checked = true;
 
+            btnQLHinhAnh.Enabled = false;
             dgvSanPham.ClearSelection();
         }
 
-        
+
 
         private void btnThemBienThe_Click(object sender, EventArgs e)
         {

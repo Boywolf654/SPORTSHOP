@@ -11,6 +11,9 @@ namespace SPORTSHOP._06_BanHang
 
         public string MauSac { get; set; }
 
+        // Mã biến thể thật trong CSDL.
+        public int MaBienThe { get; set; }
+
         public int SoLuong { get; set; }
 
         public decimal ThanhTien
@@ -35,11 +38,28 @@ namespace SPORTSHOP._06_BanHang
             }
         }
 
+        // Giữ overload cũ để các form khác của project không lỗi.
         public static void Them(
             SanPhamTam sanPham,
             string size,
             string mauSac,
             int soLuong)
+        {
+            Them(
+                sanPham,
+                size,
+                mauSac,
+                soLuong,
+                0);
+        }
+
+        // Overload mới: MaBienThe đi cùng item.
+        public static void Them(
+            SanPhamTam sanPham,
+            string size,
+            string mauSac,
+            int soLuong,
+            int maBienThe)
         {
             if (sanPham == null)
                 return;
@@ -48,24 +68,39 @@ namespace SPORTSHOP._06_BanHang
                 soLuong = 1;
 
             GioHangItem item = danhSach.FirstOrDefault(x =>
-                x.SanPham.MaSP == sanPham.MaSP &&
-                x.Size == size &&
-                x.MauSac == mauSac);
+                x.MaBienThe > 0 &&
+                maBienThe > 0 &&
+                x.MaBienThe == maBienThe);
+
+            // Tương thích với các item cũ chưa có MaBienThe.
+            if (item == null && maBienThe <= 0)
+            {
+                item = danhSach.FirstOrDefault(x =>
+                    x.SanPham != null &&
+                    x.SanPham.MaSP == sanPham.MaSP &&
+                    x.Size == size &&
+                    x.MauSac == mauSac);
+            }
 
             if (item != null)
             {
                 item.SoLuong += soLuong;
+
+                // Nếu item cũ chưa có mã biến thể thì bổ sung.
+                if (item.MaBienThe <= 0 && maBienThe > 0)
+                    item.MaBienThe = maBienThe;
+
+                return;
             }
-            else
+
+            danhSach.Add(new GioHangItem
             {
-                danhSach.Add(new GioHangItem
-                {
-                    SanPham = sanPham,
-                    Size = size,
-                    MauSac = mauSac,
-                    SoLuong = soLuong
-                });
-            }
+                SanPham = sanPham,
+                Size = size,
+                MauSac = mauSac,
+                MaBienThe = maBienThe,
+                SoLuong = soLuong
+            });
         }
 
         public static void Xoa(GioHangItem item)

@@ -326,6 +326,7 @@
             this.Controls.Add(this.pnl_thongtin);
             this.Name = "thanhtoan";
             this.Text = "thanhtoan";
+            this.Load += new System.EventHandler(this.thanhtoan_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.pnl_donhang.ResumeLayout(false);

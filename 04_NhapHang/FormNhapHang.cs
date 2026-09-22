@@ -9,6 +9,8 @@ namespace SPORTSHOP._04_NhapHang
     public partial class FormNhapHang : Form
     {
         private KetNoiDuLieu kt = new KetNoiDuLieu();
+        private Guna.UI2.WinForms.Guna2ComboBox cmb_LocSize;
+        private Guna.UI2.WinForms.Guna2ComboBox cmb_LocMau;
 
         // Một phiếu nhập chỉ có một nhà cung cấp.
         private bool dangCoSanPhamTrongPhieu = false;
@@ -35,7 +37,10 @@ namespace SPORTSHOP._04_NhapHang
 
             btn_ThemPhieu.Click += btn_ThemPhieu_Click;
             btn_xoadong.Click += btn_xoadong_Click;
-
+            btn_timSP.TextChanged += btn_timSP_TextChanged;
+            TaoBoLocSanPham();
+            cmb_LocSize.SelectedIndexChanged += BoLocSanPham_Changed;
+            cmb_LocMau.SelectedIndexChanged += BoLocSanPham_Changed;
             // ==============================
             // TÌM KIẾM
             // ==============================
@@ -62,7 +67,74 @@ namespace SPORTSHOP._04_NhapHang
             dgv_SanPham.CellDoubleClick +=
                 dgv_SanPham_CellDoubleClick;
         }
+        private void TaoBoLocSanPham()
+        {
+            // ==============================
+            // COMBOBOX SIZE
+            // ==============================
 
+            cmb_LocSize = new Guna.UI2.WinForms.Guna2ComboBox();
+
+            cmb_LocSize.Name = "cmb_LocSize";
+            cmb_LocSize.Size = new Size(165, 32);
+
+            // Ô tìm kiếm hiện tại của m nằm khoảng Y = 162
+            // nên ComboBox đặt xuống dưới
+            cmb_LocSize.Location = new Point(29, 198);
+
+            cmb_LocSize.Font = new Font(
+                "Segoe UI",
+                9F,
+                FontStyle.Regular);
+
+            cmb_LocSize.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+
+            cmb_LocSize.BorderRadius = 5;
+
+            cmb_LocSize.Items.Add("Tất cả Size");
+
+
+            // ==============================
+            // COMBOBOX MÀU
+            // ==============================
+
+            cmb_LocMau =
+                new Guna.UI2.WinForms.Guna2ComboBox();
+
+            cmb_LocMau.Name = "cmb_LocMau";
+            cmb_LocMau.Size = new Size(165, 32);
+
+            cmb_LocMau.Location =
+                new Point(210, 198);
+
+            cmb_LocMau.Font = new Font(
+                "Segoe UI",
+                9F,
+                FontStyle.Regular);
+
+            cmb_LocMau.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+
+            cmb_LocMau.BorderRadius = 5;
+
+            cmb_LocMau.Items.Add("Tất cả màu");
+
+
+            // ==============================
+            // THÊM VÀO FORM
+            // ==============================
+
+            this.Controls.Add(cmb_LocSize);
+            this.Controls.Add(cmb_LocMau);
+
+            cmb_LocSize.SelectedIndex = 0;
+            cmb_LocMau.SelectedIndex = 0;
+
+            // Đưa ComboBox lên trên
+            cmb_LocSize.BringToFront();
+            cmb_LocMau.BringToFront();
+        }
         // =========================================================
         // FORM LOAD
         // =========================================================
@@ -80,6 +152,10 @@ namespace SPORTSHOP._04_NhapHang
                 CauHinhDgvSanPham();
                 CauHinhDgvChiTiet();
 
+                // Nạp dữ liệu cho ComboBox lọc
+                LoadBoLocSanPham();
+
+                // Sau khi có Size + Màu mới tải sản phẩm
                 LoadSanPhamBienThe();
 
                 dtp_NgayNhap.Value = DateTime.Now;
@@ -97,6 +173,91 @@ namespace SPORTSHOP._04_NhapHang
             {
                 MessageBox.Show(
                     "Không thể tải dữ liệu cho form nhập hàng.\n\n" +
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+        private void LoadBoLocSanPham()
+        {
+            try
+            {
+                // ==============================
+                // LOAD SIZE
+                // ==============================
+
+                string sqlSize = @"
+            SELECT DISTINCT
+                sz.TenSize
+            FROM Size sz
+            INNER JOIN BienTheSanPham bt
+                ON bt.MaSize = sz.MaSize
+            INNER JOIN SanPham sp
+                ON sp.MaSP = bt.MaSP
+            WHERE bt.TrangThai = 1
+              AND sp.TrangThai = 1
+            ORDER BY sz.TenSize";
+
+                DataTable dtSize = kt.GetData(sqlSize);
+
+                cmb_LocSize.Items.Clear();
+
+                cmb_LocSize.Items.Add("Tất cả Size");
+
+                foreach (DataRow row in dtSize.Rows)
+                {
+                    string tenSize =
+                        row["TenSize"].ToString();
+
+                    if (!string.IsNullOrWhiteSpace(tenSize))
+                    {
+                        cmb_LocSize.Items.Add(tenSize);
+                    }
+                }
+
+                cmb_LocSize.SelectedIndex = 0;
+
+
+                // ==============================
+                // LOAD MÀU
+                // ==============================
+
+                string sqlMau = @"
+            SELECT DISTINCT
+                ms.TenMau
+            FROM MauSac ms
+            INNER JOIN BienTheSanPham bt
+                ON bt.MaMau = ms.MaMau
+            INNER JOIN SanPham sp
+                ON sp.MaSP = bt.MaSP
+            WHERE bt.TrangThai = 1
+              AND sp.TrangThai = 1
+            ORDER BY ms.TenMau";
+
+                DataTable dtMau = kt.GetData(sqlMau);
+
+                cmb_LocMau.Items.Clear();
+
+                cmb_LocMau.Items.Add("Tất cả màu");
+
+                foreach (DataRow row in dtMau.Rows)
+                {
+                    string tenMau =
+                        row["TenMau"].ToString();
+
+                    if (!string.IsNullOrWhiteSpace(tenMau))
+                    {
+                        cmb_LocMau.Items.Add(tenMau);
+                    }
+                }
+
+                cmb_LocMau.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể tải danh sách Size/Màu.\n\n" +
                     ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
@@ -175,29 +336,39 @@ namespace SPORTSHOP._04_NhapHang
         {
             dgv_SanPham.DataSource = null;
             dgv_SanPham.AutoGenerateColumns = true;
-
             dgv_SanPham.AllowUserToAddRows = false;
             dgv_SanPham.AllowUserToDeleteRows = false;
-
             dgv_SanPham.ReadOnly = true;
-
-            dgv_SanPham.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
+            dgv_SanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_SanPham.MultiSelect = false;
-
             dgv_SanPham.RowHeadersVisible = false;
+            dgv_SanPham.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv_SanPham.RowTemplate.Height = 32;
+            dgv_SanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgv_SanPham.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.None;
+            dgv_SanPham.ColumnHeadersVisible = true;
+            dgv_SanPham.ColumnHeadersHeight = 38;
+            dgv_SanPham.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_SanPham.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(67, 87, 115);
 
-            dgv_SanPham.RowTemplate.Height = 30;
-
-            dgv_SanPham.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgv_SanPham.Cursor =
-                Cursors.Hand;
+            dgv_SanPham.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv_SanPham.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgv_SanPham.DefaultCellStyle.BackColor = Color.White;
+            dgv_SanPham.DefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(224, 231, 255);
+            dgv_SanPham.DefaultCellStyle.SelectionForeColor =
+                Color.FromArgb(31, 41, 55);
+            dgv_SanPham.AlternatingRowsDefaultCellStyle.BackColor =
+                Color.FromArgb(248, 250, 252);
+            dgv_SanPham.GridColor = Color.FromArgb(226, 232, 240);
+            dgv_SanPham.Cursor = Cursors.Hand;
         }
 
         // =========================================================
@@ -206,59 +377,245 @@ namespace SPORTSHOP._04_NhapHang
 
         private void LoadSanPhamBienThe()
         {
-            string tuKhoa =
-                btn_timSP.Text.Trim();
-
-            string sql = @"
-                SELECT
-                    bt.MaBienThe,
-                    sp.TenSP,
-                    sz.TenSize,
-                    ms.TenMau
-                FROM BienTheSanPham bt
-                INNER JOIN SanPham sp
-                    ON sp.MaSP = bt.MaSP
-                INNER JOIN Size sz
-                    ON sz.MaSize = bt.MaSize
-                INNER JOIN MauSac ms
-                    ON ms.MaMau = bt.MaMau
-                WHERE sp.TrangThai = 1
-                  AND bt.TrangThai = 1
-                  AND
-                  (
-                      @TuKhoa = ''
-                      OR sp.TenSP LIKE @TuKhoaLike
-                      OR sz.TenSize LIKE @TuKhoaLike
-                      OR ms.TenMau LIKE @TuKhoaLike
-                      OR CONVERT(VARCHAR(20), bt.MaBienThe)
-                         LIKE @TuKhoaLike
-                  )
-                ORDER BY
-                    sp.TenSP,
-                    sz.TenSize,
-                    ms.TenMau";
-
-            SqlParameter[] parameters =
+            try
             {
-                new SqlParameter(
-                    "@TuKhoa",
-                    tuKhoa),
+                string tuKhoa = btn_timSP.Text.Trim();
 
-                new SqlParameter(
-                    "@TuKhoaLike",
-                    "%" + tuKhoa + "%")
-            };
+                string size = "";
+                if (cmb_LocSize != null && cmb_LocSize.SelectedIndex > 0)
+                {
+                    size = cmb_LocSize.Text.Trim();
+                }
 
-            DataTable dt =
-                kt.GetData(
-                    sql,
-                    parameters);
+                string mau = "";
+                if (cmb_LocMau != null && cmb_LocMau.SelectedIndex > 0)
+                {
+                    mau = cmb_LocMau.Text.Trim();
+                }
 
-            dgv_SanPham.DataSource = dt;
+                string sql = @"
+            SELECT
+                bt.MaBienThe,
+                sp.TenSP,
+                sz.TenSize,
+                ms.TenMau
+            FROM BienTheSanPham bt
+            INNER JOIN SanPham sp 
+                ON sp.MaSP = bt.MaSP
+            INNER JOIN Size sz 
+                ON sz.MaSize = bt.MaSize
+            INNER JOIN MauSac ms 
+                ON ms.MaMau = bt.MaMau
+            WHERE sp.TrangThai = 1
+              AND bt.TrangThai = 1
 
-            DoiTenCotSanPham();
+              AND
+              (
+                  @TuKhoa = ''
+                  OR sp.TenSP LIKE N'%' + @TuKhoa + '%'
+                  OR CAST(bt.MaBienThe AS NVARCHAR(50)) LIKE N'%' + @TuKhoa + '%'
+              )
 
-            dgv_SanPham.ClearSelection();
+              AND
+              (
+                  @Size = ''
+                  OR sz.TenSize = @Size
+              )
+
+              AND
+              (
+                  @Mau = ''
+                  OR ms.TenMau = @Mau
+              )
+
+            ORDER BY sp.TenSP, sz.TenSize, ms.TenMau";
+
+                SqlParameter[] parameters =
+                {
+            new SqlParameter("@TuKhoa", tuKhoa),
+            new SqlParameter("@Size", size),
+            new SqlParameter("@Mau", mau)
+        };
+
+                DataTable dt = kt.GetData(sql, parameters);
+
+                dgv_SanPham.DataSource = dt;
+
+                // ==============================
+                // ĐẶT TÊN CỘT CHO DGV
+                // ==============================
+
+                if (dgv_SanPham.Columns.Contains("MaBienThe"))
+                {
+                    dgv_SanPham.Columns["MaBienThe"].HeaderText = "Mã biến thể";
+                    dgv_SanPham.Columns["MaBienThe"].Width = 90;
+                }
+
+                if (dgv_SanPham.Columns.Contains("TenSP"))
+                {
+                    dgv_SanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
+                    dgv_SanPham.Columns["TenSP"].AutoSizeMode =
+                        DataGridViewAutoSizeColumnMode.Fill;
+                }
+
+                if (dgv_SanPham.Columns.Contains("TenSize"))
+                {
+                    dgv_SanPham.Columns["TenSize"].HeaderText = "Size";
+                    dgv_SanPham.Columns["TenSize"].Width = 80;
+                }
+
+                if (dgv_SanPham.Columns.Contains("TenMau"))
+                {
+                    dgv_SanPham.Columns["TenMau"].HeaderText = "Màu sắc";
+                    dgv_SanPham.Columns["TenMau"].Width = 100;
+                }
+
+                // ==============================
+                // CẤU HÌNH DGV
+                // ==============================
+
+                dgv_SanPham.AutoGenerateColumns = true;
+                dgv_SanPham.AllowUserToAddRows = false;
+                dgv_SanPham.AllowUserToDeleteRows = false;
+                dgv_SanPham.ReadOnly = true;
+                dgv_SanPham.SelectionMode =
+                    DataGridViewSelectionMode.FullRowSelect;
+                dgv_SanPham.MultiSelect = false;
+                dgv_SanPham.RowHeadersVisible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể tải danh sách sản phẩm biến thể.\n\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void CauHinhTenCotSanPham()
+        {
+            if (dgv_SanPham.Columns.Contains("MaBienThe"))
+            {
+                dgv_SanPham.Columns["MaBienThe"].HeaderText = "Mã biến thể";
+                dgv_SanPham.Columns["MaBienThe"].Width = 80;
+            }
+
+            if (dgv_SanPham.Columns.Contains("TenSP"))
+            {
+                dgv_SanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
+            }
+
+            if (dgv_SanPham.Columns.Contains("TenSize"))
+            {
+                dgv_SanPham.Columns["TenSize"].HeaderText = "Size";
+            }
+
+            if (dgv_SanPham.Columns.Contains("TenMau"))
+            {
+                dgv_SanPham.Columns["TenMau"].HeaderText = "Màu sắc";
+            }
+        }
+        private void LoadDanhSachBoLoc(DataTable dt)
+        {
+            if (cmb_LocSize == null || cmb_LocMau == null)
+                return;
+
+            string sizeDangChon =
+                cmb_LocSize.SelectedIndex > 0
+                ? cmb_LocSize.Text
+                : "";
+
+            string mauDangChon =
+                cmb_LocMau.SelectedIndex > 0
+                ? cmb_LocMau.Text
+                : "";
+
+            // ==============================
+            // SIZE
+            // ==============================
+
+            cmb_LocSize.SelectedIndexChanged -= BoLocSanPham_Changed;
+
+            cmb_LocSize.Items.Clear();
+            cmb_LocSize.Items.Add("Tất cả Size");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string value =
+                    Convert.ToString(row["TenSize"]);
+
+                if (!string.IsNullOrWhiteSpace(value) &&
+                    !cmb_LocSize.Items.Contains(value))
+                {
+                    cmb_LocSize.Items.Add(value);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(sizeDangChon) &&
+                cmb_LocSize.Items.Contains(sizeDangChon))
+            {
+                cmb_LocSize.SelectedItem = sizeDangChon;
+            }
+            else
+            {
+                cmb_LocSize.SelectedIndex = 0;
+            }
+
+            cmb_LocSize.SelectedIndexChanged += BoLocSanPham_Changed;
+
+
+            // ==============================
+            // MÀU
+            // ==============================
+
+            cmb_LocMau.SelectedIndexChanged -= BoLocSanPham_Changed;
+
+            cmb_LocMau.Items.Clear();
+            cmb_LocMau.Items.Add("Tất cả màu");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string value =
+                    Convert.ToString(row["TenMau"]);
+
+                if (!string.IsNullOrWhiteSpace(value) &&
+                    !cmb_LocMau.Items.Contains(value))
+                {
+                    cmb_LocMau.Items.Add(value);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mauDangChon) &&
+                cmb_LocMau.Items.Contains(mauDangChon))
+            {
+                cmb_LocMau.SelectedItem = mauDangChon;
+            }
+            else
+            {
+                cmb_LocMau.SelectedIndex = 0;
+            }
+
+            cmb_LocMau.SelectedIndexChanged += BoLocSanPham_Changed;
+        }
+
+        private void BoLocSanPham_Changed(
+    object sender,
+    EventArgs e)
+        {
+            try
+            {
+                LoadSanPhamBienThe();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không thể lọc sản phẩm.\n\n" +
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         // =========================================================
@@ -424,6 +781,29 @@ namespace SPORTSHOP._04_NhapHang
 
             dgv_chitietSP.Columns.Add(
                 colThanhTien);
+
+            dgv_chitietSP.ColumnHeadersVisible = true;
+            dgv_chitietSP.ColumnHeadersHeight = 38;
+            dgv_chitietSP.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_chitietSP.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(67, 87, 115);
+
+            dgv_chitietSP.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv_chitietSP.DefaultCellStyle.ForeColor = Color.FromArgb(55, 65, 81);
+            dgv_chitietSP.DefaultCellStyle.BackColor = Color.White;
+            dgv_chitietSP.DefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(224, 231, 255);
+            dgv_chitietSP.DefaultCellStyle.SelectionForeColor =
+                Color.FromArgb(31, 41, 55);
+            dgv_chitietSP.AlternatingRowsDefaultCellStyle.BackColor =
+                Color.FromArgb(248, 250, 252);
+            dgv_chitietSP.GridColor = Color.FromArgb(226, 232, 240);
         }
 
         // =========================================================
