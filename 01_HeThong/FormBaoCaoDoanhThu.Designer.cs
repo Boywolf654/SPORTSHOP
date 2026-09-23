@@ -5,6 +5,8 @@
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblTieuDe;
         private System.Windows.Forms.Label lblPhu;
+        private System.Windows.Forms.Label lblTieuDeTrai;
+        private System.Windows.Forms.Label lblTieuDePhai;
         private System.Windows.Forms.Label lblDoanhThu;
         private System.Windows.Forms.Label lblSoHoaDon;
         private System.Windows.Forms.Label lblSoSanPham;
@@ -40,6 +42,8 @@
             this.components = new System.ComponentModel.Container();
             this.lblTieuDe = new System.Windows.Forms.Label();
             this.lblPhu = new System.Windows.Forms.Label();
+            this.lblTieuDeTrai = new System.Windows.Forms.Label();
+            this.lblTieuDePhai = new System.Windows.Forms.Label();
             this.lblDoanhThu = new System.Windows.Forms.Label();
             this.lblSoHoaDon = new System.Windows.Forms.Label();
             this.lblSoSanPham = new System.Windows.Forms.Label();
@@ -277,6 +281,25 @@
             this.lblSoKhach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblSoKhach.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
 
+            // Section titles
+            this.lblTieuDeTrai.AutoSize = false;
+            this.lblTieuDeTrai.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTieuDeTrai.ForeColor = System.Drawing.Color.White;
+            this.lblTieuDeTrai.Location = new System.Drawing.Point(30, 260);
+            this.lblTieuDeTrai.Name = "lblTieuDeTrai";
+            this.lblTieuDeTrai.Size = new System.Drawing.Size(900, 25);
+            this.lblTieuDeTrai.Text = "DANH SÁCH HÓA ĐƠN";
+            this.lblTieuDeTrai.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+
+            this.lblTieuDePhai.AutoSize = false;
+            this.lblTieuDePhai.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTieuDePhai.ForeColor = System.Drawing.Color.White;
+            this.lblTieuDePhai.Location = new System.Drawing.Point(950, 260);
+            this.lblTieuDePhai.Name = "lblTieuDePhai";
+            this.lblTieuDePhai.Size = new System.Drawing.Size(435, 25);
+            this.lblTieuDePhai.Text = "TOP 20 SẢN PHẨM BÁN CHẠY";
+            this.lblTieuDePhai.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+
             // Invoice grid
             this.dgvNgay.AllowUserToAddRows = false;
             this.dgvNgay.AllowUserToDeleteRows = false;
@@ -285,7 +308,7 @@
             this.dgvNgay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvNgay.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvNgay.ColumnHeadersHeight = 40;
-            this.dgvNgay.Location = new System.Drawing.Point(30, 285);
+            this.dgvNgay.Location = new System.Drawing.Point(30, 292);
             this.dgvNgay.MultiSelect = false;
             this.dgvNgay.Name = "dgvNgay";
             this.dgvNgay.ReadOnly = true;
@@ -302,7 +325,7 @@
             this.dgvTopSP.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvTopSP.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvTopSP.ColumnHeadersHeight = 40;
-            this.dgvTopSP.Location = new System.Drawing.Point(950, 285);
+            this.dgvTopSP.Location = new System.Drawing.Point(950, 292);
             this.dgvTopSP.MultiSelect = false;
             this.dgvTopSP.Name = "dgvTopSP";
             this.dgvTopSP.ReadOnly = true;
@@ -313,6 +336,8 @@
 
             this.Controls.Add(this.dgvTopSP);
             this.Controls.Add(this.dgvNgay);
+            this.Controls.Add(this.lblTieuDePhai);
+            this.Controls.Add(this.lblTieuDeTrai);
             this.Controls.Add(this.lblSoKhach);
             this.Controls.Add(this.lbl4);
             this.Controls.Add(this.lblSoSanPham);

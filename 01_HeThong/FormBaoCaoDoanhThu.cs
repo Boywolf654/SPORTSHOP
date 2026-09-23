@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualBasic.Devices;
-using SPORTSHOP._06_BanHang;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using SPORTSHOP._06_BanHang;
 
 namespace SPORTSHOP
 {
@@ -49,6 +48,8 @@ namespace SPORTSHOP
             };
             btnXuat.Click += btnXuat_Click;
             dgvNgay.CellClick += dgvNgay_CellClick;
+            dtpTu.ValueChanged += BoLocNgayThayDoi;
+            dtpDen.ValueChanged += BoLocNgayThayDoi;
         }
 
         private void FormBaoCaoDoanhThu_Load(object sender, EventArgs e)
@@ -102,8 +103,8 @@ SELECT
         + N' ' + CONVERT(varchar(5), c.GioBatDau, 108) AS HienThi
 FROM CaLamViec c
 LEFT JOIN NhanVien nv ON nv.MaNV = c.MaNV
-WHERE c.GioBatDau < @Den
-  AND (c.GioKetThuc IS NULL OR c.GioKetThuc >= @Tu)
+WHERE c.GioBatDau >= @Tu
+  AND c.GioBatDau < @Den
 ORDER BY c.GioBatDau DESC",
                     new[]
                     {
@@ -161,6 +162,36 @@ ORDER BY c.GioBatDau DESC",
                 : Convert.ToDateTime(row["GioKetThuc"]);
 
             return true;
+        }
+
+        private SqlParameter[] TaoParams(int maCa, DateTime from, DateTime to, int maNV, DateTime gioVao, DateTime gioRa)
+        {
+            if (maCa > 0)
+            {
+                return new[]
+                {
+                    new SqlParameter("@Tu", from),
+                    new SqlParameter("@Den", to),
+                    new SqlParameter("@MaCa", maCa),
+                    new SqlParameter("@MaNV", maNV),
+                    new SqlParameter("@GioVao", gioVao),
+                    new SqlParameter("@GioRa", gioRa)
+                };
+            }
+
+            return new[]
+            {
+                new SqlParameter("@Tu", from),
+                new SqlParameter("@Den", to)
+            };
+        }
+
+        private void BoLocNgayThayDoi(object sender, EventArgs e)
+        {
+            if (dtpTu.Value.Date > dtpDen.Value.Date)
+                return;
+
+            LoadBaoCao();
         }
 
         private void LoadBaoCao()
@@ -251,10 +282,10 @@ WHERE hd.NgayLap >= @Tu
   AND hd.MaKH IS NOT NULL
   AND hd.TrangThaiDonHang IN (N'Hoàn thành', N'Đang giao')" + filterCa;
 
-                lblDoanhThu.Text = Convert.ToDecimal(kt.ExecuteScalar(sqlSummary, pBase)).ToString("N0") + " đ";
-                lblSoHoaDon.Text = Convert.ToInt32(kt.ExecuteScalar(sqlOrders, pBase)).ToString("N0");
-                lblSoSanPham.Text = Convert.ToInt32(kt.ExecuteScalar(sqlItems, pBase)).ToString("N0");
-                lblSoKhach.Text = Convert.ToInt32(kt.ExecuteScalar(sqlCustomers, pBase)).ToString("N0");
+                lblDoanhThu.Text = Convert.ToDecimal(kt.ExecuteScalar(sqlSummary, TaoParams(maCa, from, to, maNV, gioVao, gioRa))).ToString("N0") + " đ";
+                lblSoHoaDon.Text = Convert.ToInt32(kt.ExecuteScalar(sqlOrders, TaoParams(maCa, from, to, maNV, gioVao, gioRa))).ToString("N0");
+                lblSoSanPham.Text = Convert.ToInt32(kt.ExecuteScalar(sqlItems, TaoParams(maCa, from, to, maNV, gioVao, gioRa))).ToString("N0");
+                lblSoKhach.Text = Convert.ToInt32(kt.ExecuteScalar(sqlCustomers, TaoParams(maCa, from, to, maNV, gioVao, gioRa))).ToString("N0");
 
                 dtHoaDon = kt.GetData(@"
 SELECT
@@ -274,7 +305,8 @@ LEFT JOIN NhanVien nv ON nv.MaNV = hd.MaNV
 WHERE hd.NgayLap >= @Tu
   AND hd.NgayLap < @Den
   AND hd.TrangThaiDonHang IN (N'Hoàn thành', N'Đang giao')" + filterCa + @"
-ORDER BY hd.NgayLap DESC, hd.MaHD DESC", pBase);
+ORDER BY hd.NgayLap DESC, hd.MaHD DESC",
+                    TaoParams(maCa, from, to, maNV, gioVao, gioRa));
 
                 dgvNgay.DataSource = dtHoaDon;
                 if (dgvNgay.Columns.Count > 0)
@@ -311,7 +343,8 @@ WHERE hd.NgayLap >= @Tu
   AND hd.NgayLap < @Den
   AND hd.TrangThaiDonHang IN (N'Hoàn thành', N'Đang giao')" + filterCa + @"
 GROUP BY sp.MaSP, sp.TenSP
-ORDER BY SoLuongBan DESC, DoanhThu DESC", pBase);
+ORDER BY SoLuongBan DESC, DoanhThu DESC",
+                    TaoParams(maCa, from, to, maNV, gioVao, gioRa));
 
                 dgvTopSP.DataSource = dtTopSP;
                 if (dgvTopSP.Columns.Count > 0)

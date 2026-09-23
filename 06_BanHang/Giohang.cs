@@ -167,7 +167,7 @@ namespace SPORTSHOP._06_BanHang
                         MaKH,
                         HoTen,
                         SDT,
-                        DiemTichLuy,
+                        DiemHoiVien,
                         HangThanhVien,
                         TrangThai
                     FROM KhachHang
@@ -194,9 +194,9 @@ namespace SPORTSHOP._06_BanHang
                     ? ""
                     : Convert.ToString(r["SDT"]);
 
-                int diem = r["DiemTichLuy"] == DBNull.Value
+                int diem = r["DiemHoiVien"] == DBNull.Value
                     ? 0
-                    : Convert.ToInt32(r["DiemTichLuy"]);
+                    : Convert.ToInt32(r["DiemHoiVien"]);
 
                 hangThanhVienHienTai = r["HangThanhVien"] == DBNull.Value
                     ? "Đồng"

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
+using SPORTSHOP._07_KhachHang;
 
 namespace SPORTSHOP
 {
@@ -19,6 +21,137 @@ namespace SPORTSHOP
 
             if (btn_hoadon != null)
                 btn_hoadon.Visible = false;
+
+            TaoNutNhanVienBoSung();
+        }
+
+
+        // =========================================================
+        // CHỨC NĂNG CÁ NHÂN CỦA NHÂN VIÊN
+        // =========================================================
+        private void TaoNutNhanVienBoSung()
+        {
+            if (flpMenu == null)
+                return;
+
+            Guna.UI2.WinForms.Guna2Button btnHoiVien = TaoNutMenuBoSung(
+                "⭐  HỘI VIÊN CỦA TÔI");
+            btnHoiVien.Click += btnHoiVien_Click;
+
+            Guna.UI2.WinForms.Guna2Button btnMuaHang = TaoNutMenuBoSung(
+                "🛒  MUA HÀNG CHO TÔI");
+            btnMuaHang.Click += btnMuaHang_Click;
+
+            // Chèn trước nút Đăng xuất để hai chức năng cá nhân nằm cùng nhóm.
+            int viTriDangXuat = flpMenu.Controls.IndexOf(btn_dangxuat);
+            if (viTriDangXuat < 0)
+                viTriDangXuat = flpMenu.Controls.Count;
+
+            flpMenu.Controls.Add(btnHoiVien);
+            flpMenu.Controls.SetChildIndex(btnHoiVien, viTriDangXuat);
+
+            viTriDangXuat = flpMenu.Controls.IndexOf(btn_dangxuat);
+            flpMenu.Controls.Add(btnMuaHang);
+            flpMenu.Controls.SetChildIndex(btnMuaHang, viTriDangXuat);
+        }
+
+        private Guna.UI2.WinForms.Guna2Button TaoNutMenuBoSung(string text)
+        {
+            return new Guna.UI2.WinForms.Guna2Button
+            {
+                Width = 250,
+                Height = 112,
+                Margin = new Padding(12),
+                BorderRadius = 14,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(55, 59, 68),
+                FillColor = Color.FromArgb(22, 25, 31),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 11F, FontStyle.Bold),
+                Text = text,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Left,
+                Cursor = Cursors.Hand
+            };
+        }
+
+        private void btnHoiVien_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraHoSoKhachHangNhanVien())
+                return;
+
+            using (FormHoiVien frm = new FormHoiVien())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        private void btnMuaHang_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraVaYeuCauCa())
+                return;
+
+            if (!KiemTraHoSoKhachHangNhanVien())
+                return;
+
+            using (formgiaodienbanhang frm = new formgiaodienbanhang(true))
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        private bool KiemTraHoSoKhachHangNhanVien()
+        {
+            if (Session.MaTK <= 0 || Session.MaNV <= 0)
+            {
+                MessageBox.Show(
+                    "Không xác định được tài khoản hoặc nhân viên đang đăng nhập.",
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            int maKH = LayMaKHTheoMaTK(Session.MaTK);
+            if (maKH <= 0)
+            {
+                MessageBox.Show(
+                    "Nhân viên chưa có hồ sơ khách hàng/hội viên dùng chung tài khoản.\r\n\r\n" +
+                    "Vui lòng đăng nhập lại để hệ thống đồng bộ hồ sơ.",
+                    "Hồ sơ khách hàng",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private int LayMaKHTheoMaTK(int maTK)
+        {
+            try
+            {
+                KetNoiDuLieu kt = new KetNoiDuLieu();
+                object result = kt.ExecuteScalar(
+                    @"SELECT TOP 1 MaKH FROM KhachHang WHERE MaTK = @MaTK",
+                    new System.Data.SqlClient.SqlParameter[]
+                    {
+                        new System.Data.SqlClient.SqlParameter("@MaTK", maTK)
+                    });
+
+                if (result == null || result == DBNull.Value)
+                    return 0;
+
+                return Convert.ToInt32(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Không kiểm tra được hồ sơ khách hàng của nhân viên.\n\n" + ex.Message,
+                    "SPORTSHOP",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return 0;
+            }
         }
 
         private void FormMenuNV_Load(object sender, EventArgs e)
@@ -195,6 +328,14 @@ namespace SPORTSHOP
             DialogResult = DialogResult.OK;
             Close();
         }
+
+
+        // Designer đang đăng ký sự kiện Paint cho pnlHeader.
+        // Không cần vẽ thêm, nhưng phải có handler để tránh CS1061.
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
 
         private void btn_thoat_Click(object sender, EventArgs e)
         {

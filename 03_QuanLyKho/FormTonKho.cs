@@ -549,20 +549,27 @@ namespace SPORTSHOP._03_QuanLyKho
 
                         foreach (DataRow row in dt.Rows)
                         {
-                            ws.Cell(excelRow, 1).Value = row[0]?.ToString() ?? "";
-                            ws.Cell(excelRow, 2).Value = row[1]?.ToString() ?? "";
-                            ws.Cell(excelRow, 3).Value = row[2]?.ToString() ?? "";
-                            ws.Cell(excelRow, 4).Value = row[3]?.ToString() ?? "";
-                            ws.Cell(excelRow, 5).Value = row[4]?.ToString() ?? "";
-                            ws.Cell(excelRow, 6).Value = row[5]?.ToString() ?? "";
-                            ws.Cell(excelRow, 7).Value = row[6]?.ToString() ?? "";
-                            ws.Cell(excelRow, 8).Value = row[7]?.ToString() ?? "";
-                            ws.Cell(excelRow, 9).Value = row[8]?.ToString() ?? "";
+                            ws.Cell(excelRow, 1).Value = row["MaTonKho"]?.ToString() ?? "";
+                            ws.Cell(excelRow, 2).Value = row["TenSP"]?.ToString() ?? "";
+                            ws.Cell(excelRow, 3).Value = row["SKU"]?.ToString() ?? "";
+                            ws.Cell(excelRow, 4).Value = row["Size"]?.ToString() ?? "";
+                            ws.Cell(excelRow, 5).Value = row["Mau"]?.ToString() ?? "";
+
+                            ws.Cell(excelRow, 6).Value =
+                                row["SLTon"] == DBNull.Value ? 0 : Convert.ToInt32(row["SLTon"]);
+
+                            ws.Cell(excelRow, 7).Value =
+                                row["SLToiThieu"] == DBNull.Value ? 0 : Convert.ToInt32(row["SLToiThieu"]);
+
+                            ws.Cell(excelRow, 8).Value =
+                                row["GiaBan"] == DBNull.Value ? 0 : Convert.ToDecimal(row["GiaBan"]);
+
+                            ws.Cell(excelRow, 9).Value = row["TrangThai"]?.ToString() ?? "";
 
                             excelRow++;
                         }
 
-                        ws.Column(8).Style.NumberFormat.Format = "#,##0";
+                       
                         ws.Column(1).Style.Alignment.Horizontal =
                             XLAlignmentHorizontalValues.Center;
                         ws.Column(3).Style.Alignment.Horizontal =
@@ -571,12 +578,10 @@ namespace SPORTSHOP._03_QuanLyKho
                             XLAlignmentHorizontalValues.Center;
                         ws.Column(5).Style.Alignment.Horizontal =
                             XLAlignmentHorizontalValues.Center;
-                        ws.Column(6).Style.Alignment.Horizontal =
-                            XLAlignmentHorizontalValues.Center;
-                        ws.Column(7).Style.Alignment.Horizontal =
-                            XLAlignmentHorizontalValues.Center;
-                        ws.Column(8).Style.Alignment.Horizontal =
-                            XLAlignmentHorizontalValues.Right;
+                        ws.Column(6).Style.NumberFormat.Format = "#,##0";
+                        ws.Column(7).Style.NumberFormat.Format = "#,##0";
+
+                        ws.Column(8).Style.NumberFormat.Format = "#,##0";
 
                         ws.Range(4, 1, excelRow - 1, 9).Style.Border.OutsideBorder =
                             XLBorderStyleValues.Thin;

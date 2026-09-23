@@ -122,7 +122,7 @@ namespace SPORTSHOP
             this.guna2HtmlLabelQLDSK.Location = new System.Drawing.Point(44, 20);
             this.guna2HtmlLabelQLDSK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.guna2HtmlLabelQLDSK.Name = "guna2HtmlLabelQLDSK";
-            this.guna2HtmlLabelQLDSK.Size = new System.Drawing.Size(350, 42);
+            this.guna2HtmlLabelQLDSK.Size = new System.Drawing.Size(439, 43);
             this.guna2HtmlLabelQLDSK.TabIndex = 0;
             this.guna2HtmlLabelQLDSK.Text = "📦 QUẢN LÝ DANH SÁCH KHO";
             // 
@@ -188,7 +188,7 @@ namespace SPORTSHOP
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(57, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 23);
+            this.label1.Size = new System.Drawing.Size(112, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tổng Số Kho";
             // 
@@ -213,7 +213,7 @@ namespace SPORTSHOP
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(76, 33);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(130, 28);
+            this.label4.Size = new System.Drawing.Size(132, 28);
             this.label4.TabIndex = 1;
             this.label4.Text = "1 (Cảnh báo)";
             // 
@@ -225,7 +225,7 @@ namespace SPORTSHOP
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(77, 10);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(138, 23);
+            this.label3.Size = new System.Drawing.Size(142, 23);
             this.label3.TabIndex = 0;
             this.label3.Text = "Kho Tạm Ngưng";
             // 
@@ -250,7 +250,7 @@ namespace SPORTSHOP
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(60, 35);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 28);
+            this.label6.Size = new System.Drawing.Size(77, 28);
             this.label6.TabIndex = 1;
             this.label6.Text = "36,360";
             // 
@@ -262,7 +262,7 @@ namespace SPORTSHOP
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(61, 8);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(146, 23);
+            this.label5.Size = new System.Drawing.Size(147, 23);
             this.label5.TabIndex = 0;
             this.label5.Text = "Tổng Hàng Nhập";
             // 
@@ -284,8 +284,9 @@ namespace SPORTSHOP
             // cgv_danhsachkho
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.cgv_danhsachkho.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.cgv_danhsachkho.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -332,16 +333,13 @@ namespace SPORTSHOP
             this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.cgv_danhsachkho.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.cgv_danhsachkho.ThemeStyle.BackColor = System.Drawing.Color.White;
             this.cgv_danhsachkho.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(228)))), ((int)(((byte)(235)))));
             this.cgv_danhsachkho.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(32)))), ((int)(((byte)(47)))));
             this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.cgv_danhsachkho.ThemeStyle.HeaderStyle.Height = 35;
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.Black;
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.Height = 32;
-            this.cgv_danhsachkho.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.cgv_danhsachkho.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.Black;
             // 
             // MaKho
@@ -522,6 +520,7 @@ namespace SPORTSHOP
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FromKho";
             this.Text = "FromKho";
+            this.Load += new System.EventHandler(this.FromKho_Load_1);
             this.guna2PanelTieuDe.ResumeLayout(false);
             this.guna2PanelTieuDe.PerformLayout();
             this.guna2PanelChanTrang.ResumeLayout(false);

@@ -293,7 +293,9 @@ WHERE Email = @Email
                         }
                     }
 
-                    using (SqlCommand cmd = new SqlCommand(@"
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        using (SqlCommand cmd = new SqlCommand(@"
 UPDATE dbo.NhanVien
 SET
     HoTen = @HoTen,
@@ -302,57 +304,87 @@ SET
     SDT = @SDT,
     Email = @Email,
     DiaChi = @DiaChi
-WHERE MaTK = @MaTK;", conn))
-                    {
-                        cmd.Parameters.Add(
-                            "@HoTen",
-                            SqlDbType.NVarChar,
-                            100).Value = txtHoTen.Text.Trim();
-
-                        cmd.Parameters.Add(
-                            "@GioiTinh",
-                            SqlDbType.Bit).Value = GioiTinhValue();
-
-                        cmd.Parameters.Add(
-                            "@NgaySinh",
-                            SqlDbType.Date).Value = dtpNgaySinh.Value.Date;
-
-                        cmd.Parameters.Add(
-                            "@SDT",
-                            SqlDbType.VarChar,
-                            30).Value =
-                            string.IsNullOrWhiteSpace(txtSDT.Text)
-                                ? (object)DBNull.Value
-                                : txtSDT.Text.Trim();
-
-                        cmd.Parameters.Add(
-                            "@Email",
-                            SqlDbType.VarChar,
-                            255).Value = txtEmail.Text.Trim();
-
-                        cmd.Parameters.Add(
-                            "@DiaChi",
-                            SqlDbType.NVarChar,
-                            255).Value =
-                            string.IsNullOrWhiteSpace(txtDiaChi.Text)
-                                ? (object)DBNull.Value
-                                : txtDiaChi.Text.Trim();
-
-                        cmd.Parameters.Add(
-                            "@MaTK",
-                            SqlDbType.Int).Value = maTK;
-
-                        int affected = cmd.ExecuteNonQuery();
-
-                        if (affected <= 0)
+WHERE MaTK = @MaTK;", conn, tran))
                         {
-                            MessageBox.Show(
-                                "Không tìm thấy hồ sơ để cập nhật.",
-                                "SPORTSHOP",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                            return;
+                            cmd.Parameters.Add(
+                                "@HoTen",
+                                SqlDbType.NVarChar,
+                                100).Value = txtHoTen.Text.Trim();
+
+                            cmd.Parameters.Add(
+                                "@GioiTinh",
+                                SqlDbType.Bit).Value = GioiTinhValue();
+
+                            cmd.Parameters.Add(
+                                "@NgaySinh",
+                                SqlDbType.Date).Value = dtpNgaySinh.Value.Date;
+
+                            cmd.Parameters.Add(
+                                "@SDT",
+                                SqlDbType.VarChar,
+                                30).Value =
+                                string.IsNullOrWhiteSpace(txtSDT.Text)
+                                    ? (object)DBNull.Value
+                                    : txtSDT.Text.Trim();
+
+                            cmd.Parameters.Add(
+                                "@Email",
+                                SqlDbType.VarChar,
+                                255).Value = txtEmail.Text.Trim();
+
+                            cmd.Parameters.Add(
+                                "@DiaChi",
+                                SqlDbType.NVarChar,
+                                255).Value =
+                                string.IsNullOrWhiteSpace(txtDiaChi.Text)
+                                    ? (object)DBNull.Value
+                                    : txtDiaChi.Text.Trim();
+
+                            cmd.Parameters.Add(
+                                "@MaTK",
+                                SqlDbType.Int).Value = maTK;
+
+                            int affected = cmd.ExecuteNonQuery();
+
+                            if (affected <= 0)
+                            {
+                                MessageBox.Show(
+                                    "Không tìm thấy hồ sơ để cập nhật.",
+                                    "SPORTSHOP",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                                return;
+                            }
                         }
+
+                        // Đồng bộ hồ sơ hội viên theo cùng MaTK.
+                        using (SqlCommand cmd = new SqlCommand(@"
+IF EXISTS (SELECT 1 FROM dbo.KhachHang WHERE MaTK=@MaTK)
+BEGIN
+    UPDATE dbo.KhachHang
+    SET HoTen=@HoTen,
+        SDT=@SDT,
+        Email=@Email,
+        GioiTinh=@GioiTinh
+    WHERE MaTK=@MaTK;
+END
+ELSE
+BEGIN
+    INSERT INTO dbo.KhachHang
+    (MaTK,HoTen,SDT,Email,GioiTinh,TrangThai,DiemHoiVien,MaHangHoiVien,HangThanhVien)
+    VALUES(@MaTK,@HoTen,@SDT,@Email,@GioiTinh,1,0,1,N'Đồng');
+END", conn, tran))
+                        {
+                            cmd.Parameters.Add("@MaTK", SqlDbType.Int).Value = maTK;
+                            cmd.Parameters.Add("@HoTen", SqlDbType.NVarChar, 100).Value = txtHoTen.Text.Trim();
+                            cmd.Parameters.Add("@SDT", SqlDbType.VarChar, 30).Value =
+                                string.IsNullOrWhiteSpace(txtSDT.Text) ? (object)DBNull.Value : txtSDT.Text.Trim();
+                            cmd.Parameters.Add("@Email", SqlDbType.VarChar, 255).Value = txtEmail.Text.Trim();
+                            cmd.Parameters.Add("@GioiTinh", SqlDbType.Bit).Value = GioiTinhValue();
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        tran.Commit();
                     }
                 }
 

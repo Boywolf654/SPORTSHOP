@@ -227,55 +227,56 @@ namespace SPORTSHOP
         // =========================================================
         private void LoadDanhSachKho()
         {
-                string sql = @"
-                SELECT
-                    MaKho,
-                    TenKho,
-                    DiaChi,
-                    MoTa,
-                    TongHangNhap,
-                    CASE
-                        WHEN TrangThai = 1 THEN N'Đang Hoạt Động'
-                        ELSE N'Tạm Ngưng'
-                    END AS TrangThai
-                FROM Kho
-                WHERE 1 = 1
-                    ";
+            string sql = @"
+        SELECT
+            k.MaKho,
+            k.TenKho,
+            k.DiaChi,
+            k.MoTa,
 
-            // -----------------------------------------------------
-            // Từ khóa
-            // -----------------------------------------------------
+            ISNULL(
+                (
+                    SELECT SUM(tk.SLTon)
+                    FROM TonKho tk
+                    WHERE tk.MaKho = k.MaKho
+                ), 0
+            ) AS TongHangNhap,
+
+            CASE
+                WHEN k.TrangThai = 1
+                    THEN N'Đang Hoạt Động'
+                ELSE N'Tạm Ngưng'
+            END AS TrangThai
+
+        FROM Kho k
+        WHERE 1 = 1
+    ";
+
             string tuKhoa = txt_timkiem.Text.Trim();
 
             if (!string.IsNullOrWhiteSpace(tuKhoa))
             {
                 sql += @"
-                    AND
-                    (
-                        TenKho LIKE @TuKhoa
-                        OR DiaChi LIKE @TuKhoa
-                    )";
+            AND
+            (
+                k.TenKho LIKE @TuKhoa
+                OR k.DiaChi LIKE @TuKhoa
+            )";
             }
 
-            // -----------------------------------------------------
-            // Lọc tên kho
-            // -----------------------------------------------------
             if (cmb_tenkho.SelectedIndex > 0)
             {
                 sql += @"
-                    AND TenKho = @TenKho";
+            AND k.TenKho = @TenKho";
             }
 
-            // -----------------------------------------------------
-            // Lọc trạng thái
-            // -----------------------------------------------------
             if (cmb_trangthai.SelectedIndex > 0)
             {
                 sql += @"
-                    AND TrangThai = @TrangThai";
+            AND k.TrangThai = @TrangThai";
             }
 
-            sql += " ORDER BY MaKho";
+            sql += " ORDER BY k.MaKho";
 
             SqlParameter[] parameters =
             {
@@ -326,7 +327,7 @@ namespace SPORTSHOP
 
             if (cgv_danhsachkho.Columns["TongHangNhap"] != null)
                 cgv_danhsachkho.Columns["TongHangNhap"].HeaderText =
-                    "Tổng Hàng Nhập";
+                    "Tổng Số Tồn";
 
             if (cgv_danhsachkho.Columns["TrangThai"] != null)
                 cgv_danhsachkho.Columns["TrangThai"].HeaderText =
@@ -411,17 +412,17 @@ namespace SPORTSHOP
                 label4.Text =
                     khoNgung + " (Cảnh báo)";
 
-                // Tổng hàng nhập
-                string sqlTongNhap = @"
-                    SELECT ISNULL(SUM(TongHangNhap), 0)
-                    FROM Kho";
+                // Tổng số tồn thực tế của tất cả các kho
+                string sqlTongTon = @"
+                    SELECT ISNULL(SUM(SLTon), 0)
+                    FROM TonKho";
 
-                decimal tongNhap =
+                decimal tongTon =
                     Convert.ToDecimal(
-                        kt.ExecuteScalar(sqlTongNhap));
+                        kt.ExecuteScalar(sqlTongTon));
 
                 label6.Text =
-                    tongNhap.ToString("N0");
+                    tongTon.ToString("N0");
             }
             catch
             {
@@ -554,18 +555,24 @@ namespace SPORTSHOP
             {
                 string sql = @"
             SELECT
-                MaKho,
-                TenKho,
-                DiaChi,
-                MoTa,
-                TongHangNhap,
+                k.MaKho,
+                k.TenKho,
+                k.DiaChi,
+                k.MoTa,
+                ISNULL(
+                    (
+                        SELECT SUM(tk.SLTon)
+                        FROM TonKho tk
+                        WHERE tk.MaKho = k.MaKho
+                    ), 0
+                ) AS TongHangNhap,
                 CASE
-                    WHEN TrangThai = 1
+                    WHEN k.TrangThai = 1
                         THEN N'Đang Hoạt Động'
                     ELSE N'Tạm Ngưng'
                 END AS TrangThai
-            FROM Kho
-            ORDER BY MaKho";
+            FROM Kho k
+            ORDER BY k.MaKho";
 
                 DataTable dt = kt.GetData(sql);
 
@@ -647,7 +654,7 @@ namespace SPORTSHOP
                 "Tên Kho",
                 "Địa Chỉ",
                 "Mô Tả",
-                "Tổng Hàng Nhập",
+                "Tổng Số Tồn",
                 "Trạng Thái"
             };
 
@@ -749,7 +756,7 @@ namespace SPORTSHOP
                         khoTamNgung;
 
                     worksheet.Cell(thongKeRow + 4, 1).Value =
-                        "Tổng hàng nhập";
+                        "Tổng số tồn";
 
                     worksheet.Cell(thongKeRow + 4, 2).Value =
                         tongHangNhap;
@@ -805,7 +812,7 @@ namespace SPORTSHOP
         {
         }
 
-        
+
 
         private void btn_themkho_Click(object sender, EventArgs e)
         {
@@ -882,5 +889,9 @@ namespace SPORTSHOP
             }
         }
 
+        private void FromKho_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

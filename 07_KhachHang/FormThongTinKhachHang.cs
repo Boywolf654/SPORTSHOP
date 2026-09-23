@@ -1069,6 +1069,7 @@ ORDER BY hd.NgayLap DESC, hd.MaHD DESC";
                 !int.TryParse(Convert.ToString(value), out maHD) ||
                 maHD <= 0)
                 return;
+        
 
             try
             {
