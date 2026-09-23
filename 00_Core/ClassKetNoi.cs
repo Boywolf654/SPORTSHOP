@@ -78,10 +78,13 @@ namespace SPORTSHOP
                     @"Data Source=DESKTOP-JIBUFFU\SQLEXPRESS;
                       Initial Catalog=SPORTSHOP;
                       Integrated Security=True;
+                      Encrypt=True;
                       TrustServerCertificate=True;
                       Connect Timeout=5";
             }
 
+
+                  
 
             // =====================================================
             // KHÔNG NHẬN DIỆN ĐƯỢC MÁY
